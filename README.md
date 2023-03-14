@@ -21,6 +21,8 @@ Dotfiles
 
 ## Features
 
+- [x] Mask Agent Wget && Curl
+
 ## Feedback
 
 Suggestions/improvements
