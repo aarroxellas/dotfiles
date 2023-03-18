@@ -22,6 +22,7 @@ Dotfiles
 ## Features
 
 - [x] Mask Agent Wget && Curl
+- [ ] Nvim with lua
 
 ## Feedback
 
