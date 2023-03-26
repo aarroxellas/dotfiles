@@ -1,11 +1,5 @@
 local M = {}
 
----@alias telescope_themes
----| "cursor"   # see `telescope.themes.get_cursor()`
----| "dropdown" # see `telescope.themes.get_dropdown()`
----| "ivy"      # see `telescope.themes.get_ivy()`
----| "center"   # retain the default telescope theme
-
 function M.config()
     local ok_telescope, telescope = pcall(require, "telescope")
     if not ok_telescope then
@@ -144,15 +138,14 @@ function M.setup()
 
     telescope.setup(tel_setup)
 
-    local ok, _ = pcall(require("telescope").load_extension("fzf"))
-    if not ok then
-        vim.notify("telescope fzf not  loaded", vim.log.levels.WARN, { title = "ui.telescope" })
-    end
+    -- local ok, _ = pcall(require("telescope").load_extension("fzf"))
+    -- if not ok then
+    --     vim.notify("telescope fzf not  loaded", vim.log.levels.WARN, { title = "ui.telescope" })
+    -- end
 
     -- TODO: Fix project integration
-    telescope.load_extension "projects"
-    telescope.extensions.projects.projects{}
-
+    -- telescope.load_extension "projects"
+    -- telescope.extensions.projects.projects{}
 end
 
 return M

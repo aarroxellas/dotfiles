@@ -22,7 +22,7 @@ function M.config()
 	local diff = {
 		"diff",
 		colored = false,
-		symbols = { added = "", modified = "", removed = "" }, -- changes diff symbols
+		symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
 		cond = hide_in_width,
 	}
 
@@ -52,8 +52,8 @@ function M.config()
 		},
 		sections = {
 			lualine_a = { "mode" },
-			lualine_b = { "branch" },
-			lualine_c = { diagnostics },
+			lualine_b = { "branch", diagnostics },
+			lualine_c = {"%< ", "%{expand('%:~:.:h')}"},
 			lualine_x = { diff, spaces, "encoding", filetype },
 			lualine_y = { location },
 			lualine_z = { "progress" },

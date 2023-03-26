@@ -48,7 +48,7 @@ function UI.telescope()
 			"kyazdani42/nvim-web-devicons",
 		},
 		config = function()
-			require("ui.telescope").config()
+			require("ui.telescope").setup()
 		end,
 	}
 end

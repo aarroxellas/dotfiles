@@ -42,6 +42,9 @@ function M.config(colorscheme)
     -- local colorscheme_group = "configusercolorscheme"
     -- vim.api.nvim_create_augroup(colorscheme_group, {})
 
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
     -- vim.api.nvim_create_autocmd(colorscheme_group, {
     --     callback = function()
     --         vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
