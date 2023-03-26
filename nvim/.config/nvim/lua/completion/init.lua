@@ -96,9 +96,9 @@ function Completion.lsp()
 			event = "BufReadPre",
 			config = function() require("completion.lsp.null-ls").config() end,
 		},
-        {
-            "udalov/kotlin-vim"
-        }
+        -- {
+        --     "udalov/kotlin-vim"
+        -- }
 	}
 end
 

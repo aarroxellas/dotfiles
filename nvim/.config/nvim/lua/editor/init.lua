@@ -30,7 +30,7 @@ end
 function Editor.comment()
     return {
         "numToStr/Comment.nvim",
-        keys = { "gc", "gcc", "<Leader>/" },
+        keys = { "gc", "gcc" }, -- "<leader>/" },
         -- keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } }, { "<Space>/", mode = { "n", "v" } } },
         event = "User FileOpened",
         config = function() require('editor.comment').config() end,

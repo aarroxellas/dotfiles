@@ -54,22 +54,21 @@ end
 
 -- TODO: add description to maps
 local function lsp_keymaps(bufnr)
-    local opts = { noremap = true, silent = true }
     local keymap = vim.api.nvim_buf_set_keymap
-    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts )   --  { desc = "[G]o to [D]eclaration" }
-    keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts )    --  { desc = "[G]o to [D]efinition" }
-    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)   --  { desc = "Hover Over" }
-    keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) --  { desc = "[G]o to [I]mplementation" }
-    keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts) --  { desc = "[R]eferences" }
-    keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)  --  { desc = "Diagnostics" }
-    keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)  --  { desc = "[L]sp [I]nfo for attached servers" }
-    keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", opts)    --  { desc = "[L]naguage [I]nfo for available services" }
-    keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)    --  { desc = "[L]sp Code [A]ction" }
-    keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts) --  { desc = "[G]o to [N]ext Diagnostics" }
-    keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts) --  { desc = "[G]o to [P]revious Diagnostics" }
-    keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts) --  { desc = "[L]sp [R]eaname" }
-    keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts) --  { desc = "[L]sp [S]ignature Help" }
-    keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)  -- { desc = "[L]sp" }
+    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true, desc = "[G]o to [D]eclaration" })
+    keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>",  { noremap = true, silent = true, desc = "[G]o to [D]efinition" })
+    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true, desc = "Hover Over" })
+    keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", { noremap = true, silent = true, desc = "[G]o to [I]mplementation" })
+    keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { noremap = true, silent = true, desc = "[R]eferences" })
+    keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true, desc = "Diagnostics" })
+    keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", { noremap = true, silent = true, desc = "[L]sp [I]nfo for attached servers" })
+    keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", { noremap = true, silent = true, desc = "[L]anguage [I]nfo for available services" })
+    keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { noremap = true, silent = true, desc = "[L]sp Code [A]ction" })
+    keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [N]ext Diagnostics" })
+    keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [P]revious Diagnostics" })
+    keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { noremap = true, silent = true, desc = "[L]sp [R]eaname" })
+    keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { noremap = true, silent = true, desc = "[L]sp [S]ignature Help" })
+    keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", { noremap = true, silent = true, desc = "Display Diagnostics Local [L]ist" })
 
     -- TODO: Define keymap
     vim.cmd([[command! Format execute 'lua vim.lsp.buf.format({ async = true })']])
@@ -112,6 +111,15 @@ M.on_attach = function(client, bufnr)
     else
         illuminate.on_attach(client)
     end
+
+    -- TODO: define keymaps in separete after file
+    -- local builtin = require('telescope.builtin')
+    -- vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = 'Search [P]roject [F]iles' })
+    -- vim.keymap.set('n', '<leader>pg', builtin.git_files, { desc = 'Search [G]it [F]iles' })
+    -- vim.keymap.set('n', '<leader>ph', builtin.help_tags, { desc = 'Search Neovim [H]elp' })
+    -- vim.keymap.set('n', '<leader>pw', builtin.grep_string, { desc = 'Search Current [W]ord' })
+    -- vim.keymap.set('n', '<leader>pg', builtin.live_grep, { desc = 'Search [P]roject by [G]rep' })
+    -- vim.keymap.set('n', '<leader>pd', builtin.diagnostics, { desc = 'Search [P]roject [D]iagnostics' })
 end
 
 return M

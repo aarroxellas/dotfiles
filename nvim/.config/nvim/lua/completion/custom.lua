@@ -30,8 +30,8 @@ function M.custom_on_attach(client, bufnr)
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
 
-    local aerial = require("aerial")
-    aerial.on_attach(client)
+    -- local aerial = require("aerial")
+    -- aerial.on_attach(client)
 
     local keymap = function(mode, key, result)
         vim.api.nvim_buf_set_keymap(bufnr, mode, key, result, { noremap = true, silent = true })
@@ -41,8 +41,8 @@ function M.custom_on_attach(client, bufnr)
     keymap("n", "ga", '<CMD>lua require("telescope.builtin").lsp_code_actions()<CR>')
     keymap("n", "ga", [[<CMD>'<, '>lua require("telescope.builtin").lsp_code_actions()<CR>]])
     keymap("n", "gd", '<CMD>lua require("telescope.builtin").lsp_definitions()<CR>')
-    keymap("n", "[e", "<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>")
-    keymap("n", "]e", "<CMD>lua vim.lsp.diagnostic.goto_next()<CR>")
+    keymap("n", "[d", "<CMD>lua vim.lsp.diagnostic.goto_prev()<CR>")
+    keymap("n", "]d", "<CMD>lua vim.lsp.diagnostic.goto_next()<CR>")
     keymap("n", "gr", "<CMD>lua vim.lsp.buf.rename()<CR>")
 
     -- aerial

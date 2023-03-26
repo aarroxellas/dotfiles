@@ -107,7 +107,7 @@ M.config = function()
     vim.fn.sign_define("DapBreakpointRejected", M.opts.breakpoint_rejected)
     vim.fn.sign_define("DapStopped", M.opts.stopped)
 
-  dap.set_log_level(M.opts.log.level)
+    dap.set_log_level(M.opts.log.level)
 end
 
 M.config_ui = function()

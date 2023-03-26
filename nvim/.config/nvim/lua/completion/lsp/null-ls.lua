@@ -7,6 +7,35 @@ function M.config()
 		return
 	end
 
+    local h = require("null-ls.helpers")
+    local methods = require("null-ls.methods")
+    local FORMATTING = methods.internal.FORMATTING
+
+    null_ls.builtins.formatting.tidy_import = h.make_builtin({
+    name = "tidy_import",
+    meta = {
+        url = "https://github.com/deshaw/pyflyby",
+        description = "automatic imports for python",
+    },
+    method = FORMATTING,
+    filetypes = { "python" },
+    generator_opts = {
+        command = "tidy-imports",
+        args = {
+            "--quiet",
+            "--replace-star-imports",
+            "--add-missing",
+            "--replace",
+            "--separate-from-imports",
+            "--remove-unused",
+            "$FILENAME",
+        },
+        to_stdin = false,
+        to_temp_file = true,
+    },
+    factory = h.formatter_factory,
+})
+
 	local formatting = null_ls.builtins.formatting
 	local diagnostics = null_ls.builtins.diagnostics
 	local sources = {
@@ -14,8 +43,9 @@ function M.config()
 			extra_filetypes = { "toml", "markdown" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
 		}),
-		formatting.black,
+		formatting.black.with({ extra_args = { "--fast" } }),
         -- formatting.isort,
+		formatting.tidy_import,
 		formatting.reorder_python_imports.with({
 			extra_args = function()
 				local extra_args = {}

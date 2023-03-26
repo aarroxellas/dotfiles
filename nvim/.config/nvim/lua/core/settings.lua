@@ -19,7 +19,7 @@ vim.opt.backspace = "indent,eol,start"
 vim.opt.bg = "dark"                             -- base colorbackground
 vim.opt.binary = true                           -- file encoding binary
 vim.opt.bomb = true                             -- file encoding ucs-bom
-vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
+-- vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
 vim.opt.colorcolumn = "99999"                   -- fix indentline for now
 vim.opt.compatible = false                      -- not vi retro-compatible
@@ -71,7 +71,7 @@ vim.opt.swapfile = false                        -- creates a swapfile
 vim.opt.tabstop = tabspace                      -- insert 4 spaces for a tab
 vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
 vim.o.timeout = true
--- vim.opt.timeoutlen = 500                        -- time [ms] to wait for a mapped sequence to complete -- might break plugins
+vim.opt.timeoutlen = 500                        -- time [ms] to wait for a mapped sequence to complete -- might break plugins
 vim.opt.title = true                            -- set the title of window to the value of the titlestring
 vim.opt.undofile = true                         -- enable persist undo
 vim.opt.undolevels = 100                         -- keep # registers per file
@@ -86,67 +86,6 @@ vim.opt.laststatus = 3                          -- global statusline to last win
 vim.opt.iskeyword:append "-,_"                  -- used in searching and recognizing with many commands
 vim.opt.whichwrap:append "<,>,[,],h,l"          -- let movement keys reach the previous line
 
--- vim.g.loaded_perl_provider = 0               -- disable language support
--- vim.g.loaded_ruby_provider = 0
--- vim.g.python3_host_prog = "python3"
--- vim.g.python_host_prog = "python2"
-
--- vim.filetype.add {
--- 	extension = {
--- 		["*.pc"] = "csh",
--- 		["*.pc.in"] = "csh",
--- 		["*.dsl"] = "groovy",
--- 	},
--- 	pattern = {
--- 		[".clang*"] = "yaml",
--- 		["Jenkinsfile"] = "groovy",
--- 	},
--- }
-
--- Spell check
-vim.g.loaded_spellfile_plugin = 1               -- Do not use ssl vim server for dicts
-
-local function strip_trailing_whitespace()
-	if vim.bo.modifiable then
-		local line = vim.fn.line('.')
-		local col = vim.fn.col('.')
-		vim.cmd([[%s/\s\+$//e]])
-		vim.fn.histdel('/', -1)
-		vim.fn.cursor(line, col)
-	end
-end
-
-local vimrc_group = vim.api.nvim_create_augroup('vimrc', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePre', {
-	pattern = '*',
-	callback = strip_trailing_whitespace,
-	group = vimrc_group,
-})
--- vim.api.nvim_create_autocmd('BufEnter', {
--- 	pattern = '*',
--- 	command = [[ if &filetype == "" | setlocal ft=text | endif]],
--- 	group = vimrc_group,
--- })
-vim.api.nvim_create_autocmd('FileType', {
-	pattern = 'markdown,text,help',
-	command = 'setlocal spelllang=en,pt,fr | setlocal spell',
-	group = vimrc_group,
-})
-vim.api.nvim_create_autocmd('TermOpen', {
-	pattern = '*',
-	command = [[setlocal nonumber norelativenumber]],
-	group = vimrc_group,
-})
-vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'WinEnter' }, {
-	pattern = '*',
-	command = [[if &nu | set rnu | endif]],
-	group = vimrc_group,
-})
-vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave' }, {
-	pattern = '*',
-	command = [[if &nu | set nornu | endif]],
-	group = vimrc_group,
-})
 vim.opt.wildignore = {
 	'*.o',
 	'*.obj,*~',
@@ -169,8 +108,23 @@ vim.opt.wildignore = {
 	'**/.next/**',
 	'**/.nx/**',
 }
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufNewFile' }, {
-	pattern = '.env*',
-	command = 'set filetype=conf',
-    group = vimrc_group,
-})
+
+-- vim.g.loaded_perl_provider = 0               -- disable language support
+-- vim.g.loaded_ruby_provider = 0
+-- vim.g.python3_host_prog = "python3"
+-- vim.g.python_host_prog = "python2"
+
+-- vim.filetype.add {
+-- 	extension = {
+-- 		["*.pc"] = "csh",
+-- 		["*.pc.in"] = "csh",
+-- 		["*.dsl"] = "groovy",
+-- 	},
+-- 	pattern = {
+-- 		[".clang*"] = "yaml",
+-- 		["Jenkinsfile"] = "groovy",
+-- 	},
+-- }
+
+-- Spell check
+vim.g.loaded_spellfile_plugin = 1               -- Do not use ssl vim server for dicts

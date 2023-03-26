@@ -77,11 +77,11 @@ function M.config()
 
     require("Comment").setup(options)
 
-    keymap('n', '<Leader>/',  function() return vim.v.count == 0
-            and '<Plug>(comment_toggle_linewise_current)'
-            or '<Plug>(comment_toggle_linewise_count)'
-        end, { expr = true })
-    keymap('x', '<Leader>/', '<Plug>(comment_toggle_linewise_visual)' )
+    -- keymap('n', '<leader>/',  function() return vim.v.count == 0
+    --         and '<Plug>(comment_toggle_linewise_current)'
+    --         or '<Plug>(comment_toggle_linewise_count)'
+    --     end, { expr = true })
+    -- keymap('x', '<leader>/', '<Plug>(comment_toggle_linewise_visual)' )
 
 end
 
