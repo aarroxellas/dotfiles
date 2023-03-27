@@ -12,7 +12,6 @@ M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 M.setup = function()
     local signs = {
-
         { name = "DiagnosticSignError", text = "" },
         { name = "DiagnosticSignWarn",  text = "" },
         { name = "DiagnosticSignHint",  text = "" },
@@ -53,7 +52,7 @@ M.setup = function()
 end
 
 -- TODO: add description to maps
-local function lsp_keymaps(bufnr)
+M.lsp_keymaps = function(bufnr)
     local keymap = vim.api.nvim_buf_set_keymap
     keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true, desc = "[G]o to [D]eclaration" })
     keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>",  { noremap = true, silent = true, desc = "[G]o to [D]efinition" })
@@ -64,8 +63,11 @@ local function lsp_keymaps(bufnr)
     keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", { noremap = true, silent = true, desc = "[L]sp [I]nfo for attached servers" })
     keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", { noremap = true, silent = true, desc = "[L]anguage [I]nfo for available services" })
     keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { noremap = true, silent = true, desc = "[L]sp Code [A]ction" })
+    -- TODO: deprecate Diagnostics as leader + l{}
     keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [N]ext Diagnostics" })
     keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [P]revious Diagnostics" })
+    keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true })
+    keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true })
     keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { noremap = true, silent = true, desc = "[L]sp [R]eaname" })
     keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { noremap = true, silent = true, desc = "[L]sp [S]ignature Help" })
     keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", { noremap = true, silent = true, desc = "Display Diagnostics Local [L]ist" })
@@ -76,34 +78,23 @@ end
 
 -- TODO: to a separate file
 M.on_attach = function(client, bufnr)
-    if client.name == "tsserver" then
-        client.server_capabilities.documentFormattingProvider = false
-    end
+    local no_formatting = {
+        "tsserver", "pyright", "jedi_language_server", "kotlin_language_server", "sumneko_lua", "lua_ls", "rust_analyzer"
+    }
 
-    if client.name == "kotlin_language_server" then
-        client.server_capabilities.documentFormattingProvider = false
-    end
-
-    for _, name in pairs({ "pyright", "jedi_language_server" }) do
+    for _, name in pairs(no_formatting) do
         if client.name == name then
             client.server_capabilities.documentFormattingProvider = false
         end
     end
 
-    if client.name == "jdt.ls" then
-        require("jdtls").setup_dap { hotcodereplace = "auto" }
-        require("jdtls.dap").setup_dap_main_class_configs()
-        client.resolved_capabilities.textDocument.completion.completionItem.snippetSupport = false
-        vim.lsp.codelens.refresh()
-    end
+    -- if client.name == "jdt.ls" then
+    --     require("jdtls").setup_dap { hotcodereplace = "auto" }
+    --     require("jdtls.dap").setup_dap_main_class_configs()
+    --     client.resolved_capabilities.textDocument.completion.completionItem.snippetSupport = false
+    --     vim.lsp.codelens.refresh(
+    -- end
 
-    for _, name in pairs({ "sumneko_lua", "lua_ls" }) do
-        if client.name == name then
-            client.server_capabilities.documentFormattingProvider = false
-        end
-    end
-
-    lsp_keymaps(bufnr)
     local status_ok, illuminate = pcall(require, "illuminate")
     if not status_ok then
         vim.notify("completion.lsp.illuminate not loaded", vim.log.levels.WARN, { title = "completion.lsp.handlers" })
@@ -112,14 +103,7 @@ M.on_attach = function(client, bufnr)
         illuminate.on_attach(client)
     end
 
-    -- TODO: define keymaps in separete after file
-    -- local builtin = require('telescope.builtin')
-    -- vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = 'Search [P]roject [F]iles' })
-    -- vim.keymap.set('n', '<leader>pg', builtin.git_files, { desc = 'Search [G]it [F]iles' })
-    -- vim.keymap.set('n', '<leader>ph', builtin.help_tags, { desc = 'Search Neovim [H]elp' })
-    -- vim.keymap.set('n', '<leader>pw', builtin.grep_string, { desc = 'Search Current [W]ord' })
-    -- vim.keymap.set('n', '<leader>pg', builtin.live_grep, { desc = 'Search [P]roject by [G]rep' })
-    -- vim.keymap.set('n', '<leader>pd', builtin.diagnostics, { desc = 'Search [P]roject [D]iagnostics' })
+    M.lsp_keymaps(bufnr)
 end
 
 return M

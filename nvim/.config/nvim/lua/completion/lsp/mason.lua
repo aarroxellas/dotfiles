@@ -40,17 +40,51 @@ end
 local opts = {}
 
 for _, server in pairs(servers) do
-	opts = {
-		on_attach = require("completion.lsp.handlers").on_attach,
-		capabilities = require("completion.lsp.handlers").capabilities,
-	}
+    local on_attach = require("completion.lsp.handlers").on_attach
+    local capabilities = require("completion.lsp.handlers").capabilities
+    opts = {
+        on_attach = on_attach,
+        capabilities = capabilities,
+    }
 
 	server = vim.split(server, "@")[1]
 
 	local require_ok, conf_opts = pcall(require, "completion.lsp.settings." .. server)
 	if require_ok then
 		opts = vim.tbl_deep_extend("force", conf_opts, opts)
-	end
+    end
 
-	lspconfig[server].setup(opts)
+    if server == "jdtls" then
+        goto continue
+    end
+
+    if server == "rust_analyzer" then
+        local rust_opts = require "completion.lsp.settings.rust"
+        local rust_tools_status_ok, rust_tools = pcall(require, "rust-tools")
+        if not rust_tools_status_ok then
+            vim.notify("completion.lsp.rust-tools not loaded", vim.log.levels.WARN, { title = "completion.lsp.completion.rust" })
+            return
+        end
+
+        rust_tools.setup(rust_opts)
+
+        -- TODO: bring keymaping to after folder
+        require("completion.lsp.handlers").lsp_keymaps(0)
+        goto continue
+    end
+
+    if server == "kotlin_language_server" then
+        local kopts = require("completion.lsp.settings.kotlin_langrage_server")
+        lspconfig[server].setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            root_dir = kopts.root_dir,
+            filetypes = kopts.filetypes,
+            -- cmd = { 'kotlin_language_server' },
+        })
+        goto continue
+    end
+
+    lspconfig[server].setup(opts)
+    ::continue::
 end
