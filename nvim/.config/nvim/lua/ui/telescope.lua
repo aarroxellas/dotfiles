@@ -1,5 +1,10 @@
 local M = {}
 
+---@alias telescope_themes
+---| "cursor"   # see `telescope.themes.get_cursor()`
+---| "dropdown" # see `telescope.themes.get_dropdown()`
+---| "ivy"      # see `telescope.themes.get_ivy()`
+---| "center"   # retain the default telescope theme
 function M.config()
     local ok_telescope, telescope = pcall(require, "telescope")
     if not ok_telescope then
@@ -12,6 +17,9 @@ function M.config()
         vim.notify("ui.telescope_actions not loaded", vim.log.levels.WARN, { title = "ui.telescope" })
         return
     end
+
+    local previewers = require "telescope.previewers"
+    local sorters = require "telescope.sorters"
 
     telescope.setup({
         theme = "dropdown", ---@type telescope_themes
@@ -117,26 +125,12 @@ function M.config()
                 case_mode = "smart_case",       -- "ignore_case", "respect_case"
             },
         },
-    })
-end
-
-function M.setup()
-    M.config()
-
-    local previewers = require "telescope.previewers"
-    local sorters = require "telescope.sorters"
-
-    local tel_setup = {
         file_previewer = previewers.vim_buffer_cat.new,
         grep_previewer = previewers.vim_buffer_vimgrep.new,
         qflist_previewer = previewers.vim_buffer_qflist.new,
         file_sorter = sorters.get_fuzzy_file,
         generic_sorter = sorters.get_generic_fuzzy_sorter,
-    }
-
-    local telescope = require "telescope"
-
-    telescope.setup(tel_setup)
+    })
 
     -- local ok, _ = pcall(require("telescope").load_extension("fzf"))
     -- if not ok then

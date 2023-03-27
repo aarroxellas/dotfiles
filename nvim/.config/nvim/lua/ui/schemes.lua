@@ -4,7 +4,7 @@ function M.config(colorscheme)
     vim.opt.termguicolors = true
     vim.cmd([[
         syntax enable
-        set background=dark
+        " set background=dark
 
         " MATERIAL
         let g:material_terminal_italics = 1

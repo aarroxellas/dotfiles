@@ -3,6 +3,7 @@ local UI = {}
 function UI.bufferline()
 	return {
 		"romgrk/barbar.nvim",
+        -- tag = "v3.*",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			require("ui.bufferline").config()
@@ -48,7 +49,7 @@ function UI.telescope()
 			"kyazdani42/nvim-web-devicons",
 		},
 		config = function()
-			require("ui.telescope").setup()
+			require("ui.telescope").config()
 		end,
 	}
 end
@@ -79,7 +80,7 @@ end
 function UI.treesitter()
 	return {
 		"nvim-treesitter/nvim-treesitter",
-		-- run = ":TSUpdate",
+		run = ":TSUpdate",
 		-- dependencies = {
 		--   { "p00f/nvim-ts-rainbow" },
 		--   { "windwp/nvim-ts-autotag" },
