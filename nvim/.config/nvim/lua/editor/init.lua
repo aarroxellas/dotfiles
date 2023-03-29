@@ -11,11 +11,44 @@ function Editor.diagnostic()
     return {
         -- "folke/lsp-trouble.nvim",
         "rcarriga/nvim-dap-ui",
-        config = function() require("editor.dap").config_ui() end,
+        config = function()
+            require("editor.dap").config_ui()
+        end,
         dependencies = {
             "mfussenegger/nvim-dap",
             config = function() require("editor.dap").config() end,
-        }
+            {
+                "nvim-telescope/telescope-dap.nvim",
+                config = function () require("telescope").load_extension("dap") end,
+                dependencies = "mfussenegger/nvim-dap",
+            },
+            {
+                "theHamsta/nvim-dap-virtual-text",
+                config = function () require'nvim-dap-virtual-text'.setup() end,
+                dependencies = "mfussenegger/nvim-dap",
+            },
+        },
+    }
+end
+
+function Editor.diagnostic_kotlin()
+end
+
+function Editor.diagnostic_go()
+    return {
+        "leoluz/nvim-dap-go",
+        config = function () require("editor.dap_go").setup() end,
+        dependencies = "mfussenegger/nvim-dap",
+        -- TODO: Give this a try
+        -- {
+        --     "ray-x/go.nvim",
+        --     config = function()
+        --         require("go").setup()
+        --     end,
+        --     event = {"CmdlineEnter"},
+        --     ft = {"go", 'gomod'},
+        --     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+        -- }
     }
 end
 

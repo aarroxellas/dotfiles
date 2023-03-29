@@ -3,6 +3,7 @@ local servers = {
     -- "cssls",
     -- "html",
     -- "tsserver",
+    "gopls",
     "pyright",
     -- "jedi_language_server",
     -- "bashls",
@@ -54,7 +55,22 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", conf_opts, opts)
     end
 
-    if server == "jdtls" then
+    if server == "gopls" then
+        local go_opts = {
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+                gopls = {
+                    gofumpt = true,
+                },
+            },
+            flags = {
+                debounce_text_changes = 150,
+            },
+        }
+        lspconfig[server].setup(go_opts)
+        -- TODO: rethink keymapping
+        require("completion.lsp.handlers").lsp_keymaps(0)
         goto continue
     end
 
@@ -68,7 +84,7 @@ for _, server in pairs(servers) do
 
         rust_tools.setup(rust_opts)
 
-        -- TODO: bring keymaping to after folder
+        -- TODO: rethink keymapping
         require("completion.lsp.handlers").lsp_keymaps(0)
         goto continue
     end
@@ -82,6 +98,11 @@ for _, server in pairs(servers) do
             filetypes = kopts.filetypes,
             -- cmd = { 'kotlin_language_server' },
         })
+        goto continue
+    end
+
+    -- TODO: Config. Java
+    if server == "jdtls" then
         goto continue
     end
 

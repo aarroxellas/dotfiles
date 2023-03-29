@@ -48,6 +48,7 @@ lazy.setup(
         completion.autopair(),
         -- completion.emmet(),
         completion.lsp(),
+        completion.languages(),
 
         -- Editor
         editor.comment(),
@@ -59,6 +60,8 @@ lazy.setup(
         editor.markdown(),
         -- editor.easyalign(),
         editor.diagnostic(),
+        editor.diagnostic_go(),
+        editor.diagnostic_kotlin(),
     }
 )
 

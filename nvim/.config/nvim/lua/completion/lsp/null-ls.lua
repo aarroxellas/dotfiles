@@ -36,16 +36,26 @@ function M.config()
         factory = h.formatter_factory,
     })
 
+    local code_actions = null_ls.builtins.code_actions
     local formatting = null_ls.builtins.formatting
     local diagnostics = null_ls.builtins.diagnostics
     local sources = {
+        -- GOlang
+        -- TODO: Make available for visual selection
+        code_actions.gomodifytags,
+        diagnostics.golangci_lint,
+        -- JS
         formatting.prettier.with({
             extra_filetypes = { "toml", "markdown" },
             extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
         }),
+        -- Python
         formatting.black.with({ extra_args = { "--fast" } }),
         -- formatting.isort,
         formatting.tidy_import,
+        diagnostics.flake8.with({
+            extra_args = { "--ignore=E501" },
+        }),
         formatting.reorder_python_imports.with({
             extra_args = function()
                 local extra_args = {}
@@ -65,29 +75,28 @@ function M.config()
                 return extra_args
             end,
         }),
+        -- Lua
         formatting.stylua,
+        -- Java
         -- formatting.google_java_format,
-        formatting.ktlint,
-        -- formatting.astyle.with({
-        --     extra_args = { "ident=spaces=4", "style=google" },
-        -- }),
-
-        -- diagnostics
-        diagnostics.shellcheck,
-        diagnostics.zsh,
-        diagnostics.flake8.with({
-            extra_args = { "--ignore-errorsa=E501" },
-        }),
         diagnostics.checkstyle.with({
             extra_args = { "-c", "/google_checks.xml" }, -- or "/sun_checks.xml" or path to self written rules
         }),
+        -- formatting.astyle.with({
         -- diagnostics.pmd.with({
         --     extra_args = {
         --         "--rulesets",
         --         "category/java/bestpractices.xml,category/jsp/bestpractices.xml" -- or path to self-written ruleset
         --     },
         -- }),
+        --     extra_args = { "ident=spaces=4", "style=google" },
+        -- }),
+        -- Kotlin
+        formatting.ktlint,
         diagnostics.ktlint,
+        -- Other
+        diagnostics.shellcheck,
+        diagnostics.zsh,
     }
 
     local ok, _ = pcall(require, "gitsigns")
@@ -103,6 +112,7 @@ function M.config()
         sources = sources,
     })
 
+    -- Rust
     local unwrap = {
         method = null_ls.methods.DIAGNOSTICS,
         filetypes = { "rust" },
