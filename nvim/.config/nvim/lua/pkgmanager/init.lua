@@ -41,6 +41,7 @@ lazy.setup(
         -- ui.colorizer(),
         ui.treesitter(),
         ui.codehighlight(),
+        ui.winfocus(),
 
         -- Completion
         completion.snippet(),

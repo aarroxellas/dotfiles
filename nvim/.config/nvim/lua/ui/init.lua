@@ -133,4 +133,23 @@ function UI.statusline()
 	}
 end
 
+function UI.winfocus()
+    return {
+        -- "folke/zen-mode.nvim",
+        "folke/twilight.nvim",
+        config = function()
+            require("twilight").setup {
+                context = -1,
+                treesitter = true,
+                expand = { -- for treesitter, we we always try to expand to the top-most ancestor with these types
+                    "function",
+                    "method",
+                    "table",
+                    "if_statement",
+                },
+            }
+        end,
+    }
+end
+
 return UI
