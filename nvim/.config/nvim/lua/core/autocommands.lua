@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 -- })
 vim.api.nvim_create_autocmd('FileType', {
 	pattern = 'markdown,text,help',
-	command = 'setlocal spelllang=en,pt,fr | setlocal spell',
+	command = 'setlocal spelllang=en | setlocal spell',
 	group = vimrc_group,
 })
 vim.api.nvim_create_autocmd('TermOpen', {

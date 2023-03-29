@@ -20,7 +20,7 @@ function M.config()
 		signcolumn = true, -- Add signs in the signcolumn
 		numhl = false, -- Highlights just the number part of the number column
 		linehl = false, -- Highlights the whole line
-		word_diff = true, -- Highlights just the part of the line that has changed
+		word_diff = false, -- Highlights just the part of the line that has changed
 		show_deleted = false, -- Show deleted hunks with virtual text
 		watch_gitdir = { -- Add a watcher for the .git directory to detect changes
 			enable = true, -- Whether the watcher is enabled
@@ -64,13 +64,13 @@ function M.config()
                 if vim.wo.diff then return ']c' end
                 vim.schedule(function() gs.next_hunk() end)
                 return '<Ignore>'
-            end, { expr = true, desc = "Git Diff previous Hunk"})
+            end, { expr = true, desc = "Next Git Diff previous Hunk"})
 
             map('n', '[c', function()
                 if vim.wo.diff then return '[c' end
                 vim.schedule(function() gs.prev_hunk() end)
                 return '<Ignore>'
-            end, { expr = true, desc = "Git Diff next Hunk"})
+            end, { expr = true, desc = "Previous Git Diff next Hunk"})
 
             -- Actions
             map({"n", "v"}, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Gitsigns [S]tage Hunk" })
@@ -80,9 +80,9 @@ function M.config()
             map("n", "<leader>hR", gs.reset_buffer, { desc = "Gitsigns [R]eset Buffer" })
             map("n", "<leader>hp", gs.preview_hunk, { desc = "Gitsigns [P]review Hunk" })
             map("n", "<leader>hb", function() gs.blame_line{full=true} end, { desc = "Gitsigns [B]lame Hunk" })
-            map("n", "<leader>tb", gs.toggle_current_line_blame, { desc = "Gitsigns [T]oggle [B]lame Line" })
+            map("n", "<leader>ht", gs.toggle_current_line_blame, { desc = "Gitsigns [T]oggle [B]lame Line" })
             map("n", "<leader>hd", gs.diffthis, { desc = "Gitsigns [D]iff this File" })
-            -- map("n", "<leader>hD", function() gs.diffthis("~") end, { desc = "Gitsigns [D]iff This" })
+            map("n", "<leader>hD", function() gs.diffthis("~") end, { desc = "Gitsigns [D]iff This" })
             map("n", "<leader>td", gs.toggle_deleted, { desc = "Gitsigns [T]oggle [D]eleted" })
 
             -- Text object

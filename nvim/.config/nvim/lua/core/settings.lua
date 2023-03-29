@@ -21,7 +21,7 @@ vim.opt.binary = true                           -- file encoding binary
 vim.opt.bomb = true                             -- file encoding ucs-bom
 -- vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
-vim.opt.colorcolumn = "99999"                   -- fix indentline for now
+vim.opt.colorcolumn = "120"                     -- fix indentline for now
 vim.opt.compatible = false                      -- not vi retro-compatible
 vim.opt.completeopt = "menu,menuone,noselect"    -- completion popup and displays
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
@@ -44,6 +44,7 @@ vim.opt.hidden = true                         	-- required to keep multiple buff
 vim.opt.hlsearch = true                         -- highlight all search matches
 vim.opt.ignorecase = true                       -- ignore case in search patterns (needed for smartcase to work)
 vim.opt.inccommand = "split"                    -- shows the effects of :s as you type.
+vim.opt.incsearch = true                        -- highlight all search matches while typing /
 vim.opt.lazyredraw = true                       -- don't redraw window while executing macros
 vim.opt.linebreak = true                        -- break display vim line
 vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
@@ -60,7 +61,7 @@ vim.opt.showcmd = true                          -- display (partial) cmd and sel
 vim.opt.showmode = false     	                -- we don't need to see things like -- INSERT -- anymore
 vim.opt.showtabline = 2                         -- always show tabs
 vim.opt.sidescrolloff = 8                       -- minimal number of screen lines to keep left and right of the cursor.
-vim.opt.signcolumn = "auto:1-2"                 -- always show the sign column, otherwise it would shift the text each --[[ time --[[ ]] ]]
+vim.opt.signcolumn = "yes"                 -- always show the sign column, otherwise it would shift the text each time
 vim.opt.smartcase = true                        -- overrides ignorecase (does not work for '*', '#')
 vim.opt.smartindent = false                     -- make indenting smarter again
 vim.opt.softtabstop = tabspace                  -- editing tab local buffer
@@ -109,10 +110,10 @@ vim.opt.wildignore = {
 	'**/.nx/**',
 }
 
--- vim.g.loaded_perl_provider = 0               -- disable language support
+vim.g.loaded_perl_provider = 0               -- disable language support
 -- vim.g.loaded_ruby_provider = 0
--- vim.g.python3_host_prog = "python3"
--- vim.g.python_host_prog = "python2"
+vim.g.python3_host_prog = "python3"
+vim.g.python_host_prog = "python2"
 
 -- vim.filetype.add {
 -- 	extension = {
