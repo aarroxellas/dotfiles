@@ -1,0 +1,9 @@
+### ZSH
+**/*/.zsh_history
+**/*/.zcompdump
+**/*/plugins
+**/*/completion
+
+### NVIM
+**/*/lazy-lock.json
+**/*/.luarc.json
