@@ -74,7 +74,7 @@ for _, server in pairs(servers) do
         goto continue
     end
 
-    if server == "rust_analyzer" then
+    if server == "rust-analyzer" then
         local rust_opts = require "completion.lsp.settings.rust"
         local rust_tools_status_ok, rust_tools = pcall(require, "rust-tools")
         if not rust_tools_status_ok then

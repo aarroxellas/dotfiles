@@ -172,9 +172,7 @@ map("<leader>dB", function()
 	require("dap").set_breakpoint(vim.fn.input("[DAP] Condition > "))
 end, "Set [B]reak Point")
 map("<leader>de", require("dapui").eval, "[E]val UI")
-map("<leader>dE", function()
-	require("dapui").eval(vim.fn.input("[DAP] Expression > "))
-end, "[DAP] [E]xpression")
+map("<leader>dE", function() require("dapui").eval(vim.fn.input("[DAP] Expression > ")) end, "[DAP] [E]xpression")
 map("<leader>dt", require("dap-go").debug_test, "Run [G]o debug")
 
 vim.cmd([[

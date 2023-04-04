@@ -127,8 +127,6 @@ M.config_ui = function()
 
 	-- dapui.setup(M.opts.ui.config)
 
-	-- if M.opts.ui.auto_open then
-    dap.listeners.before.disconnect["dapui_config"] = function() dapui.close() end
 	dap.listeners.after.event_initialized["dapui_config"] = function()
 		dapui.open()
 	end
@@ -138,25 +136,6 @@ M.config_ui = function()
 	dap.listeners.before.event_exited["dapui_config"] = function()
 		dapui.close()
 	end
-	-- end
-
-	-- TODO: remove - until rcarriga/nvim-dap-ui#164 is fixed
-	-- local function notify_handler(msg, level, opts)
-	--     if level >= M.opts.ui.notify.threshold then
-	--         return vim.notify(msg, level, opts)
-	--     end
-
-	--     opts = vim.tbl_extend("keep", opts or {}, {
-	--         title = "dap-ui",
-	--         icon = "",
-	--         on_open = function(win)
-	--             vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(win), "filetype", "markdown")
-	--         end,
-	--     })
-
-	-- end
-
-	-- xpcall(function() require("dapui.util").notify = notify_handler end, debug.traceback)
 end
 
 return M

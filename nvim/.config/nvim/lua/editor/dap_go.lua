@@ -1,6 +1,7 @@
 local M = {}
 
 function M.setup()
+
     return require('dap-go').setup {
         dap_configurations = {
             {

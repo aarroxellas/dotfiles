@@ -47,22 +47,18 @@ lazy.setup(
         completion.snippet(),
         completion.cmp(),
         completion.autopair(),
-        -- completion.emmet(),
         completion.lsp(),
         completion.languages(),
 
         -- Editor
         editor.comment(),
-        -- editor.aerial(),
-        -- editor.formatter(),
         editor.gitsigns(),
         editor.surround(),
         -- editor.sql(),
         editor.markdown(),
         -- editor.easyalign(),
         editor.diagnostic(),
-        editor.diagnostic_go(),
-        editor.diagnostic_kotlin(),
+        editor.language_go(),
     }
 )
 

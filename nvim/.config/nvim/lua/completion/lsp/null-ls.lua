@@ -40,7 +40,7 @@ function M.config()
     local formatting = null_ls.builtins.formatting
     local diagnostics = null_ls.builtins.diagnostics
     local sources = {
-        -- GOlang
+        -- Golang
         -- TODO: Make available for visual selection
         code_actions.gomodifytags,
         diagnostics.golangci_lint,
@@ -56,25 +56,7 @@ function M.config()
         diagnostics.flake8.with({
             extra_args = { "--ignore=E501" },
         }),
-        formatting.reorder_python_imports.with({
-            extra_args = function()
-                local extra_args = {}
-
-                local python_version = vim.fn.system("python --version")
-
-                if python_version >= "3.9" then
-                    table.insert(extra_args, "--py39-plus")
-                elseif python_version >= "3.7" then
-                    table.insert(extra_args, "--py37-plus")
-                elseif python_version >= "3.6" then
-                    table.insert(extra_args, "--py36-plus")
-                elseif python_version >= "3" then
-                    table.insert(extra_args, "--py3-plus")
-                end
-
-                return extra_args
-            end,
-        }),
+        formatting.reorder_python_imports,
         -- Lua
         formatting.stylua,
         -- Java
