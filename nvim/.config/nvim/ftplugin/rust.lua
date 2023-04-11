@@ -13,8 +13,8 @@ local opts = {
 }
 
 local mappings = {
-  r = {
-    name = "Rust",
+  l = {
+    -- name = "Rust",
     H = { "<cmd>RustToggleInlayHints<Cr>", "Toggle Hints" },
     r = { "<cmd>RustRunnables<Cr>", "Runnables" },
     -- r = { "<cmd>lua _CARGO_RUN()<cr>", "Cargo Run" },

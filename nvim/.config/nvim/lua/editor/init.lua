@@ -86,11 +86,22 @@ function Editor.surround()
     return {
         "ur4ltz/surround.nvim",
         config = function()
-            require "surround".setup { mappings_style = "surround" } -- "surround, sandwitch"
+            require "surround".setup { 
+                mappings_style = "surround",  -- "surround, sandwitch"
+                map_insert_mode = true,
+                prompt = false,
+            }
         end,
+        dependencies = { "tpope/vim-repeat" },
         -- "machakann/vim-sandwich",
         -- keys = { "sa", "sr", "sd" }, -- sandwitch
-        keys = { { "cs", mode = { "n", "v" } }, { "ds", mode = { "n", "v" } }, { "ys", mode = { "n", "v" } }, { "<c-s>", mode = "i" } }, -- surround
+        keys = {
+            { "cs", mode = { "n", "v" } },
+            { "ds", mode = { "n", "v" } },
+            { "ys", mode = { "n", "v" } },
+            { "s", mode = "v" },
+            { "<c-s>", mode = "i" },
+        }, -- surround
     }
 end
 

@@ -35,8 +35,4 @@ function M.config()
     vim.cmd("autocmd FileType LuaTree setlocal nowrap")
 end
 
-return setmetatable({}, {
-    __call = function()
-        return M.config()
-    end,
-})
+return M

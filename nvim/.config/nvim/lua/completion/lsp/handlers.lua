@@ -63,8 +63,8 @@ M.lsp_keymaps = function(bufnr)
     keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", { noremap = true, silent = true, desc = "[L]anguage [I]nfo for available services" })
     keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { noremap = true, silent = true, desc = "[L]sp Code [A]ction" })
     -- TODO: deprecate Diagnostics as leader + l{}
-    keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [N]ext Diagnostics" })
-    keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [P]revious Diagnostics" })
+    -- keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [N]ext Diagnostics" })
+    -- keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [P]revious Diagnostics" })
     keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "Next [D]iagnostic" })
     keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "Previous [D]iagnostic" })
     keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { noremap = true, silent = true, desc = "[L]sp [R]eaname" })
@@ -87,12 +87,14 @@ M.on_attach = function(client, bufnr)
         end
     end
 
-    -- if client.name == "jdt.ls" then
-    --     require("jdtls").setup_dap { hotcodereplace = "auto" }
-    --     require("jdtls.dap").setup_dap_main_class_configs()
-    --     client.resolved_capabilities.textDocument.completion.completionItem.snippetSupport = false
-    --     vim.lsp.codelens.refresh(
-    -- end
+    -- Using base lsp config
+    if client.name == "jdtls" then
+        require("jdtls").setup_dap { hotcodereplace = "auto" }
+        require("jdtls.dap").setup_dap_main_class_configs()
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.textDocument.completion.completionItem.snippetSupport = false
+        vim.lsp.codelens.refresh()
+    end
 
     local status_ok, illuminate = pcall(require, "illuminate")
     if not status_ok then

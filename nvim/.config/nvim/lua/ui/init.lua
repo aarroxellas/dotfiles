@@ -2,8 +2,8 @@ local UI = {}
 
 function UI.bufferline()
 	return {
-		"romgrk/barbar.nvim",
-        -- tag = "v3.*",
+		"akinsho/bufferline.nvim",
+        version = "v3.*",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			require("ui.bufferline").config()
@@ -25,7 +25,9 @@ function UI.filemanager()
 	return {
 		"kyazdani42/nvim-tree.lua",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
-		config = require("ui.filemanager"),
+		config = function ()
+		  require("ui.filemanager").config()
+		end,
 	}
 end
 
@@ -38,14 +40,21 @@ function UI.whichkey()
 	}
 end
 
+function UI.undotree()
+    return {
+        "mbbill/undotree",
+        config = function () vim.g.loaded_undotree = 1 end
+    }
+end
+
 function UI.telescope()
 	return {
 		"nvim-telescope/telescope.nvim",
-		version = "*",
+        version = "0.1.x",
 		dependencies = {
 			-- "nvim-lua/popup.nvim",
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope-fzy-native.nvim",
+			-- "nvim-telescope/telescope-fzy-native.nvim",
 			"kyazdani42/nvim-web-devicons",
 		},
 		config = function()

@@ -41,7 +41,7 @@ function M.config()
             initial_mode = "insert",
             selection_strategy = "reset",
             sorting_strategy = nil, -- "descending"
-            layout_strategy = nil, -- "flex"
+            layout_strategy = "flex",
             layout_config = {
                 horizontal = {
                     mirror = false,
@@ -85,6 +85,7 @@ function M.config()
         },
         pickers = {
             find_files = {
+                find_command = { "fd", "-I" }, -- do not ignore files in .gitignore
                 hidden = true,
             },
             live_grep = {

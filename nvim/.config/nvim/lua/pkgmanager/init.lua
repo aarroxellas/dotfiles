@@ -42,13 +42,16 @@ lazy.setup(
         ui.treesitter(),
         ui.codehighlight(),
         ui.winfocus(),
+        ui.undotree(),
 
         -- Completion
         completion.snippet(),
         completion.cmp(),
         completion.autopair(),
         completion.lsp(),
-        completion.languages(),
+        completion.language_java(),
+        completion.language_rust(),
+        completion.language_kotlin(),
 
         -- Editor
         editor.comment(),

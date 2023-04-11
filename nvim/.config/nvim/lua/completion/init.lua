@@ -69,7 +69,7 @@ function Completion.lsp()
 			cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
 			event = "BufReadPre",
 			config = function()
-				require("completion.lsp.mason")
+				require("completion.lsp.mason").config()
 			end,
 			dependencies = { "williamboman/mason-lspconfig.nvim", "hrsh7th/cmp-nvim-lsp" },
 		},
@@ -103,26 +103,26 @@ function Completion.lsp()
 	}
 end
 
-function Completion.languages()
+function Completion.language_kotlin()
     return {
         "udalov/kotlin-vim",
-        {
-            "simrat39/rust-tools.nvim",
-            config = function () require("rust-tools").setup({}) end,
-        },
+    }
+end
+
+function Completion.language_java()
+    return { "mfussenegger/nvim-jdtls" }
+end
+
+function Completion.language_rust()
+    return {
+        "simrat39/rust-tools.nvim",
+        config = function () require("rust-tools").setup() end,
         {
             "Saecki/crates.nvim",
             config = function() require("crates").setup() end,
         },
     }
 end
-
--- function Completion.emmet()
---     return {
---         "mattn/emmet-vim"
---         ft = { "javascript", "html", "css", "scss", "sass" },
---     }
--- end
 
 function Completion.autopair()
 	return {

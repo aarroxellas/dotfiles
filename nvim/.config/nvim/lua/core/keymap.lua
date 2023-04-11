@@ -5,6 +5,7 @@ vim.g.maplocalleader = " "
 
 local keymap = vim.api.nvim_set_keymap
 
+-- TODO: Send to Globals
 local keybindings = {
 	-- {'mode', 'keybindings', 'command', '{noremap=bool', 'silent=bool', expr=bool}}
 
@@ -27,8 +28,8 @@ local keybindings = {
 	-- Movement and center
 	{ "n", "<C-d>", "<C-d>zz", { noremap = true, silent = true } },
 	{ "n", "<C-u>", "<C-u>zz", { noremap = true, silent = true } },
-	{ "n", "n", "nzzv", { noremap = true, silent = true } },
-	{ "n", "N", "Nzzv", { noremap = true, silent = true } },
+	{ "n", "n", "nzz", { noremap = true, silent = true } },
+	{ "n", "N", "Nzz", { noremap = true, silent = true } },
 
 	-- Cut replacement to void
 	{ "x", ",p", '"_dP', { noremap = true, silent = true, desc = "[P]aste without Yanking" } },
@@ -37,7 +38,7 @@ local keybindings = {
 
 	-- Yank system and vim separate
 	{ "n", ",y", [["+y]], { noremap = true, silent = true, desc = "[Y]ank to Clipboard" } },
-	{ "n", ",y", [["+y]], { noremap = true, silent = true, desc = "[Y]ank to Clipboard" } },
+	{ "v", ",y", [["+y]], { noremap = true, silent = true, desc = "[Y]ank to Clipboard" } },
 	{ "n", ",Y", [["+Y]], { noremap = true, silent = true, desc = "[Y]ank to Clipboard" } },
 	{ "n", ",d", [["_d]], { noremap = true, silent = true, desc = "[D]elete Yank to Clipboard" } },
 
@@ -47,40 +48,34 @@ local keybindings = {
 	{ "n", "<C-Right>", "<CMD>vertical resize -5<CR>", { noremap = true, silent = true } },
 	{ "n", "<C-Down>", "<CMD>resize +5<CR>", { noremap = true, silent = true } },
 
-	-- Buffer
-	{ "n", "<A-l>", "<CMD>BufferNext<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-h>", "<CMD>BufferPrevious<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-L>", "<CMD>BufferMoveNext<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-H>", "<CMD>BufferMovePrevious<CR>", { noremap = true, silent = true } },
-	{ "n", "<leader>q", "<CMD>BufferClose<CR>", { noremap = true, silent = true, desc = "Close Current Buffer" } },
-	{
-		"n",
-		"<leader>qq",
-		"<CMD>bufdo BufferClose<CR>",
-		{ noremap = true, silent = true, desc = "Close Current Buffer" },
-	},
-	{
-		"n",
-		"<leader>qa",
-		"<CMD>bufdo BufferClose!<CR>",
-		{ noremap = true, silent = true, desc = "Force Close Current Buffer" },
-	},
-	{
-		"n",
-		"<leader>qo",
-		"<CMD>BufferCloseAllButCurrent<CR>",
-		{ noremap = true, silent = true, desc = "Close All Buffers" },
-	},
-	{ "n", "<A-1>", "<CMD>BufferGoto 1<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-2>", "<CMD>BufferGoto 2<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-3>", "<CMD>BufferGoto 3<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-4>", "<CMD>BufferGoto 4<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-5>", "<CMD>BufferGoto 5<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-6>", "<CMD>BufferGoto 6<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-7>", "<CMD>BufferGoto 7<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-8>", "<CMD>BufferGoto 8<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-9>", "<CMD>BufferGoto 9<CR>", { noremap = true, silent = true } },
-	{ "n", "<A-0>", "<CMD>BufferLast<CR>", { noremap = true, silent = true } },
+    -- Buffer
+	{ "n", "<leader>bq", "<CMD>bdelete<CR>", { noremap = true, silent = true, desc = "Close Current Buffer" } },
+	{ "n", "<leader>bA", "<CMD>bdelete!<CR>", { noremap = true, silent = true, desc = "Force Close Current Buffer" } },
+	{ "n", "<leader>ba", "<CMD>bd<CR>", { noremap = true, silent = true, desc = "Close All Buffers" } },
+	{ "n", "<leader>bc", "<CMD>%bd|e#|bd#<CR>", { noremap = true, silent = true, desc = "Keep Only Current Buffer" } },
+	{ "n", "<leader>bC", "<CMD>%bd!|e#|bd#<CR>", { noremap = true, silent = true, desc = "Force Keep Only Current Buffer" } },
+	{ "n", "<leader>bm", "<CMD>bmodified<CR>", { noremap = true, silent = true, desc = "Jump to Modified Buffer" } },
+    -- TODO: Better keymaps
+    { "n", "<A-f>", "<CMD>bnext<CR>", { noremap = true, silent = true } },
+    { "n", "<A-g>", "<CMD>bprevious<CR>", { noremap = true, silent = true } },
+    { "n", "<A-0>", "<CMD>bfirst<CR>", { noremap = true, silent = true } },
+    { "n", "<A-->", "<CMD>blast<CR>", { noremap = true, silent = true } },
+
+    -- TODO: prefer builtin Tabs and Buffer
+	-- Bufferline
+	-- { "n", "<A-l>", "<CMD>BufferLineCycleNext<CR>", { noremap = true, silent = true } },
+	-- { "n", "<A-h>", "<CMD>BufferLineCyclePrev<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-L>", "<CMD>BufferLineMoveNext<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-H>", "<CMD>BufferLineMovePrev<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-1>", "<CMD>BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-2>", "<CMD>BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-3>", "<CMD>BufferLineGoToBuffer 3<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-4>", "<CMD>BufferLineGoToBuffer 4<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-5>", "<CMD>BufferLineGoToBuffer 5<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-6>", "<CMD>BufferLineGoToBuffer 6<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-7>", "<CMD>BufferLineGoToBuffer 7<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-8>", "<CMD>BufferLineGoToBuffer 8<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-9>", "<CMD>BufferLineGoToBuffer 9<CR>", { noremap = true, silent = true } },
 
 	-- split window
 	-- { "n", "<leader>v", "<C-w>v", { noremap = false, silent = true } },
@@ -123,19 +118,23 @@ local keybindings = {
 	--
 }
 
--- TODO: set every 2 layer keymap with wichkey for better description
 -- TODO: define plugin dependent keymaps in separete after file
 local _, builtin = pcall(require, "telescope.builtin")
 vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find Project Recently Opened Files" })
 vim.keymap.set("n", "<leader>/", function()
 	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({ winblend = 10, previewer = false }))
 end, { desc = "[/] Fuzzily Search Current Buffer" })
-vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "Search [P]roject [F]iles" })
-vim.keymap.set("n", "<leader>sg", builtin.git_files, { desc = "Search [G]it [F]iles" })
-vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "Search Neovim [H]elp" })
-vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "Search Current [W]ord" })
-vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "Search [P]roject by [G]rep" })
-vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "Search [P]roject [D]iagnostics" })
+vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch Project [F]iles" })
+vim.keymap.set("n", "<leader>sG", builtin.git_status, { desc = "[S]earch [G]it Status" })
+vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch Neovim [H]elp" })
+vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch Current [W]ord" })
+vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch Project by [G]rep" })
+vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch Project [D]iagnostics" })
+vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
+vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [k]eymaps" })
+vim.keymap.set("n", "<leader>st", builtin.treesitter, { desc = "[S]earch [t]reesitter" })
+vim.keymap.set("n", "<leader>sT", builtin.builtin, { desc = "[S]earch [T]elescope Builtins" })
+vim.keymap.set("n", "<leader>sd", function() require("telescope.builtin").dap() end, { desc = "[S]earch [d]ap" })
 
 -- Format LSP
 vim.keymap.set("n", "<leader>f", function()
@@ -150,7 +149,7 @@ for _, key in pairs(keybindings) do
 end
 
 -- DAP Globals
-local map = function(lhs, rhs, desc)
+local dap_map = function(lhs, rhs, desc)
 	if desc then
 		desc = "[DAP] " .. desc
 	end
@@ -158,22 +157,42 @@ local map = function(lhs, rhs, desc)
 	vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
 end
 
-map("<F1>", require("dap").step_back, "step_back")
-map("<F2>", require("dap").step_into, "step_into")
-map("<F3>", require("dap").step_over, "step_over")
-map("<F4>", require("dap").step_out, "step_out")
-map("<F5>", require("dap").continue, "continue")
--- TODO:
--- disconnect vs. terminate
-map("<leader>dr", require("dap").repl.open, "REPL")
+dap_map("<F1>", require("dap").step_back, "step_back")
+dap_map("<F2>", require("dap").step_into, "step_into")
+dap_map("<F3>", require("dap").step_over, "step_over")
+dap_map("<F4>", require("dap").step_out, "step_out")
+dap_map("<F5>", require("dap").continue, "continue")
+dap_map("<leader>dr", require("dap").repl.open, "REPL")
+dap_map("<leader>db", require("dap").toggle_breakpoint, "Toggle [B]reak Point")
+dap_map("<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("[DAP] Condition > ")) end, "Set [B]reak Point")
+dap_map("<leader>de", require("dapui").eval, "[E]val UI")
+dap_map("<leader>dE", function() require("dapui").eval(vim.fn.input("[DAP] Expression > ")) end, "[E]xpression")
+dap_map("<leader>do", function() require("dapui").open() end, "[O]pen")
+dap_map("<leader>dc", function() require("dapui").close() end, "[C]lose")
 
-map("<leader>db", require("dap").toggle_breakpoint, "Toggle [B]reak Point")
-map("<leader>dB", function()
-	require("dap").set_breakpoint(vim.fn.input("[DAP] Condition > "))
-end, "Set [B]reak Point")
-map("<leader>de", require("dapui").eval, "[E]val UI")
-map("<leader>dE", function() require("dapui").eval(vim.fn.input("[DAP] Expression > ")) end, "[DAP] [E]xpression")
-map("<leader>dt", require("dap-go").debug_test, "Run [G]o debug")
+vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "[U]ndo Tree" })
+
+-- Name every Which Key node
+local ok_wk, wk = pcall(require, "which-key")
+if ok_wk then
+    local opts = {
+        mode = { "n" },
+        prefix = "<leader>",
+        buffer = nil,
+        silent = true,
+        noremap = true,
+        nowait = true,
+    }
+
+    wk.register({
+        l = { name = "+LSP" },
+        d = { name = "+Debug" },
+        s = { name = "+Telescope Search" },
+        b = { name = "+Buffer" },
+    },
+        opts
+    )
+end
 
 vim.cmd([[
         augroup DapRepl
