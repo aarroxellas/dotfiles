@@ -45,14 +45,15 @@ function pipu () {
   done
 }
 
-# Update brew
-function brewu () {
-  #echo -e "\n=== Brew ==="
-  brew cleanup
-  brew update && brew upgrade
+[ "$(uname)" = "Darwin" ] && \
+    # Update brew
+    function brewu () {
+      #echo -e "\n=== Brew ==="
+      brew cleanup
+      brew update && brew upgrade
 
-  #pipu
-}
+      #pipu
+    }
 
 # Update the System for MacOS distros
 function sysu (){
@@ -73,7 +74,8 @@ function ex ()
       *.tar.bz2)   tar xjf $1   ;;
       *.tar.gz)    tar xzf $1   ;;
       *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1     ;;
+      # *.rar)       unrar x $1     ;;
+      *.rar)       7z x $1     ;;
       *.gz)        gunzip $1    ;;
       *.tar)       tar xf $1    ;;
       *.tbz2)      tar xjf $1   ;;
@@ -102,10 +104,11 @@ function ex ()
 #      Codi $syntax" "$@"
 # }
 
-# pidof
-function pidof () {
-	ps axc | grep "\ \+$@$" | cut -d' ' -f1
-}
+[ "$(uname)" = "Darwin" ] && \
+    function pidof () {
+        # pidof
+        ps axc | grep "\ \+$@$" | cut -d' ' -f1
+    }
 
 # Calculator
 function = () {

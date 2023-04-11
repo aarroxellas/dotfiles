@@ -76,11 +76,6 @@ bindkey -r "^d"
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
-# remap caps to escape
-# setxkbmap -option caps:escape
-# swap escape and caps
-# setxkbmap -option caps:swapescape
-
 # Remove duplicate entries from PATH:
 PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
 
