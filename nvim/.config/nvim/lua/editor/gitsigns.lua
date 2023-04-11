@@ -83,7 +83,7 @@ function M.config()
             map("n", "<leader>ht", gs.toggle_current_line_blame, { desc = "Gitsigns [T]oggle [B]lame Line" })
             map("n", "<leader>hd", gs.diffthis, { desc = "Gitsigns [D]iff this File" })
             map("n", "<leader>hD", function() gs.diffthis("~") end, { desc = "Gitsigns [D]iff This" })
-            map("n", "<leader>td", gs.toggle_deleted, { desc = "Gitsigns [T]oggle [D]eleted" })
+            map("n", "<leader>hT", gs.toggle_deleted, { desc = "Gitsigns [T]oggle [D]eleted" })
 
             -- Text object
             map({"o", "x"}, "ih", ":<C-U>Gitsigns select_hunk<CR>")
