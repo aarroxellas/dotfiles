@@ -1,5 +1,5 @@
 #!/bin/env sh
-HISTFILE=.zsh_history
+HISTFILE=$ZDOTDIR/.zsh_history
 SAVEHIST=50000
 HISTSIZE=50000
 setopt appendhistory
@@ -64,6 +64,10 @@ bindkey "^j" down-line-or-beginning-search # Down
 bindkey -r "^u"
 bindkey -r "^d"
 
+# Edit line in vim with ctrl-e:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
+
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
@@ -71,10 +75,6 @@ bindkey -r "^d"
 [ ! $(ls -fA $ZDOTDIR/completion | wc -l) -eq 0 ] && fpath+="$ZDOTDIR/completion/"
 # May mess with nvim's telescope
 # export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
-
-# Edit line in vim with ctrl-e:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
 
 # Remove duplicate entries from PATH:
 PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
