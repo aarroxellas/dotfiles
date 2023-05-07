@@ -39,6 +39,9 @@ export PATH=~/.npm-global/bin:$PATH
     setxkbmap -option caps:escape_shifted_capslock && \
     xset r rate 200 65
 
+# Golang
+export PATH="$PATH:$(go env GOPATH)/bin"
+
 # ASDF VERSION PATH
 java_version() {
     VER=$(asdf list "$1" | grep -oE "$2[0-9.+]+" | sort | head -1)
