@@ -86,7 +86,7 @@ function Editor.surround()
     return {
         "ur4ltz/surround.nvim",
         config = function()
-            require "surround".setup { 
+            require "surround".setup {
                 mappings_style = "surround",  -- "surround, sandwitch"
                 map_insert_mode = true,
                 prompt = false,

@@ -1,5 +1,3 @@
-vim.cmd "set syntax=off"
-
 local backupdir = vim.fn.stdpath("data") .. "/backup"   -- setup backupdir to default neovim folder
 if vim.fn.empty(vim.fn.glob(backupdir)) > 0 then
 	os.execute("mkdir " .. backupdir)

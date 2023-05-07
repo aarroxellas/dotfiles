@@ -50,7 +50,7 @@ local keybindings = {
 
     -- Buffer
 	{ "n", "<leader>bq", "<CMD>bdelete<CR>", { noremap = true, silent = true, desc = "Close Current Buffer" } },
-	{ "n", "<leader>bA", "<CMD>bdelete!<CR>", { noremap = true, silent = true, desc = "Force Close Current Buffer" } },
+	{ "n", "<leader>bQ", "<CMD>bdelete!<CR>", { noremap = true, silent = true, desc = "Force Close Current Buffer" } },
 	{ "n", "<leader>ba", "<CMD>bd<CR>", { noremap = true, silent = true, desc = "Close All Buffers" } },
 	{ "n", "<leader>bc", "<CMD>%bd|e#|bd#<CR>", { noremap = true, silent = true, desc = "Keep Only Current Buffer" } },
 	{ "n", "<leader>bC", "<CMD>%bd!|e#|bd#<CR>", { noremap = true, silent = true, desc = "Force Keep Only Current Buffer" } },
@@ -115,12 +115,12 @@ local keybindings = {
 	--
 	-- -- Search for visually selected text
 	-- { "v", "<leader>v", "y/\\V<C-R>=escape(@\",'/\\')<CR><CR>", { noremap = false, silent = true, desc = "Keymap" } },
-	--
 }
 
 -- TODO: define plugin dependent keymaps in separete after file
 local _, builtin = pcall(require, "telescope.builtin")
 vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find Project Recently Opened Files" })
+vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<cr>", {silent = true, noremap = true, desc = "Toggle Tree"})
 vim.keymap.set("n", "<leader>/", function()
 	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({ winblend = 10, previewer = false }))
 end, { desc = "[/] Fuzzily Search Current Buffer" })

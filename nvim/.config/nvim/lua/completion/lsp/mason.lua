@@ -1,15 +1,19 @@
 local M = {}
 
 function M.config()
-    local servers = {
-        "lua_ls",
-        "gopls",
-        "pyright",
-        "kotlin_language_server",
-        "jdtls",
-        -- "java_debug_adapter",
-        -- "java_test",
-    }
+	local servers = {
+		"lua_ls",
+		"gopls",
+		"pyright",
+		"kotlin_language_server",
+		"jdtls",
+		"tsserver",
+		"jsonls",
+		"yamlls",
+		"graphql",
+		-- "java_debug_adapter",
+		-- "java_test",
+	}
 
     local settings = {
         ui = {
@@ -86,6 +90,17 @@ function M.config()
             require("completion.lsp.handlers").lsp_keymaps(0)
             goto continue
         end
+
+		if server == "graphql" then
+            lspconfig[server].setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+				root_dir = lspconfig.util.root_pattern('.graphqlrc*', '.graphql.config.*', 'graphql.config.*', '*.graphqls')
+					or lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
+			})
+			require("completion.lsp.handlers").lsp_keymaps(0)
+			goto continue
+		end
 
         if server == "kotlin_language_server" then
             local kopts = require("completion.lsp.settings.kotlin_langrage_server")

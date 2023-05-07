@@ -47,7 +47,7 @@ function M.config()
         -- JS
         formatting.prettier.with({
             extra_filetypes = { "toml", "markdown" },
-            extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
+            -- extra_args = { "--no-semi", "--tab-width 4", "--single-quote", "--jsx-single-quote" },
         }),
         -- Python
         formatting.black.with({ extra_args = { "--fast" } }),
