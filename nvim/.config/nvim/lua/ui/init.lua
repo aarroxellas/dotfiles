@@ -23,7 +23,7 @@ end
 
 function UI.filemanager()
 	return {
-		"kyazdani42/nvim-tree.lua",
+		"nvim-tree/nvim-tree.lua",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function ()
 		  require("ui.filemanager").config()

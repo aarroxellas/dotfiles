@@ -33,7 +33,7 @@ lazy.setup(
         ui.colorscheme("nord"), -- TODO: implement as global
         ui.statusline(),
         ui.bufferline(),
-        -- ui.filemanager(),
+        ui.filemanager(),
         ui.indentline(),
         ui.whichkey(),
         ui.telescope(),
