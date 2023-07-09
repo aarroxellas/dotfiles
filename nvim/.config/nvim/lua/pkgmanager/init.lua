@@ -49,8 +49,8 @@ lazy.setup(
         completion.cmp(),
         completion.autopair(),
         completion.lsp(),
-        completion.language_java(),
-        completion.language_rust(),
+        -- completion.language_java(),
+        -- completion.language_rust(),
         completion.language_kotlin(),
 
         -- Editor
@@ -61,7 +61,7 @@ lazy.setup(
         editor.markdown(),
         -- editor.easyalign(),
         editor.diagnostic(),
-        editor.language_go(),
+        -- editor.language_go(),
     }
 )
 

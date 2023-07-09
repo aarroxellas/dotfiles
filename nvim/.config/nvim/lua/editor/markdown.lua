@@ -25,7 +25,7 @@ function M.config()
     vim.g.mkdp_command_for_global = 0
     vim.g.mkdp_open_to_the_world = 0
     vim.g.mkdp_open_ip = ""
-    vim.g.mkdp_browser = "Brave Browser"
+    vim.g.mkdp_browser = "Firefox"
     vim.g.mkdp_echo_preview_url = 1
     vim.g.mkdp_browserfunc = ""
     vim.g.mkdp_preview_options = {
