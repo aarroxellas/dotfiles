@@ -1,10 +1,14 @@
 #!/bin/sh
-alias g='lazygit'
+# alias j='z'
+# alias f='zi'
+# alias g='lazygit'
 alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
 alias nvimrc='nvim ~/.config/nvim/'
 alias lvimrc='lvim ~/.config/lvim/'
 alias n='nvim'
 alias c='code'
+
+# alias lvim='nvim -u ~/.local/share/lunarvim/lvim/init.lua --cmd "set runtimepath+=~/.local/share/lunarvim/lvim"'
 
 # Colorize grep output (good for log files)
 alias grep='grep --color=auto'
@@ -21,7 +25,7 @@ alias free='free -m' # show sizes in MB
 
 # Easy Shell
 alias mkdir='mkdir -p'
-[ "$(uname)" = "Linux" ] && alias open='xdg-open'
+#alias open='xdg-open'
 ZENV=$(echo ${SHELL} | awk -F/ '{ print $NF }')
 alias r="source ~/.${ZENV}env"		  # Shell reload
 alias tree='tree -C'
@@ -37,9 +41,8 @@ alias vim-conf="$EDITOR ~/.vimrc"
 alias bash-conf="$EDITOR ~/.bashrc"
 alias zsh-conf="$EDITOR ~/.config/zsh/.zshrc"
 
-# open Finder folder in terminal
-[ "$(uname)" = "Darwin" ] && \
-    alias cdf='cd "`osascript -e "tell application \\"Finder\\" to get POSIX path of (insertion location as text)"`"'
+# open Finder folder in terminal 
+alias cdf='cd "`osascript -e "tell application \\"Finder\\" to get POSIX path of (insertion location as text)"`"'
 
 # get top process eating memory
 alias psmem='ps aux | sort -nr -k 4 | head -5'
@@ -47,10 +50,19 @@ alias psmem='ps aux | sort -nr -k 4 | head -5'
 # get top process eating cpu ##
 alias pscpu='ps aux | sort -nr -k 3 | head -5'
 
-# systemd
-#alias list_systemctl="systemctl list-unit-files --state=enabled"
+# gpg encryption
+# verify signature for isos
+#alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+# receive the key of a developer
+#alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
 
-#alias java_mode="export SDKMAN_DIR="$HOME/.sdkman" && [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh""
+# systemd
+#alias mach_list_systemctl="systemctl list-unit-files --state=enabled"
+
+#alias mach_java_mode="export SDKMAN_DIR="$HOME/.sdkman" && [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh""
+
+alias m="git checkout master"
+alias d="git checkout develop"
 
 case "$(uname -s)" in
 
@@ -85,3 +97,6 @@ alias py2='python2'
 alias pip3='python3 -m pip'
 alias pip='pip3'
 # alias pip2='python2 -m pip'
+
+alias fury-createversion-date='fury create-version $(date +"%y.%m.%d-h%H%M")'
+# alias f='python3 -m venv ~/.furyenv --system-site-packages && . ~/.furyenv/bin/activate && fury'

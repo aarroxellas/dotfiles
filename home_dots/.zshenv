@@ -18,29 +18,9 @@ export GIT_EDITOR=${VISUAL}
 # completions for asdf to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
 
-export PYENV_ROOT=$HOME/.config/pyenv/
-export NVM_DIR=$HOME/.config/nvm
-
-# Global config for permissions on NodeJS (https://stackoverflow.com/a/55274930/234110)
-export PATH=~/.npm-global/bin:$PATH
-
-# GO
-# export PATH=$HOME/.local/share/go/bin:$PATH
-# export GOPATH=$HOME/.local/share/go
-
-# PY_ENV
-# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH" && eval "$(pyenv init -)"
-
-# NVM
-# [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-# [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 [ "$(uname)" = "Linux" ] && \
     setxkbmap -option caps:escape_shifted_capslock && \
     xset r rate 200 65
-
-# Golang
-export PATH="$PATH:$(go env GOPATH)/bin"
 
 # ASDF VERSION PATH
 java_version() {
