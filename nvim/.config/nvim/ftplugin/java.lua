@@ -1,6 +1,6 @@
 local M = {}
 
-function M.keymaps(bufnr)
+local function keymaps(bufnr)
     -- keymaps LSP
     require("completion.lsp.handlers").lsp_keymaps(bufnr)
 
@@ -43,86 +43,132 @@ function M.keymaps(bufnr)
     end
 end
 
-function M.setup()
-    local jdtls = require("jdtls")
-    local jdtls_setup = require("jdtls.setup")
-    local bundles_dap = { vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar") }
-    local bundles_test = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar")
-    -- Determine OS
-    local system = "linux"
-    if vim.fn.has("mac") == 1 then system = "mac" end
-
-    local config = {
-        -- Local jdtls installation
-        cmd = { "/usr/local/bin/jdtls",
-            "-configuration " .. vim.fn.expand("~/.local/share/jdtls/config_" .. system),
-            "-data " .. vim.fn.expand("~/.cache/jdtls-workspace"),
-        },
-
-        -- Mason install and config
-        -- cmd = {
-        -- vim.fn.expand(vim.fn.stdpath("data") .. "/mason/packages/jdtls/bin/jdtls"),
-        -- "-configuration " .. vim.fn.stdpath("data") .. vim.fn.expand("~/.cache/jdtls"),
-        -- },
-        root_dir = jdtls_setup.find_root({'gradlew', '*.gradle', '.git', 'mvnw', '.mvn'}),
-        init_options = {
-            bundles = vim.list_extend(bundles_dap, vim.split(bundles_test, "\n")),
-        },
-        settings = {
-            -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-            java = {
-                implementationsCodeLens = { enabled = true },
-                quickfix = { enabled = true },
-                sources = {
-                    organizeImports = {
-                        starThreshold = 9999,
-                        staticStarThreshold = 9999,
-                    }
-                },
-                configuration = {
-                    runtimes = {
-                        {
-                            name = "JavaSE-11",
-                            path = os.execute("asdf where java adoptopenjdk-11.0.18+10"),
-                        },
-                        {
-                            name = "JavaSE-17",
-                            path = os.execute("asdf where java adoptopenjdk-17.0.2+8"),
-                        },
-                    }
-                }
-            },
-        },
-        contentProvider = { preferred = "fernflower" },
-        signatureHelp = { enabled = true },
-        codeGeneration = {
-            toString = {
-                template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-            },
-            useBlocks = true,
-        },
-        flags = {
-            allow_incremental_sync = true,
-        },
-        capabilities = require'lspconfig'.util.default_config.capabilities,
-        on_attach = function(client, bufnr)
-            pcall(vim.lsp.codelens.refresh)
-
-            jdtls_setup.add_commands()
-            jdtls.update_project_config()
-            jdtls.setup_dap({ hotcodereplace = 'auto' })
-            -- TODO: Set keymaps for buffer not to 0 - current one
-            -- M.keymaps(bufnr or 0)
-        end,
-
-    }
-
-    jdtls.start_or_attach(config)
-end
-
 function M.config()
-    M.setup()
-    M.keymaps(0)
+	local jdtls = require("jdtls")
+	local bundles_dap = {
+		vim.fn.glob(
+			vim.fn.stdpath("data")
+				.. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
+		),
+	}
+	local bundles_test = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar")
+	local bundles = vim.list_extend(bundles_dap, vim.split(bundles_test, "\n"))
+	local extendedClientCapabilities = jdtls.extendedClientCapabilities;
+	extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
+	-- Determine OS
+	local system = "linux"
+	if vim.fn.has("mac") == 1 then
+		system = "mac"
+	end
+
+	local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+	local workspace_dir = vim.fn.expand("~/.cache/") .. project_name
+
+	-- local home = os.getenv("HOME")
+
+	local config = {
+		-- Local jdtls installation
+		cmd = {
+			"/usr/local/bin/jdtls",
+			"-configuration " .. vim.fn.expand("~/.cache/jdtls/config_" .. system),
+			"-data " .. workspace_dir
+		},
+
+		-- cmd = {
+		-- 	"java",
+		-- 	"-Declipse.application=org.eclipse.jdt.ls.core.id1",
+		-- 	"-Dosgi.bundles.defaultStartLevel=4",
+		-- 	"-Declipse.product=org.eclipse.jdt.ls.core.product",
+		-- 	"-Dlog.protocol=true",
+		-- 	"-Dlog.level=ALL",
+		-- 	"-javaagent:" .. "/home/aarroxellas/.local/share/nvim/mason/packages/jdtls/lombok.jar",
+		-- 	"-Xms1g",
+		-- 	"--add-modules=ALL-SYSTEM",
+		-- 	"--add-opens",
+		-- 	"java.base/java.util=ALL-UNNAMED",
+		-- 	"--add-opens",
+		-- 	"java.base/java.lang=ALL-UNNAMED",
+		-- 	"-jar",
+		-- 	"/home/aarroxellas/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.app_1.6.300.v20230630-1303.jar",
+		-- 	"-configuration",
+		-- 	"/home/aarroxellas/.cache/jdtls/config_linux",
+		-- 	"-data", workspace_dir,
+		-- },
+
+		-- Mason install and config
+		-- cmd = {
+		-- vim.fn.expand(vim.fn.stdpath("data") .. "/mason/packages/jdtls/bin/jdtls"),
+		-- "-configuration " .. vim.fn.stdpath("data") .. vim.fn.expand("~/.cache/jdtls"),
+		-- },
+		-- root_dir = jdtls_setup.find_root({ "gradlew", "*.gradle", ".git", "mvnw", ".mvn" }),
+		root_dir = require("jdtls.setup").find_root({ "build.gradle", "pom.xml", ".git" }),
+		init_options = {
+			bundles = bundles;
+			extendedClientCapabilities = extendedClientCapabilities;
+		},
+		settings = {
+			-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+			java = {
+				implementationsCodeLens = { enabled = true },
+				referencesCodeLens = { enabled = true },
+				references = { includeDecompiledSources = true },
+				eclipse = { downloadSources = true, },
+				quickfix = { enabled = true },
+				sources = {
+					organizeImports = {
+						starThreshold = 9999,
+						staticStarThreshold = 9999,
+					},
+				},
+				configuration = {
+					runtimes = {
+						{
+							name = "JavaSE-11",
+							path = "/home/aarroxellas/.asdf/installs/java/adoptopenjdk-11.0.19+7",
+						},
+						{
+							name = "JavaSE-17",
+							path = "/home/aarroxellas/.asdf/installs/java/adoptopenjdk-17.0.7+7",
+						},
+						{
+							name = "JavaSE-19",
+							path = "/home/aarroxellas/.asdf/installs/java/adoptopenjdk-19.0.2+7",
+						},
+					},
+					updateBuildConfiguration = "interactive",
+				},
+			},
+			contentProvider = { preferred = "fernflower" },
+			signatureHelp = { enabled = true },
+			codeGeneration = {
+				toString = {
+					template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+				},
+				useBlocks = true,
+			},
+		},
+		flags = {
+			allow_incremental_sync = true,
+		},
+		capabilities = require("lspconfig").util.default_config.capabilities,
+		on_attach = function (client, bufnr)
+			local jdtls_dap_ok, jdtls_dap = pcall(require, "jdtls.dap")
+
+			if jdtls_dap_ok then
+				jdtls.setup_dap({ hotcodereplace = "auto" })
+				jdtls_dap.setup_dap_main_class_configs()
+			end
+			pcall(vim.lsp.codelens.refresh)
+
+			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.textDocument.completion.completionItem.snippetSupport = false
+
+			jdtls.update_project_config()
+		end
+	}
+	jdtls.start_or_attach(config)
+
+	keymaps(0)
 end
 
 return M.config()

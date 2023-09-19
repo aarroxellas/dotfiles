@@ -7,3 +7,6 @@
 ### NVIM
 **/*/lazy-lock.json
 **/*/.luarc.json
+
+### ASDF-VM
+./home_dots/.tool-versions
