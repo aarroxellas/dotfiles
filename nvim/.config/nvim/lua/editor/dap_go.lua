@@ -12,6 +12,7 @@ function M.setup()
             },
         },
         delve = {
+			path = "dlv",
             -- time to wait for delve to initialize the debug session.
             -- default to 20 seconds
             initialize_timeout_sec = 20,
