@@ -41,7 +41,7 @@ lazy.setup(
         -- ui.colorizer(),
         ui.treesitter(),
         ui.codehighlight(),
-        ui.winfocus(),
+        -- ui.winfocus(),
         ui.undotree(),
 
         -- Completion
@@ -49,9 +49,10 @@ lazy.setup(
         completion.cmp(),
         completion.autopair(),
         completion.lsp(),
-        -- completion.language_java(),
-        -- completion.language_rust(),
+        completion.language_java(),
+        completion.language_rust(),
         completion.language_kotlin(),
+        editor.language_go(),
 
         -- Editor
         editor.comment(),
@@ -61,7 +62,6 @@ lazy.setup(
         editor.markdown(),
         -- editor.easyalign(),
         editor.diagnostic(),
-        -- editor.language_go(),
     }
 )
 

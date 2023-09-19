@@ -87,14 +87,21 @@ M.on_attach = function(client, bufnr)
         end
     end
 
-    -- Using base lsp config
-    if client.name == "jdtls" then
-        require("jdtls").setup_dap { hotcodereplace = "auto" }
-        require("jdtls.dap").setup_dap_main_class_configs()
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.textDocument.completion.completionItem.snippetSupport = false
-        vim.lsp.codelens.refresh()
-    end
+   --      if server == "rust_analyzer" then
+			-- print(server)
+   --          local rust_opts = require "completion.lsp.settings.rust"
+   --          local rust_tools_status_ok, rust_tools = pcall(require, "rust-tools")
+   --          if not rust_tools_status_ok then
+   --              vim.notify("completion.lsp.rust-tools not loaded", vim.log.levels.WARN, { title = "completion.lsp.completion.rust" })
+   --              return
+   --          end
+
+   --          rust_tools.setup(table.merge(rust_opts, {server = {on_attach = on_attach, capabilities = capabilities}}))
+
+   --          -- TODO: rethink keymapping
+   --          -- require("completion.lsp.handlers").lsp_keymaps(0)
+   --          goto continue
+   --      end
 
     local status_ok, illuminate = pcall(require, "illuminate")
     if not status_ok then
