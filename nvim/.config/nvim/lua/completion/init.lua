@@ -98,7 +98,8 @@ function Completion.lsp()
 		},
         {
             "j-hui/fidget.nvim",
-            config = function () require"fidget".setup{} end,
+			tag = "legacy",
+            config = function () require"fidget".setup{} end
         }
 	}
 end
@@ -110,17 +111,17 @@ function Completion.language_kotlin()
 end
 
 function Completion.language_java()
-    return { "mfussenegger/nvim-jdtls" }
+    return { "mfussenegger/nvim-jdtls", ft = { "java" } }
 end
 
 function Completion.language_rust()
     return {
         "simrat39/rust-tools.nvim",
         config = function () require("rust-tools").setup() end,
-        {
-            "Saecki/crates.nvim",
-            config = function() require("crates").setup() end,
-        },
+        -- {
+        --     "Saecki/crates.nvim",
+        --     config = function() require("crates").setup() end,
+        -- },
     }
 end
 

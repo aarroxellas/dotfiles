@@ -189,6 +189,7 @@ if ok_wk then
         d = { name = "+Debug" },
         s = { name = "+Telescope Search" },
         b = { name = "+Buffer" },
+        h = { name = "+Git" },
     },
         opts
     )
@@ -212,6 +213,7 @@ vim.cmd([[
 local abbreviations = {
 	Wq = "wq",
 	WQ = "wq",
+	wQ = "wq",
 	Wqa = "wqa",
 	W = "w",
 	Q = "q",

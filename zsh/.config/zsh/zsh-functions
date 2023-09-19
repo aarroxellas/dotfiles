@@ -46,11 +46,8 @@ function pipu () {
 
 # Update brew
 function brewu () {
-  #echo -e "\n=== Brew ==="
   brew cleanup
   brew update && brew upgrade
-
-  #pipu
 }
 
 # Update the System for MacOS distros

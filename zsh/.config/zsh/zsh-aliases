@@ -4,7 +4,6 @@
 # alias g='lazygit'
 alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
 alias nvimrc='nvim ~/.config/nvim/'
-alias lvimrc='lvim ~/.config/lvim/'
 alias n='nvim'
 alias c='code'
 
@@ -91,11 +90,11 @@ alias lA='ls -A'
 alias la='ll -Ah'
 
 # Python
-alias python='python3'
-alias py='python3'
-alias py2='python2'
-alias pip3='python3 -m pip'
-alias pip='pip3'
+# alias python='python3'
+# alias py='python3'
+# alias py2='python2'
+# alias pip3='python3 -m pip'
+# alias pip='pip3'
 # alias pip2='python2 -m pip'
 
 alias fury-createversion-date='fury create-version $(date +"%y.%m.%d-h%H%M")'

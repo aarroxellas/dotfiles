@@ -9,4 +9,5 @@
 **/*/.luarc.json
 
 ### ASDF-VM
-./home_dots/.tool-versions
+home_dots/.tool-versions
+

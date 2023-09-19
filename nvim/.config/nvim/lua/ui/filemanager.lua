@@ -1,6 +1,10 @@
 local M = {}
 
 function M.config()
+	-- disable netrw at the very start of your init.lua
+	vim.g.loaded_netrw = 1
+	vim.g.loaded_netrwPlugin = 1
+
 	local function on_attach(bufnr)
 		local api = require('nvim-tree.api')
 
@@ -17,7 +21,7 @@ function M.config()
 		vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
 	end
 
-		local tree_cb = require("nvim-tree.config").nvim_tree_callback
+		-- local tree_cb = require("nvim-tree.config").nvim_tree_callback
 		require("nvim-tree").setup({
 			update_focused_file = {
 				enable = true,
@@ -63,13 +67,13 @@ function M.config()
 			view = {
 				width = 35,
 				side = "left",
-				mappings = {
-					list = {
-						{ key = { "l", "<CR>", "o" }, cb = tree_cb("edit") },
-						{ key = "h", cb = tree_cb("close_node") },
-						{ key = "v", cb = tree_cb("vsplit") },
-					},
-				},
+				-- mappings = {
+				-- 	list = {
+				-- 		{ key = { "l", "<CR>", "o" }, cb = tree_cb("edit") },
+				-- 		{ key = "h", cb = tree_cb("close_node") },
+				-- 		{ key = "v", cb = tree_cb("vsplit") },
+				-- 	},
+				-- },
 			},
 			on_attach = on_attach,
 		})

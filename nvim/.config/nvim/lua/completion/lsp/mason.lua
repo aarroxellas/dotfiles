@@ -6,7 +6,7 @@ function M.config()
 		"gopls",
 		"pyright",
 		"kotlin_language_server",
-		"jdtls",
+		-- "jdtls",
 		"tsserver",
 		"jsonls",
 		"yamlls",
@@ -71,21 +71,6 @@ function M.config()
                 },
             }
             lspconfig[server].setup(go_opts)
-            -- TODO: rethink keymapping
-            require("completion.lsp.handlers").lsp_keymaps(0)
-            goto continue
-        end
-
-        if server == "rust-analyzer" then
-            local rust_opts = require "completion.lsp.settings.rust"
-            local rust_tools_status_ok, rust_tools = pcall(require, "rust-tools")
-            if not rust_tools_status_ok then
-                vim.notify("completion.lsp.rust-tools not loaded", vim.log.levels.WARN, { title = "completion.lsp.completion.rust" })
-                return
-            end
-
-            rust_tools.setup(rust_opts)
-
             -- TODO: rethink keymapping
             require("completion.lsp.handlers").lsp_keymaps(0)
             goto continue
