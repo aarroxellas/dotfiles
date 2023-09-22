@@ -121,6 +121,5 @@ function fn () { ls **/*$1* }
 # ulimit -n 16777216
 
 function gradle_complete () {
-    source ~/.config/zsh/plugins/gradle-completion/_gradle 1>&2 2> /dev/null
-    __gradle-completion-init
+    source ~/.config/zsh/plugins/gradle-completion/gradle-completion.plugin.zsh
 }
