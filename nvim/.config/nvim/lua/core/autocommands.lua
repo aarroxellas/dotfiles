@@ -9,11 +9,6 @@ local function strip_trailing_whitespace()
 end
 
 local user_autocommands = vim.api.nvim_create_augroup("user_autocommands", { clear = true })
--- vim.api.nvim_create_autocmd("BufWritePre", {
--- 	pattern = "*.kt,*.kts",
--- 	command = [[ setlocal tabstop=2 shiftwidth=2 ]],
--- 	group = user_autocommands,
--- })
 vim.api.nvim_create_autocmd('BufWritePre', {
 	pattern = '*',
 	callback = strip_trailing_whitespace,
@@ -22,11 +17,11 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 -- vim.api.nvim_create_autocmd('BufEnter', {
 -- 	pattern = '*',
 -- 	command = [[ if &filetype == "" | setlocal ft=text | endif]],
--- 	group = vimrc_group,
+-- 	group = user_autocommands,
 -- })
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "markdown,text,help",
-	command = "setlocal spelllang=en,pt | setlocal spell",
+	command = "setlocal spelllang=en | setlocal spell",
 	group = user_autocommands,
 })
 vim.api.nvim_create_autocmd("TermOpen", {
@@ -34,11 +29,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	command = [[setlocal nonumber norelativenumber]],
 	group = user_autocommands,
 })
--- vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
--- 	pattern = "*",
--- 	command = [[if &nu | set nornu | endif]],
--- 	group = user_autocommands,
--- })
 vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
 	pattern = ".env*",
 	command = "set filetype=conf",
@@ -51,3 +41,8 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
 	command = "if &buftype == 'quickfix'|q|endif",
 	group = user_autocommands,
 })
+
+-- LSP
+vim.api.nvim_create_user_command('LspAddWorkSpace', function () vim.lsp.buf.add_workspace_folder() end, {})
+vim.api.nvim_create_user_command('LspRemoveWorkSpace', function () vim.lsp.buf.remove_workspace_folder() end, {})
+

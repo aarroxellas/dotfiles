@@ -27,24 +27,6 @@ function Editor.diagnostic()
     }
 end
 
-function Editor.language_go()
-    return {
-        "leoluz/nvim-dap-go",
-        config = function () require("editor.dap_go").setup() end,
-        dependencies = "mfussenegger/nvim-dap",
-        -- TODO: Give this a try
-        -- {
-        --     "ray-x/go.nvim",
-        --     config = function()
-        --         require("go").setup()
-        --     end,
-        --     event = {"CmdlineEnter"},
-        --     ft = {"go", 'gomod'},
-        --     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
-        -- }
-    }
-end
-
 function Editor.gitsigns()
     return {
         "lewis6991/gitsigns.nvim",

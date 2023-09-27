@@ -60,9 +60,9 @@ function M.config()
         -- Lua
         formatting.stylua,
         -- Java
-        -- formatting.google_java_format,
+        formatting.google_java_format,
         -- diagnostics.checkstyle.with({
-        --     extra_args = { "-c", "/google_checks.xml" }, -- or "/sun_checks.xml" or path to self written rules
+        --     extra_args = { "-c", "~/.config/checkstyle/google_checks.xml" }, -- or "/sun_checks.xml" or path to self written rules
         -- }),
         -- formatting.astyle.with({
         -- diagnostics.pmd.with({

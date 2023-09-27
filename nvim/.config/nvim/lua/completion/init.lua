@@ -55,7 +55,6 @@ function Completion.lsp()
 			lazy = true,
 			dependencies = {
 				"mason-lspconfig.nvim",
-				"nlsp-settings.nvim",
 				{
 					"folke/neodev.nvim",
 					config = function() require("neodev").setup() end,
@@ -72,19 +71,6 @@ function Completion.lsp()
 				require("completion.lsp.mason").config()
 			end,
 			dependencies = { "williamboman/mason-lspconfig.nvim", "hrsh7th/cmp-nvim-lsp" },
-		},
-		{
-			"tamago324/nlsp-settings.nvim",
-			dependencies = "neovim/nvim-lspconfig",
-			cmd = "LspSettings",
-            config = function ()
-                require("nlspsettings").setup({
-                    config_home = vim.fn.stdpath('config') .. '/lua/completion/lsp/settings',
-                    local_settings_root_markers_fallback = { '.git' },
-                    append_default_schemas = true,
-                    loader = 'json',
-                })
-            end
 		},
 		{
 			"williamboman/mason-lspconfig.nvim",
@@ -104,14 +90,33 @@ function Completion.lsp()
 	}
 end
 
-function Completion.language_kotlin()
+function Completion.language_go()
     return {
-        "udalov/kotlin-vim",
+        "leoluz/nvim-dap-go",
+        config = function () require("editor.dap_go").setup() end,
+        dependencies = "mfussenegger/nvim-dap",
+        -- TODO: Give this a try
+        -- {
+        --     "ray-x/go.nvim",
+        --     config = function()
+        --         require("go").setup()
+        --     end,
+        --     event = {"CmdlineEnter"},
+        --     ft = {"go", 'gomod'},
+        --     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+        -- }
     }
 end
 
 function Completion.language_java()
     return { "mfussenegger/nvim-jdtls", ft = { "java" } }
+end
+
+function Completion.language_kotlin()
+	return {
+		"udalov/kotlin-vim",
+	}
+
 end
 
 function Completion.language_rust()

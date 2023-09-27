@@ -30,7 +30,7 @@ lazy.setup(
         { "folke/lazy.nvim", tag = "stable" },
 
         -- UI
-        ui.colorscheme("nord"), -- TODO: implement as global
+        ui.colorscheme("catppuccin-macchiato"), -- TODO: implement as global
         ui.statusline(),
         ui.bufferline(),
         ui.filemanager(),
@@ -52,7 +52,7 @@ lazy.setup(
         completion.language_java(),
         completion.language_rust(),
         completion.language_kotlin(),
-        editor.language_go(),
+        completion.language_go(),
 
         -- Editor
         editor.comment(),

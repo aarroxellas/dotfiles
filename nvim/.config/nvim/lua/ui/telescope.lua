@@ -74,7 +74,7 @@ function M.config()
                     end,
                 },
             },
-            file_ignore_patterns = { ".git/", "node_modules", "%.class" },
+            file_ignore_patterns = { ".git/", "node_modules", "%.class", "bin", "%.jar", "%.lock" },
             path_display = { "smart" },
             winblend = 0,
             border = {},

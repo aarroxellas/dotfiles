@@ -5,6 +5,10 @@ if not status_cmp_ok then
     vim.notify("cmp_nvim_lsp not loaded", vim.log.levels.WARN, { title = "completion.lsp.handlers" })
     return
 end
+local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
+if not ok_lspconfig then
+	vim.notify("lspconfig not loaded", vim.log.levels.WARN, { title = "completion.lsp.handlers" })
+end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -52,6 +56,7 @@ M.setup = function()
 end
 
 -- TODO: add description to maps
+-- TODO: Move to global def.
 M.lsp_keymaps = function(bufnr)
     local keymap = vim.api.nvim_buf_set_keymap
     keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true, desc = "[G]o to [D]eclaration" })
@@ -65,20 +70,19 @@ M.lsp_keymaps = function(bufnr)
     -- TODO: deprecate Diagnostics as leader + l{}
     -- keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [N]ext Diagnostics" })
     -- keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [P]revious Diagnostics" })
-    keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "Next [D]iagnostic" })
+    keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({buffer=" .. bufnr .. "})<cr>", { noremap = true, silent = true, desc = "Next [D]iagnostic" })
     keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "Previous [D]iagnostic" })
     keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { noremap = true, silent = true, desc = "[L]sp [R]eaname" })
     keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { noremap = true, silent = true, desc = "[L]sp [S]ignature Help" })
     keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", { noremap = true, silent = true, desc = "Display Diagnostics Local [L]ist" })
 
-    -- TODO: Define keymap
-    vim.cmd([[command! Format execute 'lua vim.lsp.buf.format({ async = true })']])
+	-- TODO: Define keymap
+	vim.cmd([[command! Format execute 'lua vim.lsp.buf.format({ async = true })']])
 end
 
--- TODO: to a separate file
 M.on_attach = function(client, bufnr)
-    local no_formatting = {
-        "tsserver", "pyright", "jedi_language_server", "kotlin_language_server", "sumneko_lua", "lua_ls", "rust_analyzer"
+	local no_formatting = {
+		"tsserver", "pyright", "jedi_language_server", "kotlin_language_server", "lua_ls"
     }
 
     for _, name in pairs(no_formatting) do
@@ -86,22 +90,6 @@ M.on_attach = function(client, bufnr)
             client.server_capabilities.documentFormattingProvider = false
         end
     end
-
-   --      if server == "rust_analyzer" then
-			-- print(server)
-   --          local rust_opts = require "completion.lsp.settings.rust"
-   --          local rust_tools_status_ok, rust_tools = pcall(require, "rust-tools")
-   --          if not rust_tools_status_ok then
-   --              vim.notify("completion.lsp.rust-tools not loaded", vim.log.levels.WARN, { title = "completion.lsp.completion.rust" })
-   --              return
-   --          end
-
-   --          rust_tools.setup(table.merge(rust_opts, {server = {on_attach = on_attach, capabilities = capabilities}}))
-
-   --          -- TODO: rethink keymapping
-   --          -- require("completion.lsp.handlers").lsp_keymaps(0)
-   --          goto continue
-   --      end
 
     local status_ok, illuminate = pcall(require, "illuminate")
     if not status_ok then

@@ -15,37 +15,36 @@ function M.config()
 		-- "java_test",
 	}
 
-    local settings = {
-        ui = {
-            border = "none",
-            icons = {
-                package_installed = "◍",
-                package_pending = "◍",
-                package_uninstalled = "◍",
-            },
-        },
-        log_level = vim.log.levels.INFO,
-        max_concurrent_installers = 4,
-    }
+	local settings = {
+		ui = {
+			border = "none",
+			icons = {
+				package_installed = "◍",
+				package_pending = "◍",
+				package_uninstalled = "◍",
+			},
+		},
+		log_level = vim.log.levels.INFO,
+		max_concurrent_installers = 4,
+	}
 
-    require("mason").setup(settings)
-    require("mason-lspconfig").setup({
-        ensure_installed = servers,
-        automatic_installation = true,
-    })
+	require("mason").setup(settings)
+	require("mason-lspconfig").setup({
+		ensure_installed = servers,
+		automatic_installation = true,
+	})
 
-    local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-    if not lspconfig_status_ok then
-        vim.notify("completion.lsp.mason not loaded", vim.log.levels.WARN, { title = "completion.lsp.mason" })
-        return
-    end
+	local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
+	if not lspconfig_status_ok then
+		vim.notify("completion.lsp.mason not loaded", vim.log.levels.WARN, { title = "completion.lsp.mason" })
+		return
+	end
 
-    local opts = {}
-
-    for _, server in pairs(servers) do
-        local on_attach = require("completion.lsp.handlers").on_attach
-        local capabilities = require("completion.lsp.handlers").capabilities
-        opts = {
+	for _, server in pairs(servers) do
+		local handlers = require("completion.lsp.handlers")
+        local on_attach = handlers.on_attach
+        local capabilities = handlers.capabilities
+        local opts = {
             on_attach = on_attach,
             capabilities = capabilities,
         }
@@ -54,53 +53,20 @@ function M.config()
 
         local require_ok, conf_opts = pcall(require, "completion.lsp.settings." .. server)
         if require_ok then
+			local set_root_dir = function(fname, root_files, fallback_root_files)
+				return lspconfig.util.root_pattern(unpack(root_files))(fname) or lspconfig.util.root_pattern(unpack(fallback_root_files), vim.fn.getcwd())(fname)
+			end
+
+			local root_dir = set_root_dir(server, conf_opts.root_files, conf_opts.fallback_root_files)
             opts = vim.tbl_deep_extend("force", conf_opts, opts)
+			table.insert(opts, { root_dir = root_dir })
         end
 
-        if server == "gopls" then
-            local go_opts = {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                settings = {
-                    gopls = {
-                        gofumpt = true,
-                    },
-                },
-                flags = {
-                    debounce_text_changes = 150,
-                },
-            }
-            lspconfig[server].setup(go_opts)
-            -- TODO: rethink keymapping
-            require("completion.lsp.handlers").lsp_keymaps(0)
-            goto continue
-        end
-
-		if server == "graphql" then
-            lspconfig[server].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-				root_dir = lspconfig.util.root_pattern('.graphqlrc*', '.graphql.config.*', 'graphql.config.*', '*.graphqls')
-					or lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
-			})
-			require("completion.lsp.handlers").lsp_keymaps(0)
-			goto continue
-		end
-
-        if server == "kotlin_language_server" then
-            local kopts = require("completion.lsp.settings.kotlin_langrage_server")
-            lspconfig[server].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                root_dir = kopts.root_dir,
-                filetypes = kopts.filetypes,
-                -- cmd = { 'kotlin_language_server' },
-            })
-            goto continue
-        end
-
-        if server == "jdtls" then
-            goto continue
+		local manual_config_servers = { "jdtls", "rust_analyzer" }
+        for _, s in ipairs(manual_config_servers) do
+			if s == server then
+				goto continue
+			end
         end
 
         lspconfig[server].setup(opts)

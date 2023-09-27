@@ -6,20 +6,7 @@ function M.config(colorscheme)
         syntax enable
         " set background=dark
 
-        " MATERIAL
-        let g:material_terminal_italics = 1
-        let g:material_theme_style = "palenight-community"
-        " 'default' | 'palenight' | 'ocean' | 'lighter' | 'darker' | 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
-
-        " SONOKAI
-        let g:sonokai_style = 'default'
-        " 'default' | 'atlantis'` | 'andromeda' | 'shusia' | 'maia' | 'espresso' |
-        let g:sonokai_enable_italic = 1
-        " let g:sonokai_current_word = 'bold'
-        let g:sonokai_disable_italic_comment = 0
-        let g:sonokai_diagnostic_line_highlight = 1
-
-        " AYU
+       " AYU
         let ayucolor="mirage"
         " 'mirage' | 'dark' | 'light'
 
@@ -28,6 +15,17 @@ function M.config(colorscheme)
         let g:nord_bold_vertical_split_line = 1
         let g:nord_uniform_diff_background = 1
         let g:nord_italic_comments = 1
+
+		" Catppuccin
+		" catppuccin | catppuccin-latte | catppuccin-frappe | catppuccin-macchiato | catppuccin-mocha
+
+		" Kanagawa
+		" kanagawa | kanagawa-wave | kanagawa-dragon | kanagawa-lotus
+
+		" One Dark
+		let g:onedark_config = { 'style': 'dark', }
+		" dark | carker | cool | deep | warm | warmer
+
     ]])
 
     if colorscheme == nil then

@@ -110,16 +110,16 @@ end
 function UI.colorscheme(colorscheme)
 	return {
 		{
-			"arcticicestudio/nord-vim",
+			"catppuccin/nvim", name = "catppuccin",
+			priority = 1000, lazy = false,
 			config = function()
 				require("ui.schemes").config(colorscheme)
 			end,
-			priority = 1000,
-			lazy = false,
 		},
-		{ "kaicataldo/material.vim" },
-		{ "ayu-theme/ayu-vim" },
-		{ "sainnhe/sonokai" },
+		{ "arcticicestudio/nord-vim", priority = 1000, lazy = false },
+		{ "rebelot/kanagawa.nvim", priority = 1000, lazy = false },
+		{ "ayu-theme/ayu-vim", priority = 1000, lazy = false },
+		{ "navarasu/onedark.nvim", priority = 1000, lazy = false },
 	}
 end
 
