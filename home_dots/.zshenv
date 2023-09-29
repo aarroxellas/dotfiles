@@ -28,7 +28,7 @@ export PATH=~/.npm-global/bin:$PATH
 
 # GO
 # export PATH=$HOME/.local/share/go/bin:$PATH
-# export GOPATH=$HOME/.local/share/go
+export GOPATH=$HOME/.local/share/go
 
 # Golang
 [ -x "$(command -v go)" ] && export PATH="$PATH:$(go env GOPATH)/bin"
@@ -59,6 +59,6 @@ java_version() {
 }
 export ASDF_PYTHON_VERSION=system
 
-alias 'jdtls=~/.local/share/jdtls/bin/jdtls -configuration ~/.cache/jdtls/config_linux -data /home/aarroxellas/.cache/jdtls-workspace 2>/dev/null'
-alias 'checkstyle=checkstyle -c /home/aarroxellas/.config/checkstyle/google_checks.xml'
+alias 'jdtls=~/.local/share/jdtls/bin/jdtls' # -configuration ~/.cache/jdtls/config_linux -data /home/aarroxellas/.cache/jdtls-workspace 2>/dev/null'
+# alias 'checkstyle=java  -c /home/aarroxellas/.config/checkstyle/google_checks.xml'
 

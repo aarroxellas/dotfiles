@@ -6,13 +6,11 @@ function M.config()
 		"gopls",
 		"pyright",
 		"kotlin_language_server",
-		-- "jdtls",
+		"jdtls",
 		"tsserver",
 		"jsonls",
 		"yamlls",
 		"graphql",
-		-- "java_debug_adapter",
-		-- "java_test",
 	}
 
 	local settings = {

@@ -1,25 +1,29 @@
 local SYSTEM = "linux"
 if vim.fn.has("mac") == 1 then SYSTEM = "mac" end
 
+local mason_ok, mason_reg = pcall(require, 'mason-registry')
+local jdtls_reg =  mason_reg.get_package('jdtls'):get_install_path()
+local check_style_reg = mason_reg.get_package('google-java-format'):get_install_path()
+
 local HOME = os.getenv('HOME')
-local ECLIPSE_JDT_LS_JAR_PATH =  vim.fn.glob(HOME .. '/.local/share/nvim/mason/share/jdtls/plugins/org.eclipse.equinox.launcher_*.jar')
-local ECLIPSE_JDT_LS_JAR_CONFIG_PATH = vim.fn.glob(HOME .. '/.local/share/nvim/mason/share/jdtls/config')
-local GOOGLE_STYLE_FORMAT_XML_PATH = vim.fn.glob(HOME .. '/.config/checkstyle/google_checks.xml')
-local GOOGLE_STYLE_FORMAT_JAR_PATH = vim.fn.glob(HOME .. '/.local/share/nvim/mason/packages/google-java-format/google-java-format-*.jar')
-local LOMBOK_PATH =  vim.fn.glob(HOME .. '/.local/share/nvim/mason/packages/jdtls/lombok.jar')
+local ECLIPSE_JDT_LS_JAR_PATH =  vim.fn.expand(jdtls_reg .. '/plugins/org.eclipse.equinox.launcher_*.jar')
+local ECLIPSE_JDT_LS_JAR_CONFIG_PATH = vim.fn.expand(jdtls_reg .. '/config_' .. SYSTEM)
+local GOOGLE_STYLE_FORMAT_XML_PATH = vim.fn.expand(HOME .. '/.config/checkstyle/google_checks.xml')
+local GOOGLE_STYLE_FORMAT_JAR_PATH = vim.fn.expand(check_style_reg .. '/google-java-format-*.jar')
+local LOMBOK_PATH =  vim.fn.expand(jdtls_reg .. '/lombok.jar')
 local WORKSPACE_DIR = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
+local DATA_DIR = vim.fn.expand('~/.cache/nvim/workspaces_jdtls/' .. WORKSPACE_DIR)
 
 local bundles = {}
--- Debugging
+-- Debugging - Test
 -- vim.list_extend(bundles, vim.split(vim.fn.glob( HOME_PATH .. '/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar' ), "\n"))
 -- vim.list_extend(bundles, vim.split(vim.fn.glob( HOME_PATH .. '/.local/share/nvim/mason/packages/java-test/extension/server/*.jar' ), "\n"))
--- From Mason
+
+-- Use Mason: Debugging - Test
 local java_debug_path = require('mason-registry') .get_package('java-debug-adapter'):get_install_path()
 vim.list_extend(bundles, vim.split( vim.fn.glob(java_debug_path .. '/extension/server/com.microsoft.java.debug.plugin-*.jar'), '\n'))
 local java_test_path = require('mason-registry') .get_package('java-test'):get_install_path()
 vim.list_extend(bundles, vim.split( vim.fn.glob(java_test_path .. '/extension/server/*.jar'), '\n'))
--- local java_jdtls_adds = require('mason-registry') .get_package('jdtls'):get_install_path()
--- vim.list_extend(bundles, vim.split( vim.fn.glob(java_jdtls_adds .. '/plugins/*.jar'), '\n'))
 
 local function keymaps(bufnr)
 	-- keymaps LSP
@@ -30,10 +34,11 @@ local function keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>lC", "<cmd>lua require'jdtls'.compile('full')<CR>", { noremap = true, silent = true, desc = "[C]ompile Full" })
 	keymap(bufnr, "n", "<leader>lc", "<cmd>lua require'jdtls'.compile('incremental')<CR>", { noremap = true, silent = true, desc = "[c]ompile Incremental" })
 	keymap(bufnr, "n", "gS", "<cmd>lua require'jdtls'.super_implementation()<CR>", { noremap = true, silent = true, desc = "[G]o to Super Implementation" })
+	keymap(bufnr, "n", "gs", "<cmd>lua require'jdtls.tests'.goto_subjects()<CR>", { noremap = true, silent = true, desc = "[G]o to Subjects" })
 	keymap(bufnr, "n", "<leader>dt", "<cmd>lua require'jdtls'.test_nearest_method()<CR>", { noremap = true, silent = true, desc = "[t]est Nearest Method" })
 	keymap(bufnr, "n", "<leader>dT", "<cmd>lua require'jdtls'.test_class()<CR>", { noremap = true, silent = true, desc = "[T]est Class" })
 	keymap(bufnr, "n", "<leader>dp", "<cmd>lua require'jdtls'.test_nearest_method()<CR>", { noremap = true, silent = true, desc = "[p]ick a test" })
-	keymap(bufnr, "n", "<leaderlua require('jdtls').update_project_config()>lem", "<cmd>lua require'jdtls'.extract_method()<CR>", { noremap = true, silent = true, desc = "[e]xtract [m]ethod" })
+	keymap(bufnr, "n", "<leader>lem", "<cmd>lua require'jdtls'.extract_method()<CR>", { noremap = true, silent = true, desc = "[e]xtract [m]ethod" })
 	keymap(bufnr, "v", "<leader>lem", "<esc><cmd>lua require'jdtls'.extract_method()<CR>", { noremap = true, silent = true, desc = "[e]xtract [m]ethod" })
 	keymap(bufnr, "n", "<leader>lev", "<cmd>lua require'jdtls'.extract_variable()<CR>", { noremap = true, silent = true, desc = "[e]xtract [v]ariable" })
 	keymap(bufnr, "v", "<leader>lev", "<esc><cmd>lua require'jdtls'.extract_variable()<CR>", { noremap = true, silent = true, desc = "[e]xtract [v]ariable" })
@@ -66,46 +71,48 @@ end
 local jdtls = require("jdtls")
 local extendedClientCapabilities = jdtls.extendedClientCapabilities;
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
-
 local function jdtls_on_attach(client, bufnr)
 	vim.lsp.codelens.refresh()
 	local ok_cmp, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
-	local opts = {}
-	if ok_cmp then opts = cmp_lsp.default_capabilities() end
+	-- local opts = {}
+	-- if ok_cmp then opts = cmp_lsp.default_capabilities() end
 
 	require('jdtls').setup_dap({hotcodereplace = 'auto'})
-	require('jdtls.dap').setup_dap_main_class_configs(opts)
+	-- require('jdtls.dap').setup_dap_main_class_configs(opts)
 
 	keymaps(bufnr)
+	vim.api.nvim_set_current_dir(client.config.root_dir)
 end
 
-local config = {
-	-- cmd = {
-	-- 	'java',
-	-- 	'-Declipse.application=org.eclipse.jdt.ls.core.id1',
-	-- 	'-Dosgi.bundles.defaultStartLevel=4',
-	-- 	'-Declipse.product=org.eclipse.jdt.ls.core.product',
-	-- 	'-Dlog.protocol=true',
-	-- 	'-Dlog.level=ALL',
-	-- 	'-Xms1g',
-	-- 	'--add-modules=ALL-SYSTEM',
-	-- 	'--add-opens', 'java.base/java.util=ALL-UNNAMED',
-	-- 	'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-	-- 	'-javaagent:' .. LOMBOK_PATH,
-	-- 	'-jar', ECLIPSE_JDT_LS_JAR_PATH, GOOGLE_STYLE_FORMAT_JAR_PATH,
-	-- 	'-configuration', ECLIPSE_JDT_LS_JAR_CONFIG_PATH,
-	-- 	'-data', vim.fn.expand('~/.cache/nvim/workspaces_jdtls/' .. WORKSPACE_DIR)
-	-- },
+local referenced_libs = vim.split(vim.fn.glob(vim.fn.getcwd() .. '/**/buildSrc.jar'), '\n')
 
-	-- Local jdtls installation
+local config = {
 	cmd = {
-		"/home/aarroxellas/.local/share/jdtls/bin/jdtls",
-		'--jvm-arg=-javaagent:' .. LOMBOK_PATH,
-		"-configuration " .. ECLIPSE_JDT_LS_JAR_CONFIG_PATH,
-		'-data', vim.fn.expand('~/.cache/nvim/workspaces_jdtls/' .. WORKSPACE_DIR),
+		'java',
+		'-Declipse.application=org.eclipse.jdt.ls.core.id1',
+		'-Dosgi.bundles.defaultStartLevel=4',
+		'-Declipse.product=org.eclipse.jdt.ls.core.product',
+		'-Dlog.protocol=true',
+		'-Dlog.level=ALL',
+		'-Xms1g',
+		'--add-modules=ALL-SYSTEM',
+		'--add-opens', 'java.base/java.util=ALL-UNNAMED',
+		'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+		'-javaagent:' .. LOMBOK_PATH,
+		'-jar', ECLIPSE_JDT_LS_JAR_PATH, GOOGLE_STYLE_FORMAT_JAR_PATH,
+		'-configuration', ECLIPSE_JDT_LS_JAR_CONFIG_PATH,
+		'-data', DATA_DIR
 	},
 
-	root_dir = require("jdtls.setup").find_root({ "gradlew", ".gradle",	"settings.gradle",	"settings.gradle.kts" , ".git", "mvnw" }),
+	-- Local jdtls installation
+	-- cmd = {
+	-- 	"jdtls",
+	-- 	"--jvm-arg=-javaagent:" .. LOMBOK_PATH,
+	-- 	"-configuration", vim.fn.expand("~/.cache/jdtls/config_" .. SYSTEM),
+	-- 	"-data", DATA_DIR
+	-- },
+
+	root_dir = require("jdtls.setup").find_root({ "gradlew", "settings.gradle", ".git", "mvnw", "pom.xml", ".project" }),
 	init_options = {
 		bundles = bundles;
 		extendedClientCapabilities = extendedClientCapabilities;
@@ -114,7 +121,9 @@ local config = {
 		-- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 		java = {
 			eclipse = { downloadSources = true, },
+			maven = { downloadSources = true },
 			configuration = {
+				-- TODO: Move RunTimes to env file
 				runtimes = {
 					{
 						name = "JavaSE-11",
@@ -123,6 +132,7 @@ local config = {
 					-- {
 					-- 	name = "JavaSE-17",
 					-- 	path = HOME .. "/.asdf/installs/java/adoptopenjdk-17.0.8+101",
+					-- 	default = true,
 					-- },
 					{
 						name = "JavaSE-17",
@@ -169,10 +179,9 @@ local config = {
 	},
 	flags = {
 		allow_incremental_sync = true,
+		server_side_fuzzy_completion = true,
 	},
 	on_attach = jdtls_on_attach;
 }
-
-vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"
 
 jdtls.start_or_attach(config)
