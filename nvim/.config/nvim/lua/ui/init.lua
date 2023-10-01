@@ -15,6 +15,7 @@ function UI.indentline()
 	return {
 		"lukas-reineke/indent-blankline.nvim",
 		event = "BufRead",
+		main ="ibl",
 		config = function()
 			require("ui.indentline").config()
 		end,
