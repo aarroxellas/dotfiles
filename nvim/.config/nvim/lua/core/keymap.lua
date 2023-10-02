@@ -204,19 +204,11 @@ vim.cmd([[
         augroup END
         ]])
 
--- prevent typo when main interactions ':'
--- vim.cmd([[
--- cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
--- cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('q'):('Q'))
--- cnoreabbrev <expr> WQ ((getcmdtype() is# ':' && getcmdline() is# 'WQ')?('wq'):('WQ'))
--- cnoreabbrev <expr> Wq ((getcmdtype() is# ':' && getcmdline() is# 'Wq')?('wq'):('Wq'))
--- ]])
-
-local abbreviations = {
-	Wq = "wq",
-	WQ = "wq",
-	wQ = "wq",
-	Wqa = "wqa",
+-- prevent typo when exec cmd interactions ':'
+local typo_safe = {
+	Wq = "w<bar>bd",
+	WQ = "w<bar>bd",
+	Wqa = "waq",
 	W = "w",
 	Q = "q",
 	Qa = "qa",
@@ -224,6 +216,6 @@ local abbreviations = {
 	E = "e",
 }
 
-for l, r in pairs(abbreviations) do
-	vim.cmd.cnoreabbrev(("%s %s"):format(l, r))
+for k, v in pairs(typo_safe) do
+	vim.api.nvim_create_user_command(("%s"):format(k), ("%s"):format(v), {})
 end
