@@ -56,7 +56,7 @@ lazy.setup(
 
         -- Editor
         editor.comment(),
-        editor.gitsigns(),
+        editor.git(),
         editor.surround(),
         -- editor.sql(),
         editor.markdown(),

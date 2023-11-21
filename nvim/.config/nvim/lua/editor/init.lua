@@ -27,7 +27,7 @@ function Editor.diagnostic()
     }
 end
 
-function Editor.gitsigns()
+function Editor.git()
     return {
         "lewis6991/gitsigns.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
