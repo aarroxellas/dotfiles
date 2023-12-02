@@ -21,9 +21,6 @@ function M.config()
 		whitespace = {
 			remove_blankline_trail = false,
 		},
-		scope = {
-			exclude = { buftypes = { "terminal", "man", "trouble" } },
-		},
 	}
 
 	require("ibl").setup(opts)
