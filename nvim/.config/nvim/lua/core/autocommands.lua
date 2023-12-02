@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 -- 	group = user_autocommands,
 -- })
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "markdown,text,help",
+	pattern = "markdown,tex,text,help,gitcommit",
 	command = "setlocal spelllang=en | setlocal spell",
 	group = user_autocommands,
 })
