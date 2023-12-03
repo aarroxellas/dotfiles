@@ -57,6 +57,9 @@ function sysu (){
   [ $("uname") = "Darwin" ] && echo -e "\n=== fury ===" && fury upgrade
   echo -e "\n=== npm ===" && npm update
   echo -e "\n=== ruby gem ===" && gem update
+  [ $("uname") = "Linux" ] && echo -e "\n=== flatpak ===" && flatpak upgrade
+  [ $("uname") = "Linux" ] && echo -e "\n=== linux ===" &&
+	  (type yay 2>/dev/null && yay -Syu --noconfirm || sudo pacman -Syu --noconfirm)
 }
 
 # Utils
