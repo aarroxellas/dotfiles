@@ -2,13 +2,13 @@ local SYSTEM = "linux"
 if vim.fn.has("mac") == 1 then SYSTEM = "mac" end
 
 local mason_ok, mason_reg = pcall(require, 'mason-registry')
-local jdtls_reg =  mason_reg.get_package('jdtls'):get_install_path()
-local check_style_reg = mason_reg.get_package('google-java-format'):get_install_path()
 
 local HOME = os.getenv('HOME')
+local jdtls_reg =  mason_reg.get_package('jdtls'):get_install_path()
 local ECLIPSE_JDT_LS_JAR_PATH =  vim.fn.expand(jdtls_reg .. '/plugins/org.eclipse.equinox.launcher_*.jar')
 local ECLIPSE_JDT_LS_JAR_CONFIG_PATH = vim.fn.expand(jdtls_reg .. '/config_' .. SYSTEM)
-local GOOGLE_STYLE_FORMAT_XML_PATH = vim.fn.expand(HOME .. '/.config/checkstyle/google_checks.xml')
+local GOOGLE_STYLE_FORMAT_XML_PATH = vim.fn.expand(HOME .. '/.config/checkstyle/*.xml')
+local check_style_reg = mason_reg.get_package('google-java-format'):get_install_path()
 local GOOGLE_STYLE_FORMAT_JAR_PATH = vim.fn.expand(check_style_reg .. '/google-java-format-*.jar')
 local LOMBOK_PATH =  vim.fn.expand(jdtls_reg .. '/lombok.jar')
 local WORKSPACE_DIR = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
@@ -127,7 +127,7 @@ local config = {
 				runtimes = {
 					{
 						name = "JavaSE-11",
-						path = HOME .. "/.asdf/installs/java/adoptopenjdk-11.0.20+101",
+						path = HOME .. "/.asdf/installs/java/adoptopenjdk-11.0.21+9",
 					},
 					-- {
 					-- 	name = "JavaSE-17",
@@ -141,7 +141,7 @@ local config = {
 					},
 					{
 						name = "JavaSE-19",
-						path = HOME .. "/.asdf/installs/java/adoptopenjdk-19.0.2+7",
+						path = HOME .. "/.asdf/installs/java/temurin-19.0.2+7",
 					},
 				},
 				updateBuildConfiguration = "interactive",

@@ -55,6 +55,12 @@ local keybindings = {
 	{ "n", "<leader>bc", "<CMD>%bd|e#|bd#<CR>", { noremap = true, silent = true, desc = "Keep Only Current Buffer" } },
 	{ "n", "<leader>bC", "<CMD>%bd!|e#|bd#<CR>", { noremap = true, silent = true, desc = "Force Keep Only Current Buffer" } },
 	{ "n", "<leader>bm", "<CMD>bmodified<CR>", { noremap = true, silent = true, desc = "Jump to Modified Buffer" } },
+	-- Window Management
+	{ "n", "<leader>q", "<CMD>q<CR>", { desc = "Exit Vim." } },
+	{ "n", "<leader>Q", "<CMD>q!<CR>", { desc = "Exit Vim!" } },
+	{ "n", "<leader>a", "<CMD>qa!<CR>", { desc = "Exit All Vim." } },
+	{ "n", "<leader>A", "<CMD>qa!<CR>", { desc = "Exit All Vim!" } },
+	{ "n", "<leader>w", "<CMD>w<CR>", { desc = "Save File" } },
     -- TODO: Better keymaps
     { "n", "<A-f>", "<CMD>bnext<CR>", { noremap = true, silent = true } },
     { "n", "<A-g>", "<CMD>bprevious<CR>", { noremap = true, silent = true } },
@@ -81,7 +87,7 @@ local keybindings = {
 	-- { "n", "<leader>v", "<C-w>v", { noremap = false, silent = true } },
 	-- { "n", "<leader>s", "<C-w>s", { noremap = false, silent = true } },
 
-	-- Move between slits
+	-- Move between splits
 	{ "n", "<c-h>", "<C-w>h", { noremap = false, silent = true } },
 	{ "n", "<c-j>", "<C-w>j", { noremap = false, silent = true } },
 	{ "n", "<c-k>", "<C-w>k", { noremap = false, silent = true } },
@@ -116,6 +122,7 @@ local keybindings = {
 	-- -- Search for visually selected text
 	-- { "v", "<leader>v", "y/\\V<C-R>=escape(@\",'/\\')<CR><CR>", { noremap = false, silent = true, desc = "Keymap" } },
 }
+
 
 -- TODO: define plugin dependent keymaps in separete after file
 local _, builtin = pcall(require, "telescope.builtin")

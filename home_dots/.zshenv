@@ -13,8 +13,7 @@ export GIT_EDITOR=${VISUAL}
 	export BROWSER="open -a Google\ Chrome.app"
 
 # Add ASDF plugin
-[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh ||
-	[ -f /opt/asdf-vm/asdf.sh ] && source /opt/asdf-vm/asdf.sh
+[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh || ( [ -f /opt/asdf-vm/asdf.sh ] && source /opt/asdf-vm/asdf.sh )
 [ -f $HOME/.asdf/plugins/java/set-java-home.zsh ] && source $HOME/.asdf/plugins/java/set-java-home.zsh
 # completions for asdf to fpath
 fpath=(${ASDF_DIR}/completions $fpath)
@@ -40,9 +39,6 @@ export GOPATH=$HOME/.local/share/go
 # [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 # [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# Ruby - gems TODO: make universal
-export PATH=$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
-
 # Rust
 export PATH=$HOME/.cargo/bin:$PATH
 . "$HOME/.cargo/env"
@@ -51,14 +47,9 @@ export PATH=$HOME/.cargo/bin:$PATH
     setxkbmap -option caps:escape_shifted_capslock && \
     xset r rate 200 65
 
-# ASDF VERSION PATH
-java_version() {
-    VER=$(asdf list "$1" | grep -oE "$2[0-9.+]+" | sort | head -1)
-    [ ! -z $VER ] && \
-        asdf where $1 $VER
-}
+# ASDF
 export ASDF_PYTHON_VERSION=system
 
-alias 'jdtls=~/.local/share/jdtls/bin/jdtls' # -configuration ~/.cache/jdtls/config_linux -data /home/aarroxellas/.cache/jdtls-workspace 2>/dev/null'
+alias 'jdtls=~/.local/bin/jdtls/bin/jdtls'
 # alias 'checkstyle=java  -c /home/aarroxellas/.config/checkstyle/google_checks.xml'
 
