@@ -1,6 +1,6 @@
 #!/bin/env sh
 
-JDTLS_ROOT=$HOME/.local/share/jdtls
+JDTLS_ROOT=$HOME/.local/bin/jdtls
 JDTLS_BIN=/usr/local/bin/jdtls
 JDTLS_WORKSPACE="${XDG_CACHE_HOME:-$HOME/.cache}/jdtls-workspace"
 
