@@ -89,15 +89,21 @@ end
 
 function UI.treesitter()
 	return {
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
-		-- dependencies = {
-		--   { "p00f/nvim-ts-rainbow" },
-		--   { "windwp/nvim-ts-autotag" },
-		-- },
-		config = function()
-			require("ui.treesitter").config()
-		end,
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = {
+			{
+				"nvim-treesitter/nvim-treesitter",
+				run = ":TSUpdate",
+				config = function()
+					require("ui.treesitter").config()
+					require'treesitter-context'.setup{
+						max_lines = 1,
+					}
+				end,
+			}
+			--   { "p00f/nvim-ts-rainbow" },
+			--   { "windwp/nvim-ts-autotag" },
+		},
 	}
 end
 

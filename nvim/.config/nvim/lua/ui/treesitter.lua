@@ -5,7 +5,7 @@ function M.config()
         -- Automatically install missing parsers when entering buffer
         auto_install = true,
 
-        require_installed = { "c", "cpp", "go", "java", "kotlin",  "lua", "python", "rust", "help" },
+        ensure_installed = { "c", "cpp", "go", "java", "kotlin",  "lua", "python", "rust", "sql" },
         matchup = {
             enable = false,                 -- mandatory, false will disable the whole extension
             -- disable = { "c", "ruby" },      -- optional, list of language that will be disabled
