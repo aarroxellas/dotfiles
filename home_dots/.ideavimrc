@@ -137,8 +137,8 @@ vnoremap > >gv
 " easy system clipboard copy/paste
 noremap ,y "*y
 noremap ,Y "*Y
-noremap p "*p
-noremap P "*P
+" noremap p "*p
+" noremap P "*P
 
 " easy window navigation
 nnoremap <c-l> <c-w>l
