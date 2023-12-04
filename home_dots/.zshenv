@@ -6,11 +6,8 @@ export VISUAL='nvim'
 export EDITOR=${VISUAL}
 export GIT_EDITOR=${VISUAL}
 # eval "`pip completion --zsh`"
-[ "$(uname)" = "Linux" ] && \
-	export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
 
-[ "$(uname)" = "Darwin" ] && \
-	export BROWSER="open -a Google\ Chrome.app"
+[ "$(uname)" = "Darwin" ] && export BROWSER="open -a Google\ Chrome.app"
 
 # Add ASDF plugin
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh || ( [ -f /opt/asdf-vm/asdf.sh ] && source /opt/asdf-vm/asdf.sh )
@@ -22,7 +19,7 @@ export PYENV_ROOT=$HOME/.config/pyenv/
 export NVM_DIR=$HOME/.config/nvm
 
 # Global config for permissions on NodeJS (https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally)
-[ -d $HOME/.npm-global ] ||  mkdir ~/.npm-global && npm config set prefix '~/.npm-global'
+[ -d $HOME/.npm-global ] ||  (mkdir ~/.npm-global && npm config set prefix '~/.npm-global')
 export PATH=~/.npm-global/bin:$PATH
 
 # GO
@@ -53,3 +50,5 @@ export ASDF_PYTHON_VERSION=system
 alias 'jdtls=~/.local/bin/jdtls/bin/jdtls'
 # alias 'checkstyle=java  -c /home/aarroxellas/.config/checkstyle/google_checks.xml'
 
+# IntelliJ IDEA
+[ "$(uname)" = "Darwin" ] && alias idea='/Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea'
