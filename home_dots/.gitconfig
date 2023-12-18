@@ -3,10 +3,12 @@
 	name = André Arroxellas
 [github]
 	user = aarroxellas
+[includeIf "gitdir:~/code/work/"]
+    path = .gitconfig-company
 [alias]
-	st = status -sb
-	ci = commit
-	all = commit -am
+	s = status -sb
+	c = commit
+	ca = commit -am
 	br = branch
 	co = checkout
 	di = diff
@@ -21,7 +23,7 @@
 	unstage = reset HEAD --
 	prev = checkout -
 	discard = checkout --
-
+	sl = stash list
 [color]
 	ui = auto
 [color "branch"]
@@ -38,8 +40,8 @@
 	quotepath = false
 	excludesfile = ~/.gitignore
 	hooksPath = ~/.config/git/hooks
-[mergetool]
-	keepBackup = true
+[merge]
+	tool = nvim -d
 [filter "lfs"]
 	process = git-lts filter-process
 	required = true
