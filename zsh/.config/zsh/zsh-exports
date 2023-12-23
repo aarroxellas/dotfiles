@@ -61,24 +61,8 @@ eval "$(pyenv init -)"
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/ruby/lib $LDFLAGS"
 export CPPFLAGS="-I/usr/local/opt/ruby/include $CPPFLAGS"
+export PATH=~/.local/share/gem/ruby/3.0.0/bin:$PATH
 
 # Rust
 export PATH=$HOME/.cargo/bin:$PATH
 
-# Fury
-#eval "$(_FURY_COMPLETE=source fury)"
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$("$HOME/.miniconda/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "$HOME/.miniconda/etc/profile.d/conda.sh" ]; then
-#         . "$HOME/.miniconda/etc/profile.d/conda.sh"
-#     else
-#         export PATH="$HOME/.miniconda/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# <<< conda initialize <<<
