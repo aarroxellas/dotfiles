@@ -4,6 +4,9 @@
 **/*/.zcompdump
 **/*/plugins
 
+### NVM Installed dependencies
+**/*/package-lock.json
+
 ### NVIM
 **/*/lazy-lock.json
 **/*/.luarc.json
