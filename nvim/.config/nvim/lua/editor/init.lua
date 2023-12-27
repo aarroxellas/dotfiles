@@ -10,29 +10,34 @@ end
 function Editor.diagnostic()
     return {
         -- "folke/lsp-trouble.nvim",
-        "rcarriga/nvim-dap-ui",
-        config = function() require("editor.dap").config_ui() end,
-        dependencies = {
-            "mfussenegger/nvim-dap",
-            config = function() require("editor.dap").config() end,
-            {
-                "nvim-telescope/telescope-dap.nvim",
-                config = function () require("telescope").load_extension("dap") end,
-            },
-            {
-                "theHamsta/nvim-dap-virtual-text",
-                config = function () require'nvim-dap-virtual-text'.setup() end,
-            },
-        },
+        {
+			"rcarriga/nvim-dap-ui",
+			config = function() require("editor.dap").config_ui() end,
+			dependencies =
+				{
+					"mfussenegger/nvim-dap",
+					config = function() require("editor.dap").config() end,
+				},
+				{
+					"nvim-telescope/telescope-dap.nvim",
+					config = function() require("telescope").load_extension("dap") end,
+				},
+				{
+					"theHamsta/nvim-dap-virtual-text",
+					config = function() require'nvim-dap-virtual-text'.setup() end,
+				},
+		},
     }
 end
 
 function Editor.git()
-    return {
-        "lewis6991/gitsigns.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function() require("editor.gitsigns").config() end,
-    }
+	return {
+		{
+			"lewis6991/gitsigns.nvim",
+			dependencies = { "nvim-lua/plenary.nvim", "tpope/vim-fugitive" },
+			config = function() require("editor.gitsigns").config() end,
+		},
+	}
 end
 
 function Editor.comment()

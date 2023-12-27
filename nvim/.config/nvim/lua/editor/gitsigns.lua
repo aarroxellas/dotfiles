@@ -73,20 +73,36 @@ function M.config()
             end, { expr = true, desc = "Previous Git Diff next Hunk"})
 
             -- Actions
-            map({"n", "v"}, "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Gitsigns [S]tage Hunk" })
-            map({"n", "v"}, "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "Gitsigns [R]eset Hunk" })
-            map("n", "<leader>hS", gs.stage_buffer, { desc = "Gitsigns [S]tage Buffer" })
-            map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "Gitsigns [U]ndo Stage Hunk" })
-            map("n", "<leader>hR", gs.reset_buffer, { desc = "Gitsigns [R]eset Buffer" })
-            map("n", "<leader>hp", gs.preview_hunk, { desc = "Gitsigns [P]review Hunk" })
-            map("n", "<leader>hb", function() gs.blame_line{full=true} end, { desc = "Gitsigns [B]lame Hunk" })
-            map("n", "<leader>ht", gs.toggle_current_line_blame, { desc = "Gitsigns [T]oggle [B]lame Line" })
-            map("n", "<leader>hd", gs.diffthis, { desc = "Gitsigns [D]iff this File" })
-            map("n", "<leader>hD", function() gs.diffthis("~") end, { desc = "Gitsigns [D]iff This" })
-            map("n", "<leader>hT", gs.toggle_deleted, { desc = "Gitsigns [T]oggle [D]eleted" })
+            map({"n", "v"}, "<leader>gs", ":Gitsigns stage_hunk<CR>", { desc = "Gitsigns [S]tage Hunk" })
+            map({"n", "v"}, "<leader>gr", ":Gitsigns reset_hunk<CR>", { desc = "Gitsigns [R]eset Hunk" })
+            map("n", "<leader>gS", gs.stage_buffer, { desc = "Gitsigns [S]tage Buffer" })
+            map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Gitsigns [U]ndo Stage Hunk" })
+            map("n", "<leader>gR", gs.reset_buffer, { desc = "Gitsigns [R]eset Buffer" })
+            map("n", "<leader>gp", gs.preview_hunk, { desc = "Gitsigns [P]review Hunk" })
+            map("n", "<leader>gb", function() gs.blame_line{full=true} end, { desc = "Gitsigns [B]lame Hunk" })
+            map("n", "<leader>gB", gs.toggle_current_line_blame, { desc = "Gitsigns [T]oggle [B]lame Line" })
+            map("n", "<leader>g=", gs.diffthis, { desc = "Gitsigns [D]iff this File" })
+            map("n", "<leader>gd", function() gs.diffthis("~") end, { desc = "Gitsigns [D]iff This" })
+            map("n", "<leader>gT", gs.toggle_deleted, { desc = "Gitsigns [T]oggle [D]eleted" })
 
             -- Text object
             map({"o", "x"}, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+
+			-- Fugitive
+			map("n", "<leader>g-", vim.cmd.Git, {desc = "[G]it"})
+
+			local bufnr = vim.api.nvim_get_current_buf()
+			map("n", "<leader>gp", function() vim.cmd.Git('push') end,
+				{buffer = bufnr, remap = false, desc = "[G]it [p]ush"})
+
+			-- rebase always
+			map("n", "<leader>gP", function() vim.cmd.Git({'pull',  '--rebase'}) end,
+				{buffer = bufnr, remap = false, desc = "[G]it [P]ull Rebase"})
+
+			map("n", "<leader>gt", "<cmd>Git push -u origin <CR>",
+				{buffer = bufnr, remap = false, desc = "[G]it Branch Push [T]rack"})
+			map("n", "<leader>gh", "<cmd>diffget 2<CR>", {desc = "[G]it Select Left"})
+			map("n", "<leader>gl", "<cmd>diffget 3<CR>", {desc = "[G]it Select Right"})
         end
 
     }
