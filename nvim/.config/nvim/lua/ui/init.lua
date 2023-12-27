@@ -100,9 +100,10 @@ function UI.treesitter()
 						max_lines = 1,
 					}
 				end,
-			}
+			},
 			--   { "p00f/nvim-ts-rainbow" },
 			--   { "windwp/nvim-ts-autotag" },
+			{ "nvim-treesitter/nvim-treesitter-textobjects" }
 		},
 	}
 end
