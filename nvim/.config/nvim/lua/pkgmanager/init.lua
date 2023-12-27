@@ -32,7 +32,7 @@ lazy.setup(
         -- UI
         ui.colorscheme("catppuccin-macchiato"), -- TODO: implement as global
         ui.statusline(),
-        ui.bufferline(),
+        -- ui.bufferline(),
         ui.filemanager(),
         ui.indentline(),
         ui.whichkey(),
