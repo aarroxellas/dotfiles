@@ -2,7 +2,6 @@ local Completion = {}
 
 function Completion.snippet()
 	return {
-		{
 			"L3MON4D3/LuaSnip",
 			config = function()
 				if vim.g.snippets ~= "luasnip" then
@@ -24,13 +23,11 @@ function Completion.snippet()
 			end,
 			event = "InsertEnter",
 			dependencies = { "rafamadriz/friendly-snippets" },
-		},
 	}
 end
 
 function Completion.cmp()
 	return {
-		{
 			"hrsh7th/nvim-cmp",
 			dependencies = {
 				{ "L3MON4D3/LuaSnip" },
@@ -44,7 +41,6 @@ function Completion.cmp()
 			},
 			event = { "InsertEnter", "CmdlineEnter" },
 			config = function() require("completion.cmp").config() end,
-		},
 	}
 end
 
