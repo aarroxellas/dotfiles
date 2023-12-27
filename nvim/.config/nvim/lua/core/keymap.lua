@@ -63,12 +63,12 @@ local keybindings = {
 	{ "n", "<leader>a", "<CMD>qa!<CR>", { desc = "Exit All Vim." } },
 	{ "n", "<leader>A", "<CMD>qa!<CR>", { desc = "Exit All Vim!" } },
 	{ "n", "<leader>w", "<CMD>w<CR>", { desc = "Save File" } },
+	{ "n", "<leader>W", "<CMD>wa<CR>", { desc = "Save All Files" } },
     -- TODO: Better keymaps
     { "n", "<A-f>", "<CMD>bnext<CR>", { noremap = true, silent = true } },
     { "n", "<A-g>", "<CMD>bprevious<CR>", { noremap = true, silent = true } },
     { "n", "<A-0>", "<CMD>bfirst<CR>", { noremap = true, silent = true } },
     { "n", "<A-->", "<CMD>blast<CR>", { noremap = true, silent = true } },
-
     -- TODO: prefer builtin Tabs and Buffer
 	-- Bufferline
 	-- { "n", "<A-l>", "<CMD>BufferLineCycleNext<CR>", { noremap = true, silent = true } },
@@ -143,7 +143,7 @@ vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers"
 vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [k]eymaps" })
 vim.keymap.set("n", "<leader>st", builtin.treesitter, { desc = "[S]earch [t]reesitter" })
 vim.keymap.set("n", "<leader>sT", builtin.builtin, { desc = "[S]earch [T]elescope Builtins" })
-vim.keymap.set("n", "<leader>sd", function() require("telescope.builtin").dap() end, { desc = "[S]earch [d]ap" })
+vim.keymap.set("n", "<leader>sD", function() builtin.dap() end, { desc = "[S]earch [d]ap" })
 
 -- Format LSP
 vim.keymap.set("n", "<leader>f", function()
@@ -200,7 +200,7 @@ if ok_wk then
         d = { name = "+Debug" },
         s = { name = "+Telescope Search" },
         b = { name = "+Buffer" },
-        h = { name = "+Git" },
+        g = { name = "+Git" },
     },
         opts
     )
