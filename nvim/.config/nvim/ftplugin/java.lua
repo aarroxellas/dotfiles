@@ -129,19 +129,14 @@ local config = {
 						name = "JavaSE-11",
 						path = HOME .. "/.asdf/installs/java/adoptopenjdk-11.0.21+9",
 					},
-					-- {
-					-- 	name = "JavaSE-17",
-					-- 	path = HOME .. "/.asdf/installs/java/adoptopenjdk-17.0.8+101",
-					-- 	default = true,
-					-- },
 					{
 						name = "JavaSE-17",
-						path = HOME .. "/.asdf/installs/java/temurin-17.0.5+8",
+						path = HOME .. "/.asdf/installs/java/adoptopenjdk-17.0.8+101",
 						default = true,
 					},
 					{
-						name = "JavaSE-19",
-						path = HOME .. "/.asdf/installs/java/temurin-19.0.2+7",
+						name = "JavaSE-21",
+						path = HOME .. "/.asdf/installs/java/adoptopenjdk-21.0.2+13.0.LTS",
 					},
 				},
 				updateBuildConfiguration = "interactive",
