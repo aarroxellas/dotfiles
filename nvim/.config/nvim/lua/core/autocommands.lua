@@ -42,6 +42,14 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
 	group = user_autocommands,
 })
 
+-- Do not create comment on new line
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	group = user_autocommands,
+	callback = function()
+		vim.cmd "set formatoptions-=cro"
+	end,
+})
+
 -- LSP
 vim.api.nvim_create_user_command('LspAddWorkSpace', function () vim.lsp.buf.add_workspace_folder() end, {})
 vim.api.nvim_create_user_command('LspRemoveWorkSpace', function () vim.lsp.buf.remove_workspace_folder() end, {})

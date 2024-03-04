@@ -5,7 +5,7 @@ vim.g.maplocalleader = " "
 
 local keymap = vim.api.nvim_set_keymap
 
--- TODO: Send to Globals
+-- TODO: Send to WhichKey
 local keybindings = {
 	-- {'mode', 'keybindings', 'command', '{noremap=bool', 'silent=bool', expr=bool}}
 
@@ -26,15 +26,29 @@ local keybindings = {
 	{ "n", "J", "mzJ`z", { noremap = true, silent = true } },
 
 	-- Movement and center
-	{ "n", "<C-d>", "<C-d>zz", { noremap = true, silent = true } },
-	{ "n", "<C-u>", "<C-u>zz", { noremap = true, silent = true } },
 	{ "n", "n", "nzz", { noremap = true, silent = true } },
 	{ "n", "N", "Nzz", { noremap = true, silent = true } },
+	{ "n", "*", "*zz", { noremap = true, silent = true } },
+	{ "n", "#", "#zz", { noremap = true, silent = true } },
+	{ "n", "g*", "g*zz", { noremap = true, silent = true } },
+	{ "n", "g#", "g#zz", { noremap = true, silent = true } },
+	{ "n", "<C-d>", "<C-d>zz", { noremap = true, silent = true } },
+	{ "n", "<C-u>", "<C-u>zz", { noremap = true, silent = true } },
+	{ "n", "<s-h>", "^", { noremap = true, silent = true, desc = "Jump to the beginning of paragraph" } },
+	{ "o", "<s-h>", "^", { noremap = true, silent = true, desc = "Jump to the beginning of paragraph" } },
+	{ "x", "<s-h>", "^", { noremap = true, silent = true, desc = "Jump to the beginning of paragraph" } },
+	{ "n", "<s-l>", "g_", { noremap = true, silent = true, desc = "Jump to the end of paragraph" } },
+	{ "o", "<s-l>", "g_", { noremap = true, silent = true, desc = "Jump to the end of paragraph" } },
+	{ "x", "<s-l>", "g_", { noremap = true, silent = true, desc = "Jump to the end of paragraph" } },
+
+	-- Stay in indent mode
+	{ "n", "<", "<gv", { noremap = true, silent = true } },
+	{ "n", ">", ">gv", { noremap = true, silent = true } },
 
 	-- Cut replacement to void
-	{ "x", ",p", '"_dP', { noremap = true, silent = true, desc = "[P]aste without Yanking" } },
-	{ "n", ",d", '"_d', { noremap = true, silent = true, desc = "[D]elete without Yanking to the Clipboard" } },
-	{ "v", ",d", '"_d', { noremap = true, silent = true, desc = "[D]elete without Yanking to the Clipboard" } },
+	{ "x", ",p", [["_dP]], { noremap = true, silent = true, desc = "[P]aste without Yanking to the Registry" } },
+	{ "n", ",d", [["_d]], { noremap = true, silent = true, desc = "[D]elete without Yanking to the Registry" } },
+	{ "v", ",d", [["_d]], { noremap = true, silent = true, desc = "[D]elete without Yanking to the Registry" } },
 
 	-- Yank system and vim separate
 	{ "n", ",y", [["+y]], { noremap = true, silent = true, desc = "[Y]ank to Clipboard" } },
@@ -57,6 +71,7 @@ local keybindings = {
 	{ "n", "<leader>bm", "<CMD>bmodified<CR>", { noremap = true, silent = true, desc = "Jump to Modified Buffer" } },
 	{ "n", "<leader>bn", "<CMD>bnext<CR>", { noremap = true, silent = true, desc = "Jump to Next Buffer" } },
 	{ "n", "<leader>bp", "<CMD>bprevious<CR>", { noremap = true, silent = true, desc = "Jump to Previous Buffer" } },
+
 	-- Window Management
 	{ "n", "<leader>q", "<CMD>q<CR>", { desc = "Exit Vim." } },
 	{ "n", "<leader>Q", "<CMD>q!<CR>", { desc = "Exit Vim!" } },
@@ -64,26 +79,13 @@ local keybindings = {
 	{ "n", "<leader>A", "<CMD>qa!<CR>", { desc = "Exit All Vim!" } },
 	{ "n", "<leader>w", "<CMD>w<CR>", { desc = "Save File" } },
 	{ "n", "<leader>W", "<CMD>wa<CR>", { desc = "Save All Files" } },
+
     -- TODO: Better keymaps
     { "n", "<A-f>", "<CMD>bnext<CR>", { noremap = true, silent = true } },
     { "n", "<A-g>", "<CMD>bprevious<CR>", { noremap = true, silent = true } },
     { "n", "<A-0>", "<CMD>bfirst<CR>", { noremap = true, silent = true } },
     { "n", "<A-->", "<CMD>blast<CR>", { noremap = true, silent = true } },
     -- TODO: prefer builtin Tabs and Buffer
-	-- Bufferline
-	-- { "n", "<A-l>", "<CMD>BufferLineCycleNext<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-h>", "<CMD>BufferLineCyclePrev<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-L>", "<CMD>BufferLineMoveNext<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-H>", "<CMD>BufferLineMovePrev<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-1>", "<CMD>BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-2>", "<CMD>BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-3>", "<CMD>BufferLineGoToBuffer 3<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-4>", "<CMD>BufferLineGoToBuffer 4<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-5>", "<CMD>BufferLineGoToBuffer 5<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-6>", "<CMD>BufferLineGoToBuffer 6<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-7>", "<CMD>BufferLineGoToBuffer 7<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-8>", "<CMD>BufferLineGoToBuffer 8<CR>", { noremap = true, silent = true } },
-	-- { "n", "<A-9>", "<CMD>BufferLineGoToBuffer 9<CR>", { noremap = true, silent = true } },
 
 	-- split window
 	-- { "n", "<leader>v", "<C-w>v", { noremap = false, silent = true } },
@@ -94,10 +96,12 @@ local keybindings = {
 	{ "n", "<c-j>", "<C-w>j", { noremap = false, silent = true } },
 	{ "n", "<c-k>", "<C-w>k", { noremap = false, silent = true } },
 	{ "n", "<c-l>", "<C-w>l", { noremap = false, silent = true } },
+	{ "n", "<c-tab>", "<C-6>l", { noremap = false, silent = true } },
 	{ "n", "<c-h>", "<C-\\><C-n><C-w>h", { noremap = false, silent = true } },
 	{ "n", "<c-l>", "<C-\\><C-n><C-w>l", { noremap = false, silent = true } },
 
 	-- terminal mode
+	{ "n", "<leader>;", "<CMD>terminal<CR> <s-a>", { noremap = true, silent = true, desc = "Go to terminal" } },
 	{ "t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true } },
 
 	-- -- base64
@@ -123,13 +127,15 @@ local keybindings = {
 	--
 	-- -- Search for visually selected text
 	-- { "v", "<leader>v", "y/\\V<C-R>=escape(@\",'/\\')<CR><CR>", { noremap = false, silent = true, desc = "Keymap" } },
+
+	-- Misc
+	{ "n", "<leader>w", ":lua vim.wo.wrap = not vim.wo.wrap<CR>", { noremap = true, silent = true, desc = "(un)wrap" } },
 }
 
 
 -- TODO: define plugin dependent keymaps in separete after file
 local _, builtin = pcall(require, "telescope.builtin")
 vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find Project Recently Opened Files" })
-vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<cr>", {silent = true, noremap = true, desc = "Toggle Tree"})
 vim.keymap.set("n", "<leader>/", function()
 	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({ winblend = 10, previewer = false }))
 end, { desc = "[/] Fuzzily Search Current Buffer" })
@@ -143,7 +149,11 @@ vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers"
 vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [k]eymaps" })
 vim.keymap.set("n", "<leader>st", builtin.treesitter, { desc = "[S]earch [t]reesitter" })
 vim.keymap.set("n", "<leader>sT", builtin.builtin, { desc = "[S]earch [T]elescope Builtins" })
-vim.keymap.set("n", "<leader>sD", function() builtin.dap() end, { desc = "[S]earch [d]ap" })
+-- vim.keymap.set("n", "<leader>sD", function() builtin.dap() end, { desc = "[S]earch [d]ap" })
+--
+-- Misc
+vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<cr>", {silent = true, noremap = true, desc = "Toggle Tree"})
+vim.api.nvim_set_keymap("t", "<C-;>", "<C-\\><C-n>", {silent = true, noremap = true, desc = "escape to normal in terminal"})
 
 -- Format LSP
 vim.keymap.set("n", "<leader>f", function()
@@ -157,61 +167,70 @@ for _, key in pairs(keybindings) do
 	keymap(key[1], key[2], key[3], key[4])
 end
 
--- DAP Globals
-local dap_map = function(lhs, rhs, desc)
-	if desc then
-		desc = "[DAP] " .. desc
-	end
-
-	vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
-end
-
-dap_map("<F1>", require("dap").step_back, "step_back")
-dap_map("<F2>", require("dap").step_into, "step_into")
-dap_map("<F3>", require("dap").step_over, "step_over")
-dap_map("<F4>", require("dap").step_out, "step_out")
-dap_map("<F5>", require("dap").continue, "continue")
-dap_map("<leader>dr", require("dap").repl.open, "REPL")
-dap_map("<leader>db", require("dap").toggle_breakpoint, "Toggle [B]reak Point")
-dap_map("<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("[DAP] Condition > ")) end, "Set Expression [B]reak Point")
-dap_map("<leader>dl", function() require("dap").list_breakpoints(true) end, "[L]ist All [B]reak Points")
-dap_map("<leader>dC", function() require("dap").clear_breakpoints() end, "[C]lear [B]reak Points")
-dap_map("<leader>de", require("dapui").eval, "[E]val UI")
-dap_map("<leader>dE", function() require("dapui").eval(vim.fn.input("[DAP] Expression > ")) end, "[E]xpression")
-dap_map("<leader>do", function() require("dapui").open() end, "[O]pen")
-dap_map("<leader>dc", function() require("dapui").close() end, "[C]lose")
+-- -- DAP Globals
+-- local dap_map = function(lhs, rhs, desc)
+-- 	if desc then
+-- 		desc = "[DAP] " .. desc
+-- 	end
+--
+-- 	vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
+-- end
+--
+-- dap_map("<F1>", require("dap").step_back, "step_back")
+-- dap_map("<F2>", require("dap").step_into, "step_into")
+-- dap_map("<F3>", require("dap").step_over, "step_over")
+-- dap_map("<F4>", require("dap").step_out, "step_out")
+-- dap_map("<F5>", require("dap").continue, "continue")
+-- dap_map("<leader>dr", require("dap").repl.open, "REPL")
+-- dap_map("<leader>db", require("dap").toggle_breakpoint, "Toggle [B]reak Point")
+-- dap_map("<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("[DAP] Condition > ")) end, "Set Expression [B]reak Point")
+-- dap_map("<leader>dl", function() require("dap").list_breakpoints(true) end, "[L]ist All [B]reak Points")
+-- dap_map("<leader>dC", function() require("dap").clear_breakpoints() end, "[C]lear [B]reak Points")
+-- dap_map("<leader>de", require("dapui").eval, "[E]val UI")
+-- dap_map("<leader>dE", function() require("dapui").eval(vim.fn.input("[DAP] Expression > ")) end, "[E]xpression")
+-- dap_map("<leader>do", function() require("dapui").open() end, "[O]pen")
+-- dap_map("<leader>dc", function() require("dapui").close() end, "[C]lose")
 
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "[U]ndo Tree" })
 
 -- Name every Which Key node
-local ok_wk, wk = pcall(require, "which-key")
-if ok_wk then
-    local opts = {
-        mode = { "n" },
-        prefix = "<leader>",
-        buffer = nil,
-        silent = true,
-        noremap = true,
-        nowait = true,
-    }
+vim.api.nvim_create_autocmd(
+	"FileType",
+	{
+		pattern = "*",
+		callback = function(ev)
+		local ok_wk, wk = pcall(require, "which-key")
+		if ok_wk then
+			local opts = {
+				mode = { "n" },
+				prefix = "<leader>",
+				buffer = ev.buffer,
+				silent = true,
+				noremap = true,
+				nowait = true,
+			}
 
-    wk.register({
-        l = { name = "+LSP" },
-        d = { name = "+Debug" },
-        s = { name = "+Telescope Search" },
-        b = { name = "+Buffer" },
-        g = { name = "+Git" },
-    },
-        opts
-    )
-end
+			wk.register({
+				s = { name = "+Telescope Search" },
+				b = { name = "+Buffer" },
+				g = { name = "+Git" },
+				l = { name = "+LSP" },
+				d = { name = "+Debug" },
+			},
+				opts
+			)
 
-vim.cmd([[
-        augroup DapRepl
-        au!
-        au FileType dap-repl lua require('dap.ext.autocompl').attach()
-        augroup END
-        ]])
+		end
+	end,
+	group = vim.api.nvim_create_augroup("which-key-augroup", { clear = true }),
+	})
+
+-- vim.cmd([[
+--         augroup DapRepl
+--         au!
+--         au FileType dap-repl lua require('dap.ext.autocompl').attach()
+--         augroup END
+--         ]])
 
 -- prevent typo when exec cmd interactions ':'
 local typo_safe = {

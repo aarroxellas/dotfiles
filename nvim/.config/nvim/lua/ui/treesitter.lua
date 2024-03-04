@@ -1,20 +1,31 @@
 local M = {}
 
 function M.config()
-    local opts = {
-        -- Automatically install missing parsers when entering buffer
-        auto_install = true,
+	local opts = {
+		-- Automatically install missing parsers when entering buffer
+		auto_install = true,
 
-        ensure_installed = {
-			"bash", "c", "cpp", "go", "java", "kotlin",  "lua", "python", "rust", "sql", "regex", "markdown"
+		ensure_installed = {
+			"bash",
+			"c",
+			"cpp",
+			"go",
+			"java",
+			"kotlin",
+			"lua",
+			"python",
+			"rust",
+			"sql",
+			"regex",
+			"markdown",
 		},
-        highlight = {
-            enable = true,                  -- false will disable the whole extension
-            additional_vim_regex_highlighting = false,
-            disable = function(lang, buf)
-                if vim.tbl_contains({ "latex" }, lang) then
-                    return true
-                end
+		highlight = {
+			enable = true, -- false will disable the whole extension
+			additional_vim_regex_highlighting = false,
+			disable = function(lang, buf)
+				if vim.tbl_contains({ "latex" }, lang) then
+					return true
+				end
 
 				local status_ok, big_file_detected = pcall(vim.api.nvim_buf_get_var, buf, "bigfile_disable_treesitter")
 				return status_ok and big_file_detected
@@ -62,10 +73,10 @@ function M.config()
 		incremental_selection = {
 			enable = true,
 			keymaps = {
-				init_selection = '<c-space>',
-				node_incremental = '<c-space>',
-				scope_incremental = '<c-s>',
-				node_decremental = '<c-backspace>',
+				init_selection = "<c-space>",
+				node_incremental = "<c-space>",
+				scope_incremental = "<c-s>",
+				node_decremental = "<c-backspace>",
 			},
 		},
 		textobjects = {
@@ -74,37 +85,37 @@ function M.config()
 				lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
 				keymaps = {
 					-- You can use the capture groups defined in textobjects.scm
-					['aa'] = '@parameter.outer',
-					['ia'] = '@parameter.inner',
-					['af'] = '@function.outer',
-					['if'] = '@function.inner',
-					['ac'] = '@class.outer',
-					['ic'] = '@class.inner',
-					['ii'] = '@conditional.inner',
-					['ai'] = '@conditional.outer',
-					['il'] = '@loop.inner',
-					['al'] = '@loop.outer',
-					['at'] = '@comment.outer',
+					["aa"] = "@parameter.outer",
+					["ia"] = "@parameter.inner",
+					["af"] = "@function.outer",
+					["if"] = "@function.inner",
+					["ac"] = "@class.outer",
+					["ic"] = "@class.inner",
+					["ii"] = "@conditional.inner",
+					["ai"] = "@conditional.outer",
+					["il"] = "@loop.inner",
+					["al"] = "@loop.outer",
+					["at"] = "@comment.outer",
 				},
 			},
 			move = {
 				enable = true,
 				set_jumps = true, -- whether to set jumps in the jumplist
 				goto_next_start = {
-					[']m'] = '@function.outer',
-					[']]'] = '@class.outer',
+					["]m"] = "@function.outer",
+					["]]"] = "@class.outer",
 				},
 				goto_next_end = {
-					[']M'] = '@function.outer',
-					[']['] = '@class.outer',
+					["]M"] = "@function.outer",
+					["]["] = "@class.outer",
 				},
 				goto_previous_start = {
-					['[m'] = '@function.outer',
-					['[['] = '@class.outer',
+					["[m"] = "@function.outer",
+					["[["] = "@class.outer",
 				},
 				goto_previous_end = {
-					['[M'] = '@function.outer',
-					['[]'] = '@class.outer',
+					["[M"] = "@function.outer",
+					["[]"] = "@class.outer",
 				},
 				-- goto_next = {
 				--   [']i'] = "@conditional.inner",
@@ -116,18 +127,18 @@ function M.config()
 			swap = {
 				enable = true,
 				swap_next = {
-					['<leader>a'] = '@parameter.inner',
+					["<leader>n"] = "@parameter.inner",
 				},
 				swap_previous = {
-					['<leader>A'] = '@parameter.inner',
+					["<leader>N"] = "@parameter.inner",
 				},
-			}
+			},
 		},
 		-- p00f/nvim-ts-rainbow
 		rainbow = {
 			enable = false,
-			extended_mode = true,       -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-			max_file_lines = 1000,      -- Do not enable for files with more than 1000 lines, int
+			extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+			max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
 		},
 		-- windwp/nvim-autopairs
 		autopairs = {
@@ -135,9 +146,9 @@ function M.config()
 		},
 	}
 
-    require("nvim-treesitter.configs").setup(opts)
-    -- Not Working: Recover highlighting groups
-    -- From: https://github.com/nvim-treesitter/nvim-treesitter/commit/42ab95d5e11f247c6f0c8f5181b02e816caa4a4f#comments
+	require("nvim-treesitter.configs").setup(opts)
+	-- Not Working: Recover highlighting groups
+	-- From: https://github.com/nvim-treesitter/nvim-treesitter/commit/42ab95d5e11f247c6f0c8f5181b02e816caa4a4f#comments
 end
 
 return M
