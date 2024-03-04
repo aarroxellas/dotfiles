@@ -2,12 +2,19 @@ local M = {}
 
 function M.config()
 	local servers = {
+		-- LUA
 		"lua_ls",
+		-- GO
 		"gopls",
+		-- Python
 		"pyright",
+		-- Kotlin
 		"kotlin_language_server",
+		-- Java
 		"jdtls",
+		-- JavaScript
 		"tsserver",
+		-- Misc
 		"jsonls",
 		"yamlls",
 		"graphql",
@@ -41,10 +48,9 @@ function M.config()
 	for _, server in pairs(servers) do
 		local handlers = require("completion.lsp.handlers")
         local on_attach = handlers.on_attach
-        local capabilities = handlers.capabilities
         local opts = {
             on_attach = on_attach,
-            capabilities = capabilities,
+            capabilities = handlers.capabilities,
         }
 
         server = vim.split(server, "@")[1]
@@ -56,9 +62,13 @@ function M.config()
 			end
 
 			local root_dir = set_root_dir(server, conf_opts.root_files, conf_opts.fallback_root_files)
-            opts = vim.tbl_deep_extend("force", conf_opts, opts)
+            opts = vim.tbl_deep_extend("force", conf_opts.settings, opts)
 			table.insert(opts, { root_dir = root_dir })
         end
+
+		if server == "lua_ls" then
+			require("neodev").setup {}
+		end
 
 		local manual_config_servers = { "jdtls", "rust_analyzer" }
         for _, s in ipairs(manual_config_servers) do

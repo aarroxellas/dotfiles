@@ -1,6 +1,6 @@
-local lspconfig = require"lspconfig"
-
 local M = {}
+
+M.settings = {}
 
 M.root_files = {
 	'.graphqlrc*',

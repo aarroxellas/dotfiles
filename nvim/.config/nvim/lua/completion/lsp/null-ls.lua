@@ -44,23 +44,27 @@ function M.config()
         -- TODO: Make available for visual selection
         code_actions.gomodifytags,
         diagnostics.golangci_lint,
+
         -- JS
         formatting.prettier.with({
             extra_filetypes = { "toml", "markdown" },
             -- extra_args = { "--no-semi", "--tab-width 4", "--single-quote", "--jsx-single-quote" },
         }),
+
         -- Python
         formatting.black.with({ extra_args = { "--fast" } }),
-        -- formatting.isort,
+        formatting.isort,
         formatting.tidy_import,
-        diagnostics.flake8.with({
-            extra_args = { "--ignore=E501" },
-        }),
-        formatting.reorder_python_imports,
+        -- diagnostics.flake8.with({
+        --     extra_args = { "--ignore=E501" },
+        -- }),
+        -- formatting.reorder_python_imports,
+
         -- Lua
         formatting.stylua,
+
         -- Java
-        formatting.google_java_format,
+        -- formatting.google_java_format,
         -- diagnostics.checkstyle.with({
         --     extra_args = { "-c", "~/.config/checkstyle/google_checks.xml" }, -- or "/sun_checks.xml" or path to self written rules
         -- }),
@@ -76,8 +80,8 @@ function M.config()
         -- Kotlin
         formatting.ktlint,
         diagnostics.ktlint,
-        -- Other
-        diagnostics.shellcheck,
+
+        -- Shell
         diagnostics.zsh,
     }
 

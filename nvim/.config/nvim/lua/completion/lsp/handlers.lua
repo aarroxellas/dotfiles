@@ -5,33 +5,26 @@ if not status_cmp_ok then
     vim.notify("cmp_nvim_lsp not loaded", vim.log.levels.WARN, { title = "completion.lsp.handlers" })
     return
 end
-local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
-if not ok_lspconfig then
-	vim.notify("lspconfig not loaded", vim.log.levels.WARN, { title = "completion.lsp.handlers" })
-end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- M.capabilities.textDocument.completion.completionItem.resolveSupport = {
+-- 	properties = { "documentation", "detail", "additionalTextEdits", }
+-- }
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 M.setup = function()
-    local signs = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn",  text = "" },
-        { name = "DiagnosticSignHint",  text = "" },
-        { name = "DiagnosticSignInfo",  text = "" },
-    }
-
-    for _, sign in ipairs(signs) do
-        vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-    end
 
     local config = {
+		signs = {
+            active = signs,
+			{ name = "DiagnosticSignError", text = "" },
+			{ name = "DiagnosticSignWarn",  text = "" },
+			{ name = "DiagnosticSignHint",  text = "" },
+			{ name = "DiagnosticSignInfo",  text = "" },
+		},
         virtual_text = false, -- disable virtual text
-        signs = {
-            active = signs, -- show signs
-        },
-        update_in_insert = true,
+        update_in_insert = false,
         underline = true,
         severity_sort = true,
         float = {
@@ -53,6 +46,10 @@ M.setup = function()
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = "rounded",
     })
+
+    for _, sign in ipairs(config.signs) do
+        vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
+    end
 end
 
 -- TODO: add description to maps
@@ -67,16 +64,12 @@ M.lsp_keymaps = function(bufnr)
     keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", { noremap = true, silent = true, desc = "[L]sp [I]nfo for attached servers" })
     keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", { noremap = true, silent = true, desc = "[L]anguage [I]nfo for available services" })
     keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { noremap = true, silent = true, desc = "[L]sp Code [A]ction" })
-    -- TODO: deprecate Diagnostics as leader + l{}
-    -- keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [N]ext Diagnostics" })
-    -- keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "[G]o to [P]revious Diagnostics" })
     keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({buffer=" .. bufnr .. "})<cr>", { noremap = true, silent = true, desc = "Next [D]iagnostic" })
     keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", { noremap = true, silent = true, desc = "Previous [D]iagnostic" })
     keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", { noremap = true, silent = true, desc = "[L]sp [R]eaname" })
     keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { noremap = true, silent = true, desc = "[L]sp [S]ignature Help" })
     keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", { noremap = true, silent = true, desc = "Display Diagnostics Local [L]ist" })
 
-	-- TODO: Define keymap
 	vim.cmd([[command! Format execute 'lua vim.lsp.buf.format({ async = true })']])
 end
 

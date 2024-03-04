@@ -1,5 +1,7 @@
 local M = {}
 
+M.settings = {}
+
 M.root_files = {
 	"gradlew", -- Gradle binary
 	"mvnw", -- Mvn binary
