@@ -111,23 +111,6 @@ function M.config()
     if not ok then
         vim.notify("editor.gitsigns not loaded", vim.log.levels.WARN, { title = "editor.gitsigns" })
     end
-    local ok_wk, wk = pcall(require, "which-key")
-    if ok_wk then
-        local opts = {
-            mode = { "n", "v" },
-            prefix = "<leader>",
-            buffer = nil,
-            silent = true,
-            noremap = true,
-            nowait = true,
-        }
-
-        wk.register({
-            h = { name = "+Git" },
-        },
-            opts
-        )
-    end
 
 end
 

@@ -141,6 +141,17 @@ function M.config()
     -- TODO: Fix project integration
     -- telescope.load_extension "projects"
     -- telescope.extensions.projects.projects{}
+
+	-- Reorder filename and path
+	-- vim.api.nvim_create_autocmd("FileType", {
+	-- 	pattern = "TelescopeResults",
+	-- 	callback = function (ctx)
+	-- 		vim.api.nvim_buf_call(ctx.buf, function()
+	-- 			vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+	-- 			vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+	-- 		end)
+	-- 	end,
+	-- })
 end
 
 return M

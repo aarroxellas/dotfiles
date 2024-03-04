@@ -22,9 +22,26 @@ function UI.indentline()
 	}
 end
 
+function UI.breadcrumbs()
+	return {
+		"LunarVim/breadcrumbs.nvim",
+		dependencies = {
+			{ "SmiteshP/nvim-navic" },
+		},
+		config = function()
+			require("nvim-navic").setup {
+				lsp = { auto_attach = true, },
+			}
+			require("breadcrumbs").setup()
+		end,
+	}
+
+end
+
 function UI.filemanager()
 	return {
 		"nvim-tree/nvim-tree.lua",
+		event = "VeryLazy",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function ()
 		  require("ui.filemanager").config()
@@ -35,7 +52,9 @@ end
 function UI.whichkey()
 	return {
 		"folke/which-key.nvim",
+		event = "VeryLazy",
 		config = function()
+			-- require("ui.whichkey").config()
 			require("which-key").setup({})
 		end,
 	}
@@ -125,7 +144,7 @@ function UI.colorscheme(colorscheme)
 			end,
 		},
 		{ "arcticicestudio/nord-vim", priority = 1000, lazy = false },
-		{ "rebelot/kanagawa.nvim", priority = 1000, lazy = false },
+		-- { "rebelot/kanagawa.nvim", priority = 1000, lazy = false },
 		{ "ayu-theme/ayu-vim", priority = 1000, lazy = false },
 		{ "navarasu/onedark.nvim", priority = 1000, lazy = false },
 	}

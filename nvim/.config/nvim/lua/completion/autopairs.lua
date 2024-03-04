@@ -45,8 +45,4 @@ function M.config()
 end
 
 return M
--- return setmetatable({}, {
---     __call = function()
---         return M.config()
---     end,
--- })
+

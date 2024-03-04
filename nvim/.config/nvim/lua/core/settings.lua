@@ -17,7 +17,7 @@ vim.opt.backspace = "indent,eol,start"
 vim.opt.bg = "dark"                             -- base colorbackground
 vim.opt.binary = true                           -- file encoding binary
 vim.opt.bomb = true                             -- file encoding ucs-bom
--- vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
+vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
 vim.opt.colorcolumn = "120"                     -- fix indentline for now
 vim.opt.compatible = false                      -- not vi retro-compatible
@@ -43,10 +43,12 @@ vim.opt.hlsearch = true                         -- highlight all search matches
 vim.opt.ignorecase = true                       -- ignore case in search patterns (needed for smartcase to work)
 vim.opt.inccommand = "split"                    -- shows the effects of :s as you type.
 -- vim.opt.incsearch = true                        -- highlight all search matches while typing /
+vim.opt.laststatus = 3                          -- global statusline to last window
 vim.opt.lazyredraw = true                       -- don't redraw window while executing macros
 vim.opt.linebreak = true                        -- break display vim line
 vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
 vim.opt.number = true                           -- set numbered lines
+vim.opt.pumblend = 10							-- pop up menu transparancy
 vim.opt.pumheight = 10                          -- pop up menu height
 vim.opt.pyxversion = 3                          -- python builtin version
 vim.opt.relativenumber = true                   -- set relative numbered lines
@@ -56,9 +58,9 @@ vim.opt.shiftwidth = tabspace                   -- the number of spaces inserted
 vim.opt.shortmess = "atToOc"                    -- prompt footbar abbrev.
 vim.opt.showcmd = true                          -- display (partial) cmd and selection size in prompt -- set to false if slow
 vim.opt.showmode = false     	                -- we don't need to see things like -- INSERT -- anymore
-vim.opt.showtabline = 2                         -- always show tabs
+vim.opt.showtabline = 0                         -- show files in tabs | 0 desable
 vim.opt.sidescrolloff = 8                       -- minimal number of screen lines to keep left and right of the cursor.
--- vim.opt.signcolumn = "yes"                 -- always show the sign column, otherwise it would shift the text each time
+vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
 vim.opt.smartcase = true                        -- overrides ignorecase (does not work for '*', '#')
 vim.opt.smartindent = false                     -- make indenting smarter again
 vim.opt.softtabstop = tabspace                  -- editing tab local buffer
@@ -80,7 +82,6 @@ vim.opt.wildmode = "full"
 vim.opt.wildoptions = "pum"                     -- set * to select in "pum" popup, "tagfile" tags
 vim.opt.wrap = false                            -- display lines as one long line
 vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-vim.opt.laststatus = 3                          -- global statusline to last window
 vim.opt.iskeyword:append "-,_"                  -- used in searching and recognizing with many commands
 vim.opt.whichwrap:append "<,>,[,],h,l"          -- let movement keys reach the previous line
 
@@ -107,6 +108,8 @@ vim.opt.wildignore = {
 	'**/.nx/**',
 }
 
+vim.g.loaded_netrw_banner = 0
+vim.g.loaded_netrw_mouse = 2
 vim.g.loaded_perl_provider = 0               -- disable language support
 -- vim.g.loaded_ruby_provider = 0
 vim.g.python3_host_prog = "python3"
