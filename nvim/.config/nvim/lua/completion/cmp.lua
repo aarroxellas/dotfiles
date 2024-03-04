@@ -23,7 +23,7 @@ function M.config()
     -- local cmp_window = require "cmp.config.window"
     local cmp_mapping = require "cmp.config.mapping"
 
-    cmp.setup({
+    cmp.setup {
         active = true,
         on_config_done = nil,
         snippet = {
@@ -43,16 +43,7 @@ function M.config()
             ["<C-d>"] = cmp_mapping.scroll_docs(-4),
             ["<C-f>"] = cmp_mapping.scroll_docs(4),
             ["<C-Space>"] = cmp_mapping(cmp_mapping.complete({}), { "i", "c" }),
-            ["<CR>"] = cmp_mapping {
-                i = cmp_mapping.confirm { behavior = ConfirmBehavior.Replace, select = false },
-                c = function(fallback)
-                    if cmp.visible() then
-                        cmp.confirm { behavior = ConfirmBehavior.Replace, select = false }
-                    else
-                        fallback()
-                    end
-                end,
-            },
+            ["<CR>"] = cmp_mapping.confirm { select = true },
             ["<C-e>"] = cmp_mapping{ i = cmp_mapping.abort(), c = cmp_mapping.close() },
             ["<Tab>"] = cmp_mapping(function(fallback)
                 if cmp.visible() then
@@ -125,7 +116,7 @@ function M.config()
         sources = {
             {
                 name = "copilot",
-                -- keyword_length = 0,
+                keyword_length = 0,
                 max_item_count = 3,
                 trigger_characters = {
                     {
@@ -187,7 +178,7 @@ function M.config()
                 },
             },
         },
-    })
+    }
 end
 
 return M

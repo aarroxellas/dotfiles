@@ -1,46 +1,44 @@
 local Completion = {}
 
-function Completion.snippet()
+function Completion.completion()
 	return {
-			"L3MON4D3/LuaSnip",
-			config = function()
-				if vim.g.snippets ~= "luasnip" then
-					return
-				end
-				local ls = require("luasnip")
-				local types = require("luasnip.utils.types")
-				ls.config.set_config({
-					history = true,
-					updateevents = "TextChanged,TextChangedI",
-					enable_autosnippets = true,
-				})
-				local paths = {}
-				require("luasnip.loaders.from_lua").lazy_load()
-				require("luasnip.loaders.from_vscode").lazy_load({
-					paths = paths,
-				})
-				-- require("luasnip.loaders.from_snipmate").lazy_load()
-			end,
-			event = "InsertEnter",
-			dependencies = { "rafamadriz/friendly-snippets" },
-	}
-end
-
-function Completion.cmp()
-	return {
-			"hrsh7th/nvim-cmp",
-			dependencies = {
-				{ "L3MON4D3/LuaSnip" },
-				{ "saadparwaiz1/cmp_luasnip" },
-				{ "hrsh7th/cmp-buffer" },
-				{ "hrsh7th/cmp-path" },
-				{ "hrsh7th/cmp-nvim-lsp" },
-				-- { "hrsh7th/cmp-cmdline" },
-				{ "hrsh7th/cmp-nvim-lua" },
-				-- { "onsails/lspkind-nvim" },
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			{
+				"L3MON4D3/LuaSnip",
+				event = "InsertEnter",
+				config = function()
+					if vim.g.snippets ~= "luasnip" then
+						return
+					end
+					local ls = require("luasnip")
+					ls.config.set_config({
+						history = true,
+						updateevents = "TextChanged,TextChangedI",
+						enable_autosnippets = true,
+					})
+					local paths = {}
+					require("luasnip.loaders.from_lua").lazy_load()
+					require("luasnip.loaders.from_vscode").lazy_load({
+						paths = paths,
+					})
+					-- require("luasnip.loaders.from_snipmate").lazy_load()
+				end,
+				dependencies = { "rafamadriz/friendly-snippets", event = "InsertEnter" },
 			},
-			event = { "InsertEnter", "CmdlineEnter" },
-			config = function() require("completion.cmp").config() end,
+			{ "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
+			{ "hrsh7th/cmp-buffer", event = "InsertEnter" },
+			{ "hrsh7th/cmp-path", event = "InsertEnter" },
+			{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
+			{ "hrsh7th/cmp-cmdline", event = "InsertEnter" },
+			{ "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
+			-- { "onsails/lspkind-nvim", event = "InsertEnter" },
+			{ "hrsh7th/cmp-emoji", event = "InsertEnter" },
+		},
+		event = { "InsertEnter", "CmdlineEnter" },
+		config = function()
+			require("completion.cmp").config()
+		end,
 	}
 end
 
@@ -51,13 +49,11 @@ function Completion.lsp()
 			lazy = true,
 			dependencies = {
 				"mason-lspconfig.nvim",
-				{
-					"folke/neodev.nvim",
-					config = function() require("neodev").setup() end,
-				},
 			},
-            config = function () require("completion.lsp") end,
-            after = "mason",
+			config = function()
+				require("completion.lsp")
+			end,
+			after = "mason",
 		},
 		{
 			"williamboman/mason.nvim",
@@ -74,56 +70,122 @@ function Completion.lsp()
 			dependencies = "mason.nvim",
 		},
 		{
-			"jose-elias-alvarez/null-ls.nvim",
+			"nvimtools/none-ls.nvim",
 			event = "BufReadPre",
-			config = function() require("completion.lsp.null-ls").config() end,
+			config = function()
+				require("completion.lsp.null-ls").config()
+			end,
 		},
-        {
-            "j-hui/fidget.nvim",
+		{
+			"j-hui/fidget.nvim",
 			tag = "legacy",
-            config = function () require"fidget".setup{} end
-        }
+			config = function()
+				require("fidget").setup({})
+			end,
+		},
+		{
+			"folke/neodev.nvim",
+			config = function()
+				require("neodev").setup()
+			end,
+		},
+	}
+end
+
+function Completion.schemas()
+	return {
+		"b0o/schemastore.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("lspconfig").jsonls.setup({
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas(),
+						validate = { enable = true },
+					},
+				},
+			})
+		end,
+		dependencies = { "williamboman/mason-lspconfig.nvim" },
 	}
 end
 
 function Completion.language_go()
-    return {
-        "leoluz/nvim-dap-go",
-        config = function () require("editor.dap_go").setup() end,
-        dependencies = "mfussenegger/nvim-dap",
-        -- TODO: Give this a try
-        -- {
-        --     "ray-x/go.nvim",
-        --     config = function()
-        --         require("go").setup()
-        --     end,
-        --     event = {"CmdlineEnter"},
-        --     ft = {"go", 'gomod'},
-        --     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
-        -- }
-    }
+	return {
+		"leoluz/nvim-dap-go",
+		event = "VeryLazy",
+		config = function()
+			require("editor.dap_go").setup()
+		end,
+		dependencies = "mfussenegger/nvim-dap",
+		-- TODO: Give this a try
+		-- {
+		--     "ray-x/go.nvim",
+		--     config = function()
+		--         require("go").setup()
+		--     end,
+		--     event = {"CmdlineEnter"},
+		--     ft = {"go", 'gomod'},
+		--     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+		-- }
+	}
 end
 
 function Completion.language_java()
-    return { "mfussenegger/nvim-jdtls", ft = { "java" } }
+	return {
+		"mfussenegger/nvim-jdtls",
+		ft = { "java" },
+		event = "VeryLazy",
+		dependencies = {
+			{ "nvim-treesitter/nvim-treesitter" },
+			{ "nvim-neotest/neotest" },
+			{ "vim-test/vim-test" },
+			{ "nvim-neotest/neotest-vim-test" },
+			{ "rcasia/neotest-java" },
+			{ "nvim-neotest/neotest-go" },
+			{ "nvim-neotest/neotest-python" },
+			{ "nvim-neotest/neotest-plenary" },
+		},
+		config = function() require("completion.neotest").config() end,
+	}
 end
 
 function Completion.language_kotlin()
 	return {
 		"udalov/kotlin-vim",
+		event = "VeryLazy",
 	}
-
 end
 
 function Completion.language_rust()
-    return {
-        "simrat39/rust-tools.nvim",
-        config = function () require("rust-tools").setup() end,
-        -- {
-        --     "Saecki/crates.nvim",
-        --     config = function() require("crates").setup() end,
-        -- },
-    }
+	return {
+		"simrat39/rust-tools.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("rust-tools").setup()
+		end,
+		-- {
+		--     "Saecki/crates.nvim",
+		--     config = function() require("crates").setup() end,
+		-- },
+	}
+end
+
+function Completion.assistant()
+	return {
+		{
+			"zbirenbaum/copilot.lua",
+			event = { "InsertEnter", "VeryLazy" },
+			config = function()
+				require("completion.copilot").config()
+			end,
+			cmd = "Copilot",
+			dependencies = {
+				{ "zbirenbaum/copilot-cmp" },
+			},
+		},
+		-- { "AndreM222/copilot-lualine" },
+	}
 end
 
 function Completion.autopair()

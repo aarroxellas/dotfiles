@@ -53,14 +53,14 @@ function M.config()
 		sections = {
 			lualine_a = { "mode" },
 			lualine_b = { "branch", diagnostics },
-			lualine_c = {"buffers"},
+			lualine_c = { "buffers" },
 			-- lualine_d = {"%< ", "%{expand('%:~:.:h')}"},
-			lualine_x = { diff, spaces, "encoding", filetype },
+			lualine_x = { diff, "copilot", spaces, "encoding", filetype },
 			lualine_y = { location },
 			lualine_z = { "progress" },
 		},
 		tabline = {},
-		extensions = {},
+	extensions = {},
 	})
 end
 
