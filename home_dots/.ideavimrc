@@ -227,7 +227,7 @@ nnoremap <c-i> :action Forward<cr>
 nnoremap g<c-o> <c-o>
 nnoremap g<c-i> <c-i>
 
-" built in search looks better
-nnoremap / :action Find<cr>
+" built in search looks better but performs worse
+" nnoremap / :action Find<cr>
 " but preserve ideavim search
 nnoremap g/ /
