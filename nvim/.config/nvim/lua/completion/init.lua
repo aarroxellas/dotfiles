@@ -137,16 +137,8 @@ function Completion.language_java()
 		ft = { "java" },
 		event = "VeryLazy",
 		dependencies = {
-			{ "nvim-treesitter/nvim-treesitter" },
-			{ "nvim-neotest/neotest" },
-			{ "vim-test/vim-test" },
-			{ "nvim-neotest/neotest-vim-test" },
-			{ "rcasia/neotest-java" },
-			{ "nvim-neotest/neotest-go" },
-			{ "nvim-neotest/neotest-python" },
-			{ "nvim-neotest/neotest-plenary" },
+			{ "nvim-treesitter/nvim-treesitter" }
 		},
-		config = function() require("completion.neotest").config() end,
 	}
 end
 

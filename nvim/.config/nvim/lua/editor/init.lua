@@ -8,34 +8,47 @@ function Editor.aerial()
 end
 
 function Editor.diagnostic()
-    return {
-	-- "folke/lsp-trouble.nvim",
-	{
-	    "rcarriga/nvim-dap-ui",
-	    config = function() require("editor.dap").config_ui() end,
-	    dependencies =
+	return {
+		-- "folke/lsp-trouble.nvim",
 		{
-		    "mfussenegger/nvim-dap",
-			config = function() require("editor.dap").config() end,
+			"rcarriga/nvim-dap-ui",
+			config = function() require("editor.dap").config_ui() end,
+			dependencies =
+			{
+				"mfussenegger/nvim-dap",
+				config = function() require("editor.dap").config() end,
+			},
+			{
+				"nvim-telescope/telescope-dap.nvim",
+				config = function() require("telescope").load_extension("dap") end,
+				dependencies = {
+					"mfussenegger/nvim-dap"
+				}
+			},
+			{
+				"theHamsta/nvim-dap-virtual-text",
+				config = function() require("nvim-dap-virtual-text").setup({}) end,
+			},
 		},
 		{
-			"nvim-telescope/telescope-dap.nvim",
-			config = function() require("telescope").load_extension("dap") end,
-		},
-		{
-			"theHamsta/nvim-dap-virtual-text",
-			config = function() require'nvim-dap-virtual-text'.setup() end,
-		},
-	},
-	{
-	    "nvim-neotest/neotest",
-	    dependencies = {
-		"nvim-lua/plenary.nvim",
-		"antoinemadec/FixCursorHold.nvim",
-		"nvim-treesitter/nvim-treesitter"
-	    }
+			"nvim-neotest/neotest",
+			dependencies = {
+				"nvim-neotest/nvim-nio",
+				"nvim-lua/plenary.nvim",
+				"antoinemadec/FixCursorHold.nvim",
+				"nvim-treesitter/nvim-treesitter",
+				-- "vim-test/vim-test" ,
+				"nvim-neotest/neotest-vim-test" ,
+				"rcasia/neotest-java" ,
+				"nvim-neotest/neotest-go" ,
+				"nvim-neotest/neotest-python" ,
+				"nvim-neotest/neotest-plenary" ,
+			},
+			config = function()
+				require("editor.neotest").config()
+			end,
+		}
 	}
-    }
 end
 
 function Editor.git()
@@ -88,8 +101,6 @@ function Editor.surround()
             }
         end,
         dependencies = { "tpope/vim-repeat" },
-        -- "machakann/vim-sandwich",
-        -- keys = { "sa", "sr", "sd" }, -- sandwitch
         keys = {
             { "cs", mode = { "n", "v" } },
             { "ds", mode = { "n", "v" } },
@@ -97,6 +108,8 @@ function Editor.surround()
             { "s", mode = "v" },
             { "<c-s>", mode = "i" },
         }, -- surround
+        -- "machakann/vim-sandwich",
+        -- keys = { "sa", "sr", "sd" }, -- sandwitch
     }
 end
 

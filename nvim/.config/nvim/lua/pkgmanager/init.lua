@@ -39,7 +39,7 @@ lazy.setup{
 		ui.telescope(),
 		-- ui.project(),
 		-- ui.colorizer(),
-		-- ui.treesitter(),
+		ui.treesitter(),
 		ui.codehighlight(),
 		-- ui.winfocus(),
 		ui.undotree(),
@@ -56,13 +56,13 @@ lazy.setup{
 		completion.assistant(),
 
 		-- Editor
+		editor.diagnostic(),
 		editor.comment(),
 		editor.git(),
 		editor.surround(),
 		-- editor.sql(),
 		editor.markdown(),
 		-- editor.easyalign(),
-		editor.diagnostic(),
 	},
 	ui = { border = "rounded" },
 	change_detection = {

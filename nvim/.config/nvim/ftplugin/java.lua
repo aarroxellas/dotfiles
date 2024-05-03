@@ -104,7 +104,7 @@ local config = {
 		'-data', DATA_DIR
 	},
 
-	-- Local jdtls installation
+	-- Wrapper jdtls installation
 	-- cmd = {
 	-- 	"jdtls",
 	-- 	"--jvm-arg=-javaagent:" .. LOMBOK_PATH,

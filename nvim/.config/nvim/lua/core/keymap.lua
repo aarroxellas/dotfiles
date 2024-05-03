@@ -167,30 +167,6 @@ for _, key in pairs(keybindings) do
 	keymap(key[1], key[2], key[3], key[4])
 end
 
--- -- DAP Globals
--- local dap_map = function(lhs, rhs, desc)
--- 	if desc then
--- 		desc = "[DAP] " .. desc
--- 	end
---
--- 	vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
--- end
---
--- dap_map("<F1>", require("dap").step_back, "step_back")
--- dap_map("<F2>", require("dap").step_into, "step_into")
--- dap_map("<F3>", require("dap").step_over, "step_over")
--- dap_map("<F4>", require("dap").step_out, "step_out")
--- dap_map("<F5>", require("dap").continue, "continue")
--- dap_map("<leader>dr", require("dap").repl.open, "REPL")
--- dap_map("<leader>db", require("dap").toggle_breakpoint, "Toggle [B]reak Point")
--- dap_map("<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("[DAP] Condition > ")) end, "Set Expression [B]reak Point")
--- dap_map("<leader>dl", function() require("dap").list_breakpoints(true) end, "[L]ist All [B]reak Points")
--- dap_map("<leader>dC", function() require("dap").clear_breakpoints() end, "[C]lear [B]reak Points")
--- dap_map("<leader>de", require("dapui").eval, "[E]val UI")
--- dap_map("<leader>dE", function() require("dapui").eval(vim.fn.input("[DAP] Expression > ")) end, "[E]xpression")
--- dap_map("<leader>do", function() require("dapui").open() end, "[O]pen")
--- dap_map("<leader>dc", function() require("dapui").close() end, "[C]lose")
-
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "[U]ndo Tree" })
 
 -- Name every Which Key node
@@ -224,13 +200,6 @@ vim.api.nvim_create_autocmd(
 	end,
 	group = vim.api.nvim_create_augroup("which-key-augroup", { clear = true }),
 	})
-
--- vim.cmd([[
---         augroup DapRepl
---         au!
---         au FileType dap-repl lua require('dap.ext.autocompl').attach()
---         augroup END
---         ]])
 
 -- prevent typo when exec cmd interactions ':'
 local typo_safe = {
