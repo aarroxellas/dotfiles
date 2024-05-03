@@ -32,12 +32,22 @@ function zsh_add_completion() {
 	if [ "$2" = true ] && compinit "${completion_file:1}"
 }
 
+append_path () {
+    case ":$PATH:" in
+        *:"$1":*)
+            ;;
+        *)
+            PATH="${PATH:+$PATH:}$1"
+    esac
+}
+
 # Updates
 #
 # Update your python env.
 function pipu () {
   #python2 -m pip install -U pip
-  python3 -m pip install -U pip
+  # python3 -m pip install -U pip
+  pip install -U pip
 
   for py_pckg in $(pip3 list -o | awk 'NR > 2 {print $1}'); do
     python3 -m pip install -U "$py_pckg"

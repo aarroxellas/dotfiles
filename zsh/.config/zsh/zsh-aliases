@@ -40,7 +40,7 @@ alias vim-conf="$EDITOR ~/.vimrc"
 alias bash-conf="$EDITOR ~/.bashrc"
 alias zsh-conf="$EDITOR ~/.config/zsh/.zshrc"
 
-# open Finder folder in terminal 
+# open Finder folder in terminal
 alias cdf='cd "`osascript -e "tell application \\"Finder\\" to get POSIX path of (insertion location as text)"`"'
 
 # get top process eating memory
@@ -88,6 +88,8 @@ alias l='ls -CF'
 alias ll='ls -lrth'
 alias lA='ls -A'
 alias la='ll -Ah'
+
+alias t='tmux'
 
 # Python
 # alias python='python3'

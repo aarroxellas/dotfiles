@@ -27,7 +27,7 @@ export PATH=~/.npm-global/bin:$PATH
 export GOPATH=$HOME/.local/share/go
 
 # Golang
-[ -x "$(command -v go)" ] && export PATH="$PATH:$(go env GOPATH)/bin"
+# [ -x "$(command -v go)" ] && export PATH="$PATH:$(go env GOPATH)/bin"
 
 # PY_ENV
 # command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH" && eval "$(pyenv init -)"
@@ -39,6 +39,9 @@ export GOPATH=$HOME/.local/share/go
 # Rust
 export PATH=$HOME/.cargo/bin:$PATH
 . "$HOME/.cargo/env"
+
+# Ruby
+# export PATH=$HOME/.local/share/gem/ruby/3.0.0/bin
 
 [ "$(uname)" = "Linux" ] && \
     setxkbmap -option caps:escape_shifted_capslock && \
