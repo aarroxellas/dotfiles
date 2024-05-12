@@ -136,3 +136,26 @@ function fn () { ls **/*$1* }
 function gradle_complete () {
     source ~/.config/zsh/plugins/gradle-completion/gradle-completion.plugin.zsh
 }
+
+# GoLang
+function gocoverage () {
+        coverage_perc="/tmp/${PWD##*/}_test.out"
+        coverage_html="/tmp/${PWD##*/}_test.html"
+        [ -z $@ ] && go test ./... -coverprofile=$coverage_perc || go test $@ -coverprofile=$coverage_perc && \
+        go tool cover -html=$coverage_perc -o $coverage_html && open $coverage_html
+}
+
+function gotest () {
+
+        (green="$(tput setaf 2 2>>/dev/null || tput setf 2 2>>/dev/null)" && \
+        red="$(tput setaf 1 2>>/dev/null || tput setf 1 2>>/dev/null)" && \
+        reset="$(tput sgr0 2>>/dev/null)" && \
+        [ -z $@ ] && go test ./... -v || go test -v $@ \
+        | while read -r line; do case "$line" in \
+                *PASS:*) printf '%s\n' "$green$line$reset";;\
+                *FAIL:*) printf '%s\n' "$red$line$reset";;\
+                *) printf '%s\n' "$line";;\
+        esac; done)
+}
+
+
