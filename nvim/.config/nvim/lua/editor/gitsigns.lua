@@ -36,9 +36,6 @@ function M.config()
 			ignore_whitespace = false, -- Ignore whitespaces
 		},
 		current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>", -- Line blame formatter
-		current_line_blame_formatter_opts = { -- Options for line-blame formatter
-			relative_time = false,
-		},
 		sign_priority = 6, -- Sign priority
 		update_debounce = 100, -- Debounce time for updates in (ms)
 		status_formatter = nil, -- Use default status_formatter
@@ -107,8 +104,9 @@ function M.config()
 
     }
 
-    local ok, _ = require("gitsigns").setup(options)
-    if not ok then
+	local ok, gs = pcall(require, "gitsigns")
+	gs.setup(options)
+	if not ok then
         vim.notify("editor.gitsigns not loaded", vim.log.levels.WARN, { title = "editor.gitsigns" })
     end
 

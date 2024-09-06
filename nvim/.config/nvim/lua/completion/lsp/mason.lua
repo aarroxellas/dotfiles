@@ -13,7 +13,7 @@ function M.config()
 		-- Java
 		"jdtls",
 		-- JavaScript
-		"tsserver",
+		-- "tsserver",
 		-- Misc
 		"jsonls",
 		"yamlls",
