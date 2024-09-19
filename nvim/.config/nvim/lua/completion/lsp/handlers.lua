@@ -75,7 +75,7 @@ end
 
 M.on_attach = function(client, bufnr)
 	local no_formatting = {
-		"tsserver", "pyright", "jedi_language_server", "kotlin_language_server", "lua_ls"
+		"ts_ls", "pyright", "jedi_language_server", "kotlin_language_server", "lua_ls"
     }
 
     for _, name in pairs(no_formatting) do
