@@ -1,3 +1,8 @@
+local set = vim.opt_local
+set.expandtab = false
+set.tabstop = 4
+set.shiftwidth = 4
+
 local SYSTEM = "linux"
 if vim.fn.has("mac") == 1 then SYSTEM = "mac" end
 
@@ -58,13 +63,9 @@ local function keymaps(bufnr)
 			nowait = true,
 		}
 
-		wk.register({
-			l = {
-				e = { name = "[E]xtract" }
-			}
-		},
-			opts
-		)
+		wk.add({
+				{ "<leader>le", group = "[E]xtract", nowait = true, remap = false },
+		})
 	end
 end
 
