@@ -3,10 +3,12 @@ local Completion = {}
 function Completion.completion()
 	return {
 		"hrsh7th/nvim-cmp",
+		lazy = false,
+		priority = 100,
 		dependencies = {
 			{
 				"L3MON4D3/LuaSnip",
-				run = "make install_jsregexp",
+				build = "make install_jsregexp",
 				event = "InsertEnter",
 				config = function()
 					if vim.g.snippets ~= "luasnip" then
@@ -33,7 +35,7 @@ function Completion.completion()
 			{ "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
 			{ "hrsh7th/cmp-cmdline", event = "InsertEnter" },
 			{ "hrsh7th/cmp-nvim-lua", event = "InsertEnter" },
-			-- { "onsails/lspkind-nvim", event = "InsertEnter" },
+			{ "onsails/lspkind-nvim", event = "InsertEnter" },
 			{ "hrsh7th/cmp-emoji", event = "InsertEnter" },
 		},
 		event = { "InsertEnter", "CmdlineEnter" },
@@ -73,6 +75,9 @@ function Completion.lsp()
 		{
 			"nvimtools/none-ls.nvim",
 			event = "BufReadPre",
+			dependencies = {
+				"nvim-lua/plenary.nvim"
+			},
 			config = function()
 				require("completion.lsp.null-ls").config()
 			end,
@@ -162,6 +167,13 @@ function Completion.language_rust()
 		--     config = function() require("crates").setup() end,
 		-- },
 	}
+end
+
+function Completion.language_sql()
+    return {
+        "nanotee/sqls.nvim",
+        ft = "sql",
+    }
 end
 
 function Completion.assistant()

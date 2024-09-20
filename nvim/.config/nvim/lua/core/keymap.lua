@@ -57,10 +57,10 @@ local keybindings = {
 	{ "n", ",d", [["_d]], { noremap = true, silent = true, desc = "[D]elete Yank to Clipboard" } },
 
 	-- resize window
-	{ "n", "<C-Left>", "<CMD>vertical resize +5<CR>", { noremap = true, silent = true } },
-	{ "n", "<C-Up>", "<CMD>resize -5<CR>", { noremap = true, silent = true } },
-	{ "n", "<C-Right>", "<CMD>vertical resize -5<CR>", { noremap = true, silent = true } },
-	{ "n", "<C-Down>", "<CMD>resize +5<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-l>", "<CMD>vertical resize +5<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-j>", "<CMD>resize -5<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-h>", "<CMD>vertical resize -5<CR>", { noremap = true, silent = true } },
+	{ "n", "<A-k>", "<CMD>resize +5<CR>", { noremap = true, silent = true } },
 
     -- Buffer
 	{ "n", "<leader>bq", "<CMD>bdelete<CR>", { noremap = true, silent = true, desc = "Close Current Buffer" } },
@@ -85,7 +85,6 @@ local keybindings = {
     { "n", "<A-g>", "<CMD>bprevious<CR>", { noremap = true, silent = true } },
     { "n", "<A-0>", "<CMD>bfirst<CR>", { noremap = true, silent = true } },
     { "n", "<A-->", "<CMD>blast<CR>", { noremap = true, silent = true } },
-    -- TODO: prefer builtin Tabs and Buffer
 
 	-- split window
 	-- { "n", "<leader>v", "<C-w>v", { noremap = false, silent = true } },
@@ -100,9 +99,12 @@ local keybindings = {
 	{ "n", "<c-h>", "<C-\\><C-n><C-w>h", { noremap = false, silent = true } },
 	{ "n", "<c-l>", "<C-\\><C-n><C-w>l", { noremap = false, silent = true } },
 
+	-- Misc
+	{ "n", "<leader>e", ":NvimTreeToggle<cr>", {silent = true, noremap = true, desc = "Toggle Tree"} },
+	{ "t", "<C-;>", "<C-\\><C-n>", {silent = true, noremap = true, desc = "escape to normal in terminal"} },
 	-- terminal mode
-	{ "n", "<leader>;", "<CMD>terminal<CR> <s-a>", { noremap = true, silent = true, desc = "Go to terminal" } },
-	{ "t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true } },
+	-- { "n", "<leader>;", "<CMD>terminal<CR> <s-a>", { noremap = true, silent = true, desc = "Go to terminal" } },
+	-- { "t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true } },
 
 	-- -- base64
 	-- {
@@ -134,31 +136,29 @@ local keybindings = {
 
 
 -- TODO: define plugin dependent keymaps in separete after file
-local _, builtin = pcall(require, "telescope.builtin")
-vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find Project Recently Opened Files" })
-vim.keymap.set("n", "<leader>/", function()
-	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({ winblend = 10, previewer = false }))
-end, { desc = "[/] Fuzzily Search Current Buffer" })
-vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch Project [F]iles" })
-vim.keymap.set("n", "<leader>sG", builtin.git_status, { desc = "[S]earch [G]it Status" })
-vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch Neovim [H]elp" })
-vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch Current [W]ord" })
-vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch Project by [G]rep" })
-vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch Project [D]iagnostics" })
-vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
-vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [k]eymaps" })
-vim.keymap.set("n", "<leader>st", builtin.treesitter, { desc = "[S]earch [t]reesitter" })
-vim.keymap.set("n", "<leader>sT", builtin.builtin, { desc = "[S]earch [T]elescope Builtins" })
--- vim.keymap.set("n", "<leader>sD", function() builtin.dap() end, { desc = "[S]earch [d]ap" })
---
+local ok_tele, builtin = pcall(require, "telescope.builtin")
+if ok_tele then
+	vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find Project Recently Opened Files" })
+	vim.keymap.set("n", "<leader>/", function()
+		builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({ winblend = 10, previewer = false }))
+	end, { desc = "[/] Fuzzily Search Current Buffer" })
+	vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch Project [F]iles" })
+	vim.keymap.set("n", "<leader>sG", builtin.git_status, { desc = "[S]earch [G]it Status" })
+	vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch Neovim [H]elp" })
+	vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch Current [W]ord" })
+	vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch Project by [G]rep" })
+	vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch Project [D]iagnostics" })
+	vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
+	vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [k]eymaps" })
+	vim.keymap.set("n", "<leader>st", builtin.treesitter, { desc = "[S]earch [t]reesitter" })
+	vim.keymap.set("n", "<leader>sT", builtin.builtin, { desc = "[S]earch [T]elescope Builtins" })
+	vim.keymap.set("n", "<leader>sD", function() builtin.dap() end, { desc = "[S]earch [d]ap" })
+end
+
 -- Misc
-vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<cr>", {silent = true, noremap = true, desc = "Toggle Tree"})
-vim.api.nvim_set_keymap("t", "<C-;>", "<C-\\><C-n>", {silent = true, noremap = true, desc = "escape to normal in terminal"})
 
 -- Format LSP
-vim.keymap.set("n", "<leader>f", function()
-	vim.lsp.buf.format()
-end, { noremap = false, silent = true, desc = "[F]ormat Text" })
+vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end, { noremap = false, silent = true, desc = "[F]ormat Text" })
 
 -- Tmux session
 vim.keymap.set("n", "<c-F>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { noremap = false, silent = true })
@@ -170,36 +170,23 @@ end
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "[U]ndo Tree" })
 
 -- Name every Which Key node
-vim.api.nvim_create_autocmd(
-	"FileType",
-	{
-		pattern = "*",
-		callback = function(ev)
+vim.api.nvim_create_autocmd("FileType",
+{
+	pattern = "*",
+	callback = function(ev)
 		local ok_wk, wk = pcall(require, "which-key")
 		if ok_wk then
-			local opts = {
-				mode = { "n" },
-				prefix = "<leader>",
-				buffer = ev.buffer,
-				silent = true,
-				noremap = true,
-				nowait = true,
-			}
-
-			wk.register({
-				s = { name = "+Telescope Search" },
-				b = { name = "+Buffer" },
-				g = { name = "+Git" },
-				l = { name = "+LSP" },
-				d = { name = "+Debug" },
-			},
-				opts
-			)
-
+			wk.add({
+				{ "<leader>b", group = "Buffer", nowait = true, remap = false },
+				{ "<leader>d", group = "Debug", nowait = true, remap = false },
+				{ "<leader>g", group = "Git", nowait = true, remap = false },
+				{ "<leader>l", group = "LSP", nowait = true, remap = false },
+				{ "<leader>s", group = "Telescope Search", nowait = true, remap = false },
+			})
 		end
 	end,
 	group = vim.api.nvim_create_augroup("which-key-augroup", { clear = true }),
-	})
+})
 
 -- prevent typo when exec cmd interactions ':'
 local typo_safe = {

@@ -29,45 +29,53 @@ function M.config()
         snippet = {
             expand = function(args)
                 luasnip.lsp_expand(args.body)
-            end,
-        },
-        completion = {
-            ---@usage The minimum length of a word to complete on.
-            keyword_length = 1,
-        },
-        mapping = cmp.mapping.preset.insert {
-            ["<C-k>"] = cmp_mapping(cmp_mapping.select_prev_item(), { "i", "c" }),
-            ["<C-j>"] = cmp_mapping(cmp_mapping.select_next_item(), { "i", "c" }),
-            ["<Down>"] = cmp_mapping(cmp_mapping.select_next_item { behavior = SelectBehavior.Select }, { "i" }),
-            ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = SelectBehavior.Select }, { "i" }),
-            ["<C-d>"] = cmp_mapping.scroll_docs(-4),
-            ["<C-f>"] = cmp_mapping.scroll_docs(4),
-            ["<C-Space>"] = cmp_mapping(cmp_mapping.complete({}), { "i", "c" }),
-            ["<CR>"] = cmp_mapping.confirm { select = true },
-            ["<C-e>"] = cmp_mapping{ i = cmp_mapping.abort(), c = cmp_mapping.close() },
-            ["<Tab>"] = cmp_mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_next_item()
-                elseif luasnip.expandable() then
-                    luasnip.expand()
-                elseif luasnip.expand_or_jumpable() then
-                    luasnip.expand_or_jump()
-                elseif check_backspace() then
-                    fallback()
-                else
-                    fallback()
-                end
-            end, { "i", "s", }),
-            ["<S-Tab>"] = cmp_mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then
-                    luasnip.jump(-1)
-                else
-                    fallback()
-                end
-            end, { "i", "s", }),
-        },
+			end,
+		},
+		completion = {
+			---@usage The minimum length of a word to complete on.
+			keyword_length = 1,
+		},
+		mapping = cmp.mapping.preset.insert {
+			["<C-k>"] = cmp_mapping(cmp_mapping.select_prev_item(), { "i", "c" }),
+			["<C-j>"] = cmp_mapping(cmp_mapping.select_next_item(), { "i", "c" }),
+			["<Down>"] = cmp_mapping(cmp_mapping.select_next_item { behavior = SelectBehavior.Select }, { "i" }),
+			["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = SelectBehavior.Select }, { "i" }),
+			["<C-d>"] = cmp_mapping.scroll_docs(-4),
+			["<C-f>"] = cmp_mapping.scroll_docs(4),
+			["<C-Space>"] = cmp_mapping(cmp_mapping.complete({}), { "i", "c" }),
+			["<CR>"] = cmp_mapping.confirm { select = true },
+			["<C-e>"] = cmp_mapping{ i = cmp_mapping.abort(), c = cmp_mapping.close() },
+			-- Super Tab
+			["<Tab>"] = cmp_mapping(function(fallback)
+				if cmp.visible() then
+					cmp.select_next_item()
+				elseif luasnip.expandable() then
+					luasnip.expand()
+				elseif luasnip.expand_or_jumpable() then
+					luasnip.expand_or_jump()
+				elseif check_backspace() then
+					fallback()
+				else
+					fallback()
+				end
+			end, { "i", "s", }),
+			["<S-Tab>"] = cmp_mapping(function(fallback)
+				if cmp.visible() then
+					cmp.select_prev_item()
+				elseif luasnip.jumpable(-1) then
+					luasnip.jump(-1)
+				else
+					fallback()
+				end
+			end, { "i", "s", }),
+			-- Default vim
+			["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+			["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+			["<C-y>"] = cmp.mapping( cmp.mapping.confirm {
+				behavior = cmp.ConfirmBehavior.Insert,
+				select = true,
+			}, { "i", "c" }),
+		},
         formatting = {
             fields = { "kind", "abbr", "menu" },
             duplicates = {
@@ -88,11 +96,6 @@ function M.config()
                 if entry.source.name == "copilot" then
                     vim_item.kind = icons.git.Octoface
                     vim_item.kind_hl_group = "CmpItemKindCopilot"
-                end
-
-                if entry.source.name == "cmp_tabnine" then
-                    vim_item.kind = icons.misc.Robot
-                    vim_item.kind_hl_group = "CmpItemKindTabnine"
                 end
 
                 if entry.source.name == "crates" then
@@ -139,7 +142,6 @@ function M.config()
             },
             { name = "path" },
             { name = "luasnip" },
-            { name = "cmp_tabnine" },
             { name = "nvim_lua" },
             { name = "buffer" },
             { name = "calc" },
@@ -179,6 +181,9 @@ function M.config()
             },
         },
     }
+
+
+
 end
 
 return M

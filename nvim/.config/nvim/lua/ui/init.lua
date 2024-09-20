@@ -38,47 +38,14 @@ function UI.breadcrumbs()
 
 end
 
-function UI.filemanager()
-	return {
-		"nvim-tree/nvim-tree.lua",
-		event = "VeryLazy",
-		dependencies = { "kyazdani42/nvim-web-devicons" },
-		config = function ()
-		  require("ui.filemanager").config()
-		end,
-	}
-end
-
 function UI.whichkey()
 	return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
+		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			-- require("ui.whichkey").config()
 			require("which-key").setup({})
-		end,
-	}
-end
-
-function UI.undotree()
-    return {
-        "mbbill/undotree",
-        config = function () vim.g.loaded_undotree = 1 end
-    }
-end
-
-function UI.telescope()
-	return {
-		"nvim-telescope/telescope.nvim",
-        version = "0.1.x",
-		dependencies = {
-			-- "nvim-lua/popup.nvim",
-			"nvim-lua/plenary.nvim",
-			-- "nvim-telescope/telescope-fzy-native.nvim",
-			"kyazdani42/nvim-web-devicons",
-		},
-		config = function()
-			require("ui.telescope").config()
 		end,
 	}
 end
@@ -186,6 +153,19 @@ function UI.winfocus()
             }
         end,
     }
+end
+
+function UI.surround()
+	return {
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	}
 end
 
 return UI

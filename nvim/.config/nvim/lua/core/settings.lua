@@ -1,91 +1,101 @@
+local opt = vim.opt
+--------------- dirs | files ---------------
+--------------------------------------------
+
 local backupdir = vim.fn.stdpath("data") .. "/backup"   -- setup backupdir to default neovim folder
 if vim.fn.empty(vim.fn.glob(backupdir)) > 0 then
 	os.execute("mkdir " .. backupdir)
 end
-vim.opt.backupdir = backupdir
+opt.backupdir = backupdir
+opt.backup = false                          -- creates a backup file
+opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 
 local undodir = vim.fn.stdpath("data") .. "/undo"       -- set an undo directory "data" or "cache"
 if vim.fn.empty(vim.fn.glob(undodir)) > 0 then
 	os.execute("mkdir " .. undodir)
 end
-vim.opt.undodir = undodir
+opt.undodir = undodir
+opt.undofile = true                         -- enable persist undo
+opt.undolevels = 100                        -- keep # registers per file
 
-local tabspace = 4                            	-- space width for tabulation
+opt.swapfile = false                        -- creates a swapfile
+opt.updatetime = 100              	        -- update to swap file [ms]
 
-vim.opt.backup = false                          -- creates a backup file
-vim.opt.backspace = "indent,eol,start"
-vim.opt.bg = "dark"                             -- base colorbackground
-vim.opt.binary = true                           -- file encoding binary
-vim.opt.bomb = true                             -- file encoding ucs-bom
-vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
-vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
-vim.opt.colorcolumn = "120"                     -- fix indentline for now
-vim.opt.compatible = false                      -- not vi retro-compatible
-vim.opt.completeopt = "menu,menuone,noselect"    -- completion popup and displays
-vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
-vim.opt.cursorline = true                       -- highlight the current line
-vim.opt.encoding = "utf-8"
-vim.opt.expandtab = false                       -- convert tabs to spaces
-vim.opt.errorbells = false                      -- no bells
-vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
-vim.opt.fileencodings = "utf-8"
-vim.opt.fileformat = "unix"                     -- set to the only compatible one
-vim.opt.fillchars = { fold = " " }              -- remove folding chars
--- vim.opt.fillchars = "vert:┃"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldlevel = 10                          -- don't close any folds by default
--- vim.opt.foldmethod = "manual"
-vim.opt.formatoptions:remove("croj")            -- "cro" auto-wrap CR and comment "j" join comment lines
-vim.opt.grepprg = 'rg --smart-case --color=never --no-heading -H -n --column' -- better grep with rg
-vim.opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
-vim.opt.hidden = true                         	-- required to keep multiple buffers and open multiple buffers
-vim.opt.hlsearch = true                         -- highlight all search matches
-vim.opt.ignorecase = true                       -- ignore case in search patterns (needed for smartcase to work)
-vim.opt.inccommand = "split"                    -- shows the effects of :s as you type.
--- vim.opt.incsearch = true                        -- highlight all search matches while typing /
-vim.opt.laststatus = 3                          -- global statusline to last window
-vim.opt.lazyredraw = true                       -- don't redraw window while executing macros
-vim.opt.linebreak = true                        -- break display vim line
-vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
-vim.opt.number = true                           -- set numbered lines
-vim.opt.pumblend = 10							-- pop up menu transparancy
-vim.opt.pumheight = 10                          -- pop up menu height
-vim.opt.pyxversion = 3                          -- python builtin version
-vim.opt.relativenumber = true                   -- set relative numbered lines
-vim.opt.regexpengine = 0                        -- set regex engine
-vim.opt.scrolloff = 8                           -- minimal number of screen lines to keep above and below the cursor
-vim.opt.shiftwidth = tabspace                   -- the number of spaces inserted for each indentation
-vim.opt.shortmess = "atToOc"                    -- prompt footbar abbrev.
-vim.opt.showcmd = true                          -- display (partial) cmd and selection size in prompt -- set to false if slow
-vim.opt.showmode = false     	                -- we don't need to see things like -- INSERT -- anymore
-vim.opt.showtabline = 0                         -- show files in tabs | 0 desable
-vim.opt.sidescrolloff = 8                       -- minimal number of screen lines to keep left and right of the cursor.
-vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
-vim.opt.smartcase = true                        -- overrides ignorecase (does not work for '*', '#')
-vim.opt.smartindent = false                     -- make indenting smarter again
-vim.opt.softtabstop = tabspace                  -- editing tab local buffer
-vim.opt.splitbelow = true                       -- force all horizontal splits to go below current window
-vim.opt.splitright = true                       -- force all vertical splits to go to the right of current window
-vim.opt.startofline = false                     -- moves cursor to non-blank char while moving between lines
-vim.opt.swapfile = false                        -- creates a swapfile
-vim.opt.tabstop = tabspace                      -- insert 4 spaces for a tab
-vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
-vim.o.timeout = true
-vim.opt.timeoutlen = 500                        -- time [ms] to wait for a mapped sequence to complete -- might break plugins
-vim.opt.title = true                            -- set the title of window to the value of the titlestring
-vim.opt.undofile = true                         -- enable persist undo
-vim.opt.undolevels = 100                         -- keep # registers per file
-vim.opt.updatetime = 100              	        -- update to swap file [ms]
-vim.opt.visualbell = false                      -- no visual bell
-vim.opt.wildmenu = true
-vim.opt.wildmode = "full"
-vim.opt.wildoptions = "pum"                     -- set * to select in "pum" popup, "tagfile" tags
-vim.opt.wrap = false                            -- display lines as one long line
-vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-vim.opt.iskeyword:append "-,_"                  -- used in searching and recognizing with many commands
-vim.opt.whichwrap:append "<,>,[,],h,l"          -- let movement keys reach the previous line
+------------------- opts -------------------
+--------------------------------------------
 
-vim.opt.wildignore = {
+local tabspace = 4                         	-- space width for tabulation
+opt.shiftwidth = tabspace                   -- the number of spaces inserted for each indentation
+opt.softtabstop = tabspace                  -- editing tab local buffer
+opt.tabstop = tabspace                      -- insert 4 spaces for a tab
+
+opt.bg = "dark"                             -- base colorbackground
+opt.binary = true                           -- file encoding binary
+opt.bomb = true                             -- file encoding ucs-bom
+opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
+opt.colorcolumn = "120"                     -- fix indentline for now
+opt.compatible = false                      -- not vi retro-compatible
+opt.completeopt = "menu,menuone,noselect"    -- completion popup and displays
+opt.conceallevel = 0                        -- so that `` is visible in markdown files
+opt.cursorline = true                       -- highlight the current line
+opt.encoding = "utf-8"
+opt.expandtab = false                       -- convert tabs to spaces
+opt.errorbells = false                      -- no bells
+opt.fileencoding = "utf-8"                  -- the encoding written to a file
+opt.fileencodings = "utf-8"
+opt.fileformat = "unix"                     -- set to the only compatible one
+opt.fillchars = { fold = " " }              -- remove folding chars
+-- opt.fillchars = "vert:┃"
+-- opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldlevel = 10                          -- don't close any folds by default
+-- opt.foldmethod = "manual"
+opt.formatoptions:remove("croj")            -- "cro" auto-wrap CR and comment "j" join comment lines
+opt.grepprg = 'rg --smart-case --color=never --no-heading -H -n --column' -- better grep with rg
+opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
+opt.hidden = true                         	-- required to keep multiple buffers and open multiple buffers
+opt.hlsearch = true                         -- highlight all search matches
+opt.ignorecase = true                       -- ignore case in search patterns (needed for smartcase to work)
+opt.inccommand = "split"                    -- shows the effects of :s as you type.
+-- opt.incsearch = true                        -- highlight all search matches while typing /
+opt.laststatus = 3                          -- global statusline to last window
+opt.lazyredraw = true                       -- don't redraw window while executing macros
+opt.linebreak = true                        -- break display vim line
+opt.mouse = "a"                             -- allow the mouse to be used in neovim
+opt.number = true                           -- set numbered lines
+opt.pyxversion = 3                          -- python builtin version
+opt.relativenumber = true                   -- set relative numbered lines
+opt.regexpengine = 0                        -- set regex engine
+opt.scrolloff = 8                           -- minimal number of screen lines to keep above and below the cursor
+opt.showcmd = true                          -- display (partial) cmd and selection size in prompt -- set to false if slow
+opt.showmode = false     	                -- we don't need to see things like -- INSERT -- anymore
+opt.showtabline = 0                         -- show files in tabs | 0 desable
+opt.sidescrolloff = 8                       -- minimal number of screen lines to keep left and right of the cursor.
+opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
+opt.shada = { "'10", "<0", "s10", "h" }
+opt.smartcase = true                        -- overrides ignorecase (does not work for '*', '#')
+opt.smartindent = false                     -- make indenting smarter again
+opt.splitbelow = true                       -- force all horizontal splits to go below current window
+opt.splitright = true                       -- force all vertical splits to go to the right of current window
+opt.startofline = false                     -- moves cursor to non-blank char while moving between lines
+opt.termguicolors = true                    -- set term gui colors (most terminals support this)
+opt.timeout = true
+opt.timeoutlen = 500                        -- time [ms] to wait for a mapped sequence to complete -- might break plugins
+opt.title = true                            -- set the title of window to the value of the titlestring
+opt.wildmenu = true
+opt.wildmode = "full"
+opt.wildoptions = "pum"                     -- set * to select in "pum" popup, "tagfile" tags
+opt.pumblend = 10							-- pop up menu transparancy
+opt.pumheight = 10                          -- pop up menu height
+opt.wrap = false                            -- display lines as one long line
+opt.visualbell = false                      -- no visual bell
+opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
+opt.backspace = "indent,eol,start"
+opt.iskeyword:append "-,_"                  -- used in searching and recognizing with many commands
+opt.whichwrap:append "<,>,[,],h,l"          -- let movement keys reach the previous line
+opt.shortmess = "atToOc"                    -- prompt footbar abbrev.
+opt.formatoptions:remove "o,O"              -- do not comment at 'o,O' -- works ?
+
+opt.wildignore = {
 	'*.o',
 	'*.obj,*~',
 	'*.git*',

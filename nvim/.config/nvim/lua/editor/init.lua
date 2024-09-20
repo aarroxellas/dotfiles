@@ -1,10 +1,37 @@
 local Editor = {}
 
-function Editor.aerial()
+function Editor.filemanager()
+	return {
+		"nvim-tree/nvim-tree.lua",
+		event = "VeryLazy",
+		dependencies = { "kyazdani42/nvim-web-devicons" },
+		config = function ()
+		  require("editor.filemanager").config()
+		end,
+	}
+end
+
+function Editor.undotree()
     return {
-        "stevearc/aerial.nvim",
-        config = require("editor.aerial"),
+        "mbbill/undotree",
+        config = function () vim.g.loaded_undotree = 1 end
     }
+end
+
+function Editor.telescope()
+	return {
+		"nvim-telescope/telescope.nvim",
+        version = "0.1.x",
+		dependencies = {
+			-- "nvim-lua/popup.nvim",
+			"nvim-lua/plenary.nvim",
+			-- "nvim-telescope/telescope-fzy-native.nvim",
+			"kyazdani42/nvim-web-devicons",
+		},
+		config = function()
+			require("editor.telescope").config()
+		end,
+	}
 end
 
 function Editor.diagnostic()
@@ -78,43 +105,22 @@ function Editor.markdown()
         build = function()
             vim.fn["mkdp#util#install"]()
         end,
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
         ft = { "markdown" },
         config = function() require("editor.markdown").config() end,
     }
 end
 
-function Editor.sql()
-    return {
-        "nanotee/sqls.nvim",
-        ft = "sql",
-    }
-end
-
-function Editor.surround()
-    return {
-        "ur4ltz/surround.nvim",
-        config = function()
-            require "surround".setup {
-                mappings_style = "surround",  -- "surround, sandwitch"
-                map_insert_mode = true,
-                prompt = false,
-            }
-        end,
-        dependencies = { "tpope/vim-repeat" },
-        keys = {
-            { "cs", mode = { "n", "v" } },
-            { "ds", mode = { "n", "v" } },
-            { "ys", mode = { "n", "v" } },
-            { "s", mode = "v" },
-            { "<c-s>", mode = "i" },
-        }, -- surround
-        -- "machakann/vim-sandwich",
-        -- keys = { "sa", "sr", "sd" }, -- sandwitch
-    }
-end
-
 function Editor.easyalign()
     return { "junegunn/vim-easy-align", cmd = "EasyAlign" }
+end
+
+function Editor.database()
+	return {
+		"tpope/vim-dadbod",
+		"kristijanhusak/vim-dadbod-completion",
+		"kristijanhusak/vim-dadbod-ui",
+	}
 end
 
 return Editor
