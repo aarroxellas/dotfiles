@@ -128,7 +128,7 @@ local config = {
 				runtimes = {
 					{
 						name = "JavaSE-11",
-						path = HOME .. "/.asdf/installs/java/adoptopenjdk-11.0.21+9",
+						path = HOME .. "/.asdf/installs/java/adoptopenjdk-11.0.24+8",
 					},
 					{
 						name = "JavaSE-17",
@@ -137,7 +137,7 @@ local config = {
 					},
 					{
 						name = "JavaSE-21",
-						path = HOME .. "/.asdf/installs/java/adoptopenjdk-21.0.2+13.0.LTS",
+						path = HOME .. "/.asdf/installs/java/adoptopenjdk-21.0.4+7.0.LTS",
 					},
 				},
 				updateBuildConfiguration = "interactive",
