@@ -3,8 +3,6 @@
 	name = André Arroxellas
 [github]
 	user = aarroxellas
-[includeIf "gitdir:~/code/work/"]
-    path = .gitconfig-company
 [alias]
 	s = status -sb
 	c = commit
@@ -39,7 +37,9 @@
 	editor = nvim
 	quotepath = false
 	excludesfile = ~/.gitignore
-	hooksPath = ~/.config/git/hooks
+	hooksPath = /dev/null
+	symlinks = false
+	autocrlf = false
 [merge]
 	tool = nvim -d
 [filter "lfs"]
@@ -55,3 +55,5 @@
 	rebase = true
 [init]
 	defaultBranch = main
+[includeIf "gitdir:~/code/work/"]
+    path = ~/.gitconfig-work

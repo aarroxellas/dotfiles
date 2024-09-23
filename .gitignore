@@ -15,3 +15,6 @@ package-lock.json
 ### ASDF-VM
 home_dots/.tool-versions
 
+### Work Super Secrets
+home_dots/.gitconfig.work
+
