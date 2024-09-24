@@ -2,6 +2,9 @@
 **/*/zsh/history
 **/*/.zsh_history
 **/*/.zcompdump
+**/*/.zcompcache/
+**/*/.zlogin
+**/*/.zsh_sessions/
 **/*/plugins
 
 ### NVM Installed dependencies
