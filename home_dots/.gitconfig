@@ -38,8 +38,9 @@
 	quotepath = false
 	excludesfile = ~/.gitignore
 	hooksPath = /dev/null
-	symlinks = false
+	symlinks = true
 	autocrlf = false
+	sshCommand = "ssh -i ~/.ssh/config"
 [merge]
 	tool = nvim -d
 [filter "lfs"]
@@ -49,6 +50,8 @@
 	smudge = git-lfs smudge -- %f
 [push]
 	default = current
+[checkout]
+	defaultRemote = origin
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [pull]
