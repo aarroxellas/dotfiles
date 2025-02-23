@@ -92,12 +92,10 @@ alias la='ll -Ah'
 alias t='tmux'
 
 # Python
-# alias python='python3'
-# alias py='python3'
-# alias py2='python2'
-# alias pip3='python3 -m pip'
-# alias pip='pip3'
-# alias pip2='python2 -m pip'
+alias python='python3'
+alias py='python3'
+alias py2='python2'
+alias pip3='python3 -m pip'
+alias pip='pip3'
+alias pip2='python2 -m pip'
 
-alias fury-createversion-date='fury create-version $(date +"%y.%m.%d-h%H%M")'
-# alias f='python3 -m venv ~/.furyenv --system-site-packages && . ~/.furyenv/bin/activate && fury'

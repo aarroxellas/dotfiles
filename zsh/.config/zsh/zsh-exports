@@ -32,16 +32,13 @@ export NVM_DIR=$HOME/.config/nvm
 append_path ~/.npm-global/bin
 
 # Golang
-append_path "$(go env GOPATH)/bin"
+# append_path "$(go env GOPATH)/bin"
 # append_path $HOME/.local/share/go/bin
 # append_path $HOME/.local/share/go
 
 # PYENV
 # command -v pyenv >/dev/null || append_path "$PYENV_ROOT/bin" && eval "$(pyenv init -)"
 export PYENV_ROOT=$HOME/.config/pyenv/
-
-# Global config for permissions on NodeJS (https://stackoverflow.com/a/55274930/234110)
-append_path ~/.npm-global/bin
 
 # Python
 # for PYTHON_BIN in $(ls -d -1 /usr/local/opt/python@3*/bin); do append_path PYTHON_BIN; done

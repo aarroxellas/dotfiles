@@ -82,3 +82,8 @@ PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS;
 
 # Brew
 [ "$(uname)" = "Darwin" ] && brew analytics off
+
+[ "$(uname)" = "Darwin" ] && [ -f ~/.config/zsh/.zshrc_work ] && source ~/.config/zsh/.zshrc_work
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

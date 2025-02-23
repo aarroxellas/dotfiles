@@ -20,4 +20,5 @@ home_dots/.tool-versions
 
 ### Work Super Secrets
 home_dots/.gitconfig.work
+zsh/.config/zsh/.zshrc_work
 

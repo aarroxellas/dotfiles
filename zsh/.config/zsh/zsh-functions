@@ -63,7 +63,7 @@ function brewu () {
 # Update the System for MacOS distros
 function sysu (){
   [ $("uname") = "Darwin" ] && echo -e "\n=== brew ===" && brewu
-  echo -e "\n=== pip ===" && pipu
+  # echo -e "\n=== pip ===" && pipu
   [ $("uname") = "Darwin" ] && echo -e "\n=== fury ===" && fury upgrade
   echo -e "\n=== npm ===" && npm update
   echo -e "\n=== ruby gem ===" && gem update
@@ -96,20 +96,6 @@ function ex ()
     echo "'$1' is not a valid file"
   fi
 }
-
-# Codi async support
-# function codi() {
-#    local syntax="${1:-python}"
-#    shift
-#    nvim -c \
-#      "let g:startify_disable_at_vimenter = 1 |\
-#      set bt=nofile ls=0 noru nonu nornu |\
-#      hi CodiVirtualText guifg=red
-#      hi ColorColumn ctermbg=NONE |\
-#      hi VertSplit ctermbg=NONE |\
-#      hi NonText ctermfg=0 |\
-#      Codi $syntax" "$@"
-# }
 
 # pidof
 [ $("uname") = "Darwin" ] &&
@@ -158,4 +144,7 @@ function gotest () {
         esac; done)
 }
 
+function dateDiffDays() {
+        date -j -v "+$2d" -f "%Y-%m-%d" "$1"
+}
 
