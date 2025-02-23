@@ -124,9 +124,10 @@ M.config_ui = function()
 
 	dapui.setup(M.opts.ui.config)
 
-	dap.listeners.after.event_initialized["dapui_config"] = dapui.open
-	dap.listeners.before.event_terminated["dapui_config"] = dapui.close
-	dap.listeners.before.event_exited["dapui_config"] = dapui.close
+	dap.listeners.before.attach.dapui_config = function() dapui.open() end
+	dap.listeners.before.launch.dapui_config = function() dapui.open() end
+	dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
+	dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
 	-- DAP Globals
 	local dap_map = function(lhs, rhs, desc)
@@ -139,13 +140,13 @@ M.config_ui = function()
 
 	local status_dap, dap = pcall(require, "dap")
 	if not status_dap then
-		vim.notify("core.keymaps.dap not loaded", vim.log.levels.WARN, { title = "core.keymaps.dap" })
+		vim.notify("editor.dap.config_ui not loaded", vim.log.levels.WARN, { title = "editor.keymaps.dap" })
 		return
 	end
 
 	local status_dapui, dapui = pcall(require, "dapui")
 	if not status_dapui then
-		vim.notify("core.keymaps.dapui not loaded", vim.log.levels.WARN, { title = "core.keymaps.dapui" })
+		vim.notify("editor.dapui.config_ui not loaded", vim.log.levels.WARN, { title = "editor.keymaps.dapui" })
 		return
 	end
 
@@ -165,6 +166,8 @@ M.config_ui = function()
 	dap_map("<leader>do", function() dapui.open() end, "[O]pen")
 	dap_map("<leader>dc", function() dapui.close() end, "[C]lose")
 	dap_map("<F7>", dapui.Toggle, "Open last session")
+
+	vim.keymap.set("<leader>B", dap.toggle_breakpoint, "Toggle [B]reak Point")
 
 -- vim.cmd([[
 --         augroup DapRepl

@@ -35,7 +35,7 @@ lazy.setup{
 		ui.breadcrumbs(),
 		ui.indentline(),
 		ui.whichkey(),
-		-- ui.project(),
+		ui.project(),
 		-- ui.colorizer(),
 		ui.treesitter(),
 		ui.codehighlight(),
