@@ -77,6 +77,9 @@ bindkey '^e' edit-command-line
 # May mess with nvim's telescope
 # export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
 
+# ASDF
+export PATH="$HOME/.asdf/shims:${PATH}"
+
 # Remove duplicate entries from PATH:
 PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
 

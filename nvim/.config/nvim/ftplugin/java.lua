@@ -2,6 +2,7 @@ local set = vim.opt_local
 set.expandtab = false
 set.tabstop = 4
 set.shiftwidth = 4
+set.colorcolumn = "140"
 
 local SYSTEM = "linux"
 if vim.fn.has("mac") == 1 then SYSTEM = "mac" end
@@ -20,15 +21,17 @@ local WORKSPACE_DIR = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local DATA_DIR = vim.fn.expand('~/.cache/nvim/workspaces_jdtls/' .. WORKSPACE_DIR)
 
 local bundles = {}
+-- vim.list_extend(bundles, vim.split( vim.fn.glob(jdtls_reg .. 'plugins', true), '\n'))
 -- Debugging - Test
 -- vim.list_extend(bundles, vim.split(vim.fn.glob( HOME_PATH .. '/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar' ), "\n"))
 -- vim.list_extend(bundles, vim.split(vim.fn.glob( HOME_PATH .. '/.local/share/nvim/mason/packages/java-test/extension/server/*.jar' ), "\n"))
 
+
 -- Use Mason: Debugging - Test
-local java_debug_path = require('mason-registry') .get_package('java-debug-adapter'):get_install_path()
-vim.list_extend(bundles, vim.split( vim.fn.glob(java_debug_path .. '/extension/server/com.microsoft.java.debug.plugin-*.jar'), '\n'))
-local java_test_path = require('mason-registry') .get_package('java-test'):get_install_path()
-vim.list_extend(bundles, vim.split( vim.fn.glob(java_test_path .. '/extension/server/*.jar'), '\n'))
+local java_debug_path = require('mason-registry').get_package('java-debug-adapter'):get_install_path()
+vim.list_extend(bundles, vim.split( vim.fn.glob(java_debug_path .. '/extension/server/com.microsoft.java.debug.plugin-*.jar', true), '\n'))
+local java_test_path = require('mason-registry').get_package('java-test'):get_install_path()
+vim.list_extend(bundles, vim.split( vim.fn.glob(java_test_path .. '/extension/server/*.jar', true), '\n'))
 
 local function keymaps(bufnr)
 	-- keymaps LSP
