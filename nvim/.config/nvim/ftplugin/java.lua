@@ -131,16 +131,20 @@ local config = {
 				runtimes = {
 					{
 						name = "JavaSE-11",
-						path = HOME .. "/.asdf/installs/java/adoptopenjdk-11.0.24+8",
+						path = vim.fn.expand'$HOME/.asdf/installs/java/adoptopenjdk-11.*',
 					},
 					{
 						name = "JavaSE-17",
-						path = HOME .. "/.asdf/installs/java/adoptopenjdk-17.0.8+101",
+						path = vim.fn.expand'$HOME/.asdf/installs/java/adoptopenjdk-17.*',
 						default = true,
 					},
 					{
 						name = "JavaSE-21",
-						path = HOME .. "/.asdf/installs/java/adoptopenjdk-21.0.4+7.0.LTS",
+						path = vim.fn.expand'$HOME/.asdf/installs/java/adoptopenjdk-21.*',
+					},
+					{
+						name = "JavaSE-23",
+						path = vim.fn.expand'$HOME/.asdf/installs/java/adoptopenjdk-23.*',
 					},
 				},
 				updateBuildConfiguration = "interactive",
