@@ -1,0 +1,27 @@
+### ZSH
+**/*/zsh/history
+**/*/.zsh_history
+**/*/.zcompdump
+**/*/.zcompcache/
+**/*/.zlogin
+**/*/.zsh_sessions/
+**/*/plugins
+
+### NVM Installed dependencies
+**/*/package-lock.json
+package-lock.json
+
+### NVIM
+**/*/lazy-lock.json
+**/*/.luarc.json
+
+### ASDF-VM
+home_dots/.tool-versions
+
+### Work Super Secrets
+home_dots/.gitconfig.work
+zsh/.config/zsh/.zshrc_work
+
+### MacOS
+.DS_Store
+**/*/.DS_Store

@@ -1,0 +1,101 @@
+#!/bin/sh
+# alias j='z'
+# alias f='zi'
+# alias g='lazygit'
+alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
+alias nvimrc='nvim ~/.config/nvim/'
+alias n='nvim'
+alias c='code'
+
+# alias lvim='nvim -u ~/.local/share/lunarvim/lvim/init.lua --cmd "set runtimepath+=~/.local/share/lunarvim/lvim"'
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# never confirm before overwriting something
+alias cp='nocorrect cp'
+alias mv='nocorrect mv'
+alias rm='nocorrect rm'
+
+alias df='df -h'     # human-readable sizes
+alias free='free -m' # show sizes in MB
+
+# Easy Shell
+alias mkdir='mkdir -p'
+#alias open='xdg-open'
+ZENV=$(echo ${SHELL} | awk -F/ '{ print $NF }')
+alias r="source ~/.${ZENV}env"		  # Shell reload
+alias tree='tree -C'
+alias zmv="noglob zmv -W"
+alias tree="tree -C"
+alias :q="exit"
+
+alias npmls='cat package.json | jq .scripts'
+
+# Easy edit
+alias nvim-conf="$EDITOR ~/.config/nvim/init.vim"
+alias vim-conf="$EDITOR ~/.vimrc"
+alias bash-conf="$EDITOR ~/.bashrc"
+alias zsh-conf="$EDITOR ~/.config/zsh/.zshrc"
+
+# open Finder folder in terminal
+alias cdf='cd "`osascript -e "tell application \\"Finder\\" to get POSIX path of (insertion location as text)"`"'
+
+# get top process eating memory
+alias psmem='ps aux | sort -nr -k 4 | head -5'
+
+# get top process eating cpu ##
+alias pscpu='ps aux | sort -nr -k 3 | head -5'
+
+# gpg encryption
+# verify signature for isos
+#alias gpg-check="gpg2 --keyserver-options auto-key-retrieve --verify"
+# receive the key of a developer
+#alias gpg-retrieve="gpg2 --keyserver-options auto-key-retrieve --receive-keys"
+
+# systemd
+#alias mach_list_systemctl="systemctl list-unit-files --state=enabled"
+
+#alias mach_java_mode="export SDKMAN_DIR="$HOME/.sdkman" && [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh""
+
+alias m="git checkout master"
+alias d="git checkout develop"
+
+case "$(uname -s)" in
+
+Darwin)
+	# echo 'Mac OS X'
+	alias ls='ls -G'
+	;;
+
+Linux)
+	alias ls='ls --color=auto'
+	;;
+
+CYGWIN* | MINGW32* | MSYS* | MINGW*)
+	# echo 'MS Windows'
+	;;
+*)
+	# echo 'Other OS'
+	;;
+esac
+
+# The ls'
+alias ls='ls --color=auto'
+alias l='ls -CF'
+alias ll='ls -lrth'
+alias lA='ls -A'
+alias la='ll -Ah'
+
+alias t='tmux'
+
+# Python
+alias python='python3'
+alias py='python3'
+alias py2='python2'
+alias pip3='python3 -m pip'
+alias pip='pip3'
+alias pip2='python2 -m pip'
+

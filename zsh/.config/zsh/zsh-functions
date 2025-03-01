@@ -1,0 +1,139 @@
+# Plugin management
+#
+# Function to source ZSH files if they exist
+function zsh_add_file() {
+    [ -f "$ZDOTDIR/$1" ] && source "$ZDOTDIR/$1"
+}
+
+function zsh_add_plugin() {
+    PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
+    if [ -d "$ZDOTDIR/plugins/$PLUGIN_NAME" ]; then
+        # For plugins
+        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh" || \
+        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.zsh"
+    else
+        git clone "https://github.com/$1.git" "$ZDOTDIR/plugins/$PLUGIN_NAME"
+    fi
+}
+
+function zsh_add_completion() {
+    PLUGIN_NAME=$(echo $1 | cut -d "/" -f 2)
+    if [ -d "$ZDOTDIR/plugins/$PLUGIN_NAME" ]; then
+        # For completions
+		completion_file_path=$(ls $ZDOTDIR/plugins/$PLUGIN_NAME/_*)
+		fpath+="$(dirname "${completion_file_path}")"
+        zsh_add_file "plugins/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh"
+    else
+        git clone "https://github.com/$1.git" "$ZDOTDIR/plugins/$PLUGIN_NAME"
+		fpath+=$(ls $ZDOTDIR/plugins/$PLUGIN_NAME/_*)
+        [ -f $ZDOTDIR/.zccompdump ] && $ZDOTDIR/.zccompdump
+    fi
+	completion_file="$(basename "${completion_file_path}")"
+	if [ "$2" = true ] && compinit "${completion_file:1}"
+}
+
+# Updates
+#
+# Update your python env.
+function pipu () {
+  #python2 -m pip install -U pip
+  python3 -m pip install -U pip
+
+  for py_pckg in $(pip3 list -o | awk 'NR > 2 {print $1}'); do
+    python3 -m pip install -U "$py_pckg"
+  done
+}
+
+# Update brew
+function brewu () {
+  brew cleanup
+  brew update && brew upgrade
+}
+
+# Update the System for MacOS distros
+function sysu (){
+  [ $("uname") = "Darwin" ] && echo -e "\n=== brew ===" && brewu
+  # echo -e "\n=== pip ===" && pipu
+  [ $("uname") = "Darwin" ] && echo -e "\n=== fury ===" && fury upgrade
+  echo -e "\n=== npm ===" && npm update
+  echo -e "\n=== ruby gem ===" && gem update
+  [ $("uname") = "Linux" ] && echo -e "\n=== flatpak ===" && flatpak upgrade
+  [ $("uname") = "Linux" ] && echo -e "\n=== linux ===" &&
+	  (type yay 2>/dev/null && yay -Syu --noconfirm || sudo pacman -Syu --noconfirm)
+}
+
+# Utils
+#
+# ex - archive extractor
+function ex ()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bunzip2 $1   ;;
+      *.rar)       7z x $1     ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# pidof
+function pidof () {
+	ps axc | grep "\ \+$@$" | cut -d' ' -f1
+}
+
+# Calculator
+function = () {
+	python3 -c "from math import *; from random import *; print($*)"
+}
+
+# (f)ind by (n)ame
+# usage: fn foo
+# to find all files containing 'foo' in the name
+function fn () { ls **/*$1* }
+
+# MacOS - OS X 'Open Files Limit'
+# Config. also '/Library/LaunchDaemons/limit.maxfiles.plist'
+# Config. also '/Library/LaunchDaemons/limit.maxproc.plist'
+# ulimit -u 2048
+# ulimit -n 16777216
+
+function gradle_complete () {
+    source ~/.config/zsh/plugins/gradle-completion/gradle-completion.plugin.zsh
+}
+
+# GoLang
+function gocoverage () {
+        coverage_perc="/tmp/${PWD##*/}_test.out"
+        coverage_html="/tmp/${PWD##*/}_test.html"
+        [ -z $@ ] && go test ./... -coverprofile=$coverage_perc || go test $@ -coverprofile=$coverage_perc && \
+        go tool cover -html=$coverage_perc -o $coverage_html && open $coverage_html
+}
+
+function gotest () {
+
+        (green="$(tput setaf 2 2>>/dev/null || tput setf 2 2>>/dev/null)" && \
+        red="$(tput setaf 1 2>>/dev/null || tput setf 1 2>>/dev/null)" && \
+        reset="$(tput sgr0 2>>/dev/null)" && \
+        [ -z $@ ] && go test ./... -v || go test -v $@ \
+        | while read -r line; do case "$line" in \
+                *PASS:*) printf '%s\n' "$green$line$reset";;\
+                *FAIL:*) printf '%s\n' "$red$line$reset";;\
+                *) printf '%s\n' "$line";;\
+        esac; done)
+}
+
+function dateDiffDays() {
+        date -j -v "+$2d" -f "%Y-%m-%d" "$1"
+}
+

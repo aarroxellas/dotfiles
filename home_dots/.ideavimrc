@@ -1,0 +1,233 @@
+
+" Base Settings
+" ========================================================
+" search
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set infercase
+set wildignorecase
+set scrolloff=3
+" ident
+set breakindent
+set autoindent
+set smartindent
+" tab
+set expandtab
+set smarttab
+" visual
+set noerrorbells
+set showmode
+
+set history=1000
+set undolevels=100
+
+set nu
+set nonu
+
+nnoremap <SPACE> <Nop>
+let mapleader = "\<Space>"
+
+" Set Handler
+" ========================================================
+" sethandler <C-v> a:ide
+" sethandler <C-o> a:vim
+" sethandler <C-i> a:vim
+" sethandler <M-2> a:vim
+" sethandler <C-f> a:ide
+" sethandler <C-b> a:ide
+sethandler <C-h> a:vim
+sethandler <C-l> a:vim
+
+" Plugin Settings
+" ========================================================
+set ideajoin
+set highlightedyank
+set surround
+set commentary
+set textobj-entire
+
+" ========================================================
+" Which-key settings
+" set which-key
+" let g:WhichKey_FontSize = 16
+" let g:WhichKey_CommandColor = "#41ead4"
+" let g:WhichKey_PrefixColor = "#f335b2"
+" let g:WhichKey_SortOrder = "by_key_prefix_first"
+
+" let g:WhichKeyDesc_leader = "<Leader> Leader key"
+
+" let g:WhichKeyDesc_leader = "<Leader>e Open file explorer"
+
+" let g:WhichKeyDesc_comment = "gcc Comment line"
+
+" " let g:WhichKeyDesc_fold = "<Leader>z Folding"
+" " let g:WhichKeyDesc_fold_all = "<Leader>zc Fold all regions"
+" " let g:WhichKeyDesc_unfold_all = "<Leader>zo Unfold all regions"
+
+" let g:WhichKeyDesc_file_quickLook = "<Leader><leader> Search files"
+
+" let g:WhichKeyDesc_file_nav = "<Leader>s File navigation"
+" let g:WhichKeyDesc_file_nav_goto_file = "<Leader>sf Go to file"
+" let g:WhichKeyDesc_file_nav_goto_content = "<Leader>sc Search for file content"
+" let g:WhichKeyDesc_file_nav_show_recent_files = "<Leader>sr Show recent files"
+" let g:WhichKeyDesc_file_nav_show_recent_locations = "<Leader>sl Show recent locations"
+
+" let g:WhichKeyDesc_close_tab = "<Leader>q Close active tab"
+
+" let g:WhichKeyDesc_refactoring = "lr Refactoring menu"
+" let g:WhichKeyDesc_refactoring_rename = "lrr Rename element"
+" let g:WhichKeyDesc_refactoring_method = "lrm Extract method"
+" let g:WhichKeyDesc_refactoring_variable = "lrv Introduce variable"
+" let g:WhichKeyDesc_refactoring_field = "lrf Introduce field"
+" let g:WhichKeyDesc_refactoring_signature = "lrs Change signature"
+" let g:WhichKeyDesc_refactoring_all = "lra Open refactorings list"
+
+" let g:WhichKeyDesc_goto = "<Leader>g Go to X"
+" let g:WhichKeyDesc_goto_declaration = "<Leader>gd Go to Definition"
+" let g:WhichKeyDesc_goto_type_declaration = "<Leader>gy Go to Type Definition"
+" let g:WhichKeyDesc_goto_implementation = "<Leader>gi Go to Implementation"
+" let g:WhichKeyDesc_goto_usages = "<Leader>gu Go to Usages"
+" let g:WhichKeyDesc_goto_test = "<Leader>gt Go to Test"
+" let g:WhichKeyDesc_goto_back = "<Leader>gb Go Back"
+" let g:WhichKeyDesc_goto_forward = "<Leader>gf Go Forward"
+
+" let g:WhichKeyDesc_git = "<Leader>g Git operations"
+" let g:WhichKeyDesc_git_commit = "<Leader>gc Open Git commit dialog"
+" let g:WhichKeyDesc_git_status = "<Leader>gs Open Git status dialog"
+" let g:WhichKeyDesc_git_branches = "<Leader>gb Open Git branches list"
+
+" let g:WhichKeyDesc_errors_prev = "[d Go to previous error in solution"
+" let g:WhichKeyDesc_errors_next = "]d Go to next error in solution"
+" let g:WhichKeyDesc_display = "<Leader><leader> Display options"
+" ========================================================
+" Open NERDTree (use q to exit)
+set nerdtree
+map <Leader>e :NERDTreeToggle<CR>
+" ========================================================
+
+" Actions
+" map <Leader>am <action>(ShowIntentionActions)
+nnoremap <Leader>sg <action>(SearchEverywhere)
+nnoremap <Leader>sf <action>(GotoFile)
+nnoremap <Leader>sr <action>(RecentFiles)
+" nnoremap <Leader>sc <action>(FindInPath)
+" nnoremap <Leader><leader> <Action>(RecentFiles)
+" nnoremap <Leader>sl <action>(RecentLocations)
+" nnoremap <Leader>ss <action>(NewScratchFile)
+
+" Tab navigation
+nnoremap <A-n> :tabnext<CR>
+nnoremap <A-p> :tabprev<CR>\
+
+" Pane navigation
+nnoremap <A-h> <C-w>h
+nnoremap <A-l> <C-w>l
+nnoremap <A-k> <C-w>k
+nnoremap <A-j> <C-w>j
+
+nmap <Leader>wo <action>(UnsplitAll) \| <action>(HideAllWindows)
+nnoremap <Leader>wa :<C-u>action CloseAllEditorsButActive<CR>
+
+" Easy visual indentation
+vnoremap < <gv
+vnoremap > >gv
+
+" easy system clipboard copy/paste
+noremap ,y "*y
+noremap ,Y "*Y
+" noremap p "*p
+" noremap P "*P
+
+" easy window navigation
+nnoremap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-h> <c-w>h
+nnoremap <c-k> <c-w>k
+nnoremap <a-h> gT
+nnoremap <a-l> gt
+nnoremap <c-s-tab> gT
+nnoremap <c-tab> gt
+
+" clear the search buffer when hitting return
+" nnoremap <Leader><cr> :nohlsearch<cr>
+
+" nmap csw' :action Macro.surround_with_single_quote<CR>
+" nmap csw" :action Macro.surround_with_double_quote<CR>
+" nmap ds' :action Macro.surround_undo_single_quote<CR>
+" nmap ds" :action Macro.surround_undo_double_quote<CR>
+" nmap cs"' :action Macro.surround_double_to_single_quote<CR>
+
+" remove extra whitespace
+" nmap <Leader><space> :%s/\s\+$<CR>
+
+" options
+nnoremap cow :action EditorToggleUseSoftWraps<cr>
+nnoremap col :action EditorToggleShowWhitespaces<cr>
+
+" actions
+nnoremap <Leader>q :action CloseContent<cr>
+nnoremap <Leader>Q :action ReopenClosedTab<cr>
+nnoremap <Leader>\ :action VimFilePrevious<cr>
+nnoremap <Leader>E :action Switcher<cr>
+nnoremap <Leader>t :action FileStructurePopup<cr>
+nnoremap <Leader>T :action GotoSymbol<cr>
+nnoremap <Leader>a :action GotoAction<cr>
+nnoremap <Leader>b :action ToggleLineBreakpoint<cr>
+nnoremap ld :action ShowErrorDescription<cr>
+map <Leader>t :action ActivateTerminalToolWindow<CR>
+map <Leader>ge <Action>(EditorPopupMenu)
+
+" code navigation
+nnoremap <Leader>gt :action GotoTest<cr>
+nnoremap \r :action RunClass<cr>
+nnoremap \R :action Run<cr>
+nnoremap \d :action DebugClass<cr>
+nnoremap \D :action Debug<cr>
+nnoremap \c :action CheckStyleCurrentFileAction<cr>
+
+" unimpaired mappings
+nnoremap [<space> O<esc>j
+nnoremap ]<space> o<esc>k
+nnoremap [q :action PreviousOccurence<cr>
+nnoremap ]q :action NextOccurence<cr>
+nnoremap [m :action MethodUp<cr>
+nnoremap ]m :action MethodDown<cr>
+nnoremap [c :action VcsShowPrevChangeMarker<cr>
+nnoremap ]c :action VcsShowNextChangeMarker<cr>
+nnoremap [d :action GotoPreviousError<cr>
+nnoremap ]d :action GotoNextError<cr>
+
+" In proj. move
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gr :action FindUsages<CR>
+nnoremap gD :action GotoSuperMethod<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gb :action JumpToLastChange<CR>
+
+" Formattign
+nnoremap lrr :action RenameElement<CR>
+nnoremap lrm :action ExtractMethod<CR>
+nnoremap lrv :action IntroduceVariable<CR>
+nnoremap lrf :action IntroduceField<CR>
+nnoremap lrs :action ChangeSignature<CR>
+nnoremap lra :action Refactorings.QuickListPopupAction<CR>
+
+nnoremap == :action ReformatCode<CR>
+vnoremap == :action ReformatCode<CR>
+
+" nnoremap gcc :action CommentByLineComment<CR>
+" vnoremap gcc :action CommentByLineComment<CR>
+
+" built-in navigation to navigated items works better
+nnoremap <c-o> :action Back<cr>
+nnoremap <c-i> :action Forward<cr>
+" but preserve ideavim defaults
+nnoremap g<c-o> <c-o>
+nnoremap g<c-i> <c-i>
+
+" built in search looks better but performs worse
+" nnoremap / :action Find<cr>
+" but preserve ideavim search
+nnoremap g/ /
