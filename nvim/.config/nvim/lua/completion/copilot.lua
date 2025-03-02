@@ -39,7 +39,7 @@ function M.config()
 		copilot_node_command = "node",
 	})
 	local opts = { noremap = true, silent = true }
-	vim.api.nvim_set_keymap("n", "<C-a>", ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
+	vim.api.nvim_set_keymap("n", "<C-s>", ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>", opts)
 
 	local _ok_cmp, copilot_cmp = pcall(require, "copilot_cmp")
 	if not _ok_cmp then

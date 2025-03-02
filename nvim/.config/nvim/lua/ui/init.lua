@@ -44,7 +44,6 @@ function UI.whichkey()
 		event = "VeryLazy",
 		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function()
-			-- require("ui.whichkey").config()
 			require("which-key").setup({})
 		end,
 	}

@@ -134,10 +134,63 @@ local keybindings = {
 	{ "n", "<leader>w", ":lua vim.wo.wrap = not vim.wo.wrap<CR>", { noremap = true, silent = true, desc = "(un)wrap" } },
 }
 
+local map = function(lhs, rhs, desc)
+	if desc then
+		desc = "[DAP] " .. desc
+	end
+
+	vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
+end
+
 
 -- TODO: define plugin dependent keymaps in separete after file
 local ok_tele, builtin = pcall(require, "telescope.builtin")
 if ok_tele then
+	local live_multigrep = function(opts)
+		opts = opts or require("telescope.themes").get_ivy()
+		opts.cwd = opts.cwd or vim.uv.cwd()
+
+		local pickers = require "telescope.pickers"
+		local finders = require "telescope.finders"
+		local make_entry = require "telescope.make_entry"
+		local conf = require "telescope.config".values
+		local finder = finders.new_async_job {
+			command_generator = function(prompt)
+				if not prompt or prompt == "" then
+					return nil
+				end
+
+				local pieces = vim.split(prompt, " | ")
+				local args = { "rg" }
+				if pieces[1] then
+					table.insert(args, "-e")
+					table.insert(args, pieces[1])
+				end
+
+				if pieces[2] then
+					table.insert(args, "-g")
+					table.insert(args, pieces[2])
+				end
+
+				---@diagnostic disable-next-line: deprecated
+				return vim.tbl_flatten {
+					args,
+					{ "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case", "--hidden", "--glob=!.git/" },
+				}
+			end,
+			entry_maker = make_entry.gen_from_vimgrep(opts),
+			cwd = opts.cwd,
+		}
+
+		pickers.new(opts, {
+			debounce = 100,
+			prompt_title = "Multi Grep",
+			finder = finder,
+			previewer = conf.grep_previewer(opts),
+			sorter = require("telescope.sorters").empty(),
+		}):find()
+	end
+
 	vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find Project Recently Opened Files" })
 	vim.keymap.set("n", "<leader>/", function()
 		builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({ winblend = 10, previewer = false }))
@@ -147,18 +200,54 @@ if ok_tele then
 	vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch Neovim [H]elp" })
 	vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch Current [W]ord" })
 	vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch Project by [G]rep" })
+	vim.keymap.set("n", "<leader>sm", live_multigrep, { desc = "[S]earch Project by [M]ultiGrep" })
 	vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch Project [D]iagnostics" })
 	vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch [B]uffers" })
 	vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [k]eymaps" })
 	vim.keymap.set("n", "<leader>st", builtin.treesitter, { desc = "[S]earch [t]reesitter" })
 	vim.keymap.set("n", "<leader>sT", builtin.builtin, { desc = "[S]earch [T]elescope Builtins" })
 	vim.keymap.set("n", "<leader>sD", function() builtin.dap() end, { desc = "[S]earch [d]ap" })
+	vim.keymap.set("n", "<leader>sc", function() builtin.find_files ( require("telescope.themes").get_ivy( { cwd = vim.fn.stdpath("config") } ) ) end , { desc = "[S]earch Neovim [C]onfigs" } )
+	vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end, { noremap = false, silent = true, desc = "[F]ormat Text" })
 end
 
--- Misc
+local status_dap, dap = pcall(require, "dap")
+if not status_dap then
+	vim.notify("keymaps.dap.config_ui not loaded", vim.log.levels.WARN, { title = "editor.keymaps.dap" })
+else
+	map("<F1>", dap.step_back, "step_back")
+	map("<F2>", dap.step_into, "step_into")
+	map("<F3>", dap.step_over, "step_over")
+	map("<F4>", dap.step_out, "step_out")
+	map("<F5>", dap.continue, "continue")
+	map("<leader>dr", dap.repl.open, "REPL")
+	map("<leader>db", dap.toggle_breakpoint, "Toggle [B]reak Point")
+	map("<leader>dB", function() dap.set_breakpoint(vim.fn.input("[DAP] Condition > ")) end, "Set Expression [B]reak Point")
+	map("<leader>dl", function() dap.list_breakpoints(true) end, "[L]ist All [B]reak Points")
+	map("<leader>dC", function() dap.clear_breakpoints() end, "[C]lear [B]reak Points")
+end
 
--- Format LSP
-vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end, { noremap = false, silent = true, desc = "[F]ormat Text" })
+local status_dapui, dapui = pcall(require, "dapui")
+if not status_dapui then
+	vim.notify("keymaps.dapui.config_ui not loaded", vim.log.levels.WARN, { title = "editor.keymaps.dapui" })
+else
+	map("<leader>de", dapui.eval, "[E]val UI")
+	map("<leader>dE", function() dapui.eval(vim.fn.input("[DAP] Expression > ")) end, "[E]xpression")
+	map("<leader>do", function() dapui.open() end, "[O]pen")
+	map("<leader>dc", function() dapui.close() end, "[C]lose")
+	-- map("<F7>", dapui.Toggle, "Open last session")
+
+	map("<leader>B", dap.toggle_breakpoint, "Toggle [B]reak Point")
+
+end
+
+
+-- vim.cmd([[
+--         augroup DapRepl
+--         au!
+--         au FileType dap-repl lua require('dap.ext.autocompl').attach()
+--         augroup END
+--         ]])
 
 -- Tmux session
 vim.keymap.set("n", "<c-F>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { noremap = false, silent = true })

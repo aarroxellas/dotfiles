@@ -128,53 +128,6 @@ M.config_ui = function()
 	dap.listeners.before.launch.dapui_config = function() dapui.open() end
 	dap.listeners.before.event_terminated.dapui_config = function() dapui.close() end
 	dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
-
-	-- DAP Globals
-	local dap_map = function(lhs, rhs, desc)
-		if desc then
-			desc = "[DAP] " .. desc
-		end
-
-		vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
-	end
-
-	local status_dap, dap = pcall(require, "dap")
-	if not status_dap then
-		vim.notify("editor.dap.config_ui not loaded", vim.log.levels.WARN, { title = "editor.keymaps.dap" })
-		return
-	end
-
-	local status_dapui, dapui = pcall(require, "dapui")
-	if not status_dapui then
-		vim.notify("editor.dapui.config_ui not loaded", vim.log.levels.WARN, { title = "editor.keymaps.dapui" })
-		return
-	end
-
-	--
-	dap_map("<F1>", dap.step_back, "step_back")
-	dap_map("<F2>", dap.step_into, "step_into")
-	dap_map("<F3>", dap.step_over, "step_over")
-	dap_map("<F4>", dap.step_out, "step_out")
-	dap_map("<F5>", dap.continue, "continue")
-	dap_map("<leader>dr", dap.repl.open, "REPL")
-	dap_map("<leader>db", dap.toggle_breakpoint, "Toggle [B]reak Point")
-	dap_map("<leader>dB", function() dap.set_breakpoint(vim.fn.input("[DAP] Condition > ")) end, "Set Expression [B]reak Point")
-	dap_map("<leader>dl", function() dap.list_breakpoints(true) end, "[L]ist All [B]reak Points")
-	dap_map("<leader>dC", function() dap.clear_breakpoints() end, "[C]lear [B]reak Points")
-	dap_map("<leader>de", dapui.eval, "[E]val UI")
-	dap_map("<leader>dE", function() dapui.eval(vim.fn.input("[DAP] Expression > ")) end, "[E]xpression")
-	dap_map("<leader>do", function() dapui.open() end, "[O]pen")
-	dap_map("<leader>dc", function() dapui.close() end, "[C]lose")
-	dap_map("<F7>", dapui.Toggle, "Open last session")
-
-	vim.keymap.set("<leader>B", dap.toggle_breakpoint, "Toggle [B]reak Point")
-
--- vim.cmd([[
---         augroup DapRepl
---         au!
---         au FileType dap-repl lua require('dap.ext.autocompl').attach()
---         augroup END
---         ]])
 end
 
 return M

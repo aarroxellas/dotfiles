@@ -21,11 +21,13 @@ end
 function Editor.telescope()
 	return {
 		"nvim-telescope/telescope.nvim",
-        version = "0.1.x",
+        branch = "0.1.x",
 		dependencies = {
 			-- "nvim-lua/popup.nvim",
 			"nvim-lua/plenary.nvim",
-			-- "nvim-telescope/telescope-fzy-native.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			"nvim-telescope/telescope-smart-history.nvim",
+			"nvim-telescope/telescope-ui-select.nvim",
 			"kyazdani42/nvim-web-devicons",
 		},
 		config = function()
@@ -36,7 +38,6 @@ end
 
 function Editor.diagnostic()
 	return {
-		-- "folke/lsp-trouble.nvim",
 		{
 			"rcarriga/nvim-dap-ui",
 			config = function() require("editor.dap").config_ui() end,
