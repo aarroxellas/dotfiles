@@ -52,21 +52,23 @@ function brewu () {
 
 # Update the System for MacOS distros
 function sysu (){
-  [ $("uname") = "Darwin" ] && echo -e "\n=== brew ===" && brewu
-  # echo -e "\n=== pip ===" && pipu
-  [ $("uname") = "Darwin" ] && echo -e "\n=== fury ===" && fury upgrade
+  if [ $("uname") = "Darwin" ]; then
+	echo -e "\n=== brew ===" && brewu
+	echo -e "\n=== fury ===" && fury registry login && fury upgrade && fury install
+  fi
+  if [ $("uname") = "Linux" ]; then
+	  echo -e "\n=== flatpak ===" && flatpak upgrade
+	  (type yay 2>/dev/null && yay -Syu --noconfirm || sudo pacman -Syu --noconfirm)
+  fi
+  echo -e "\n=== pip ===" && pipu
   echo -e "\n=== npm ===" && npm update
   echo -e "\n=== ruby gem ===" && gem update
-  [ $("uname") = "Linux" ] && echo -e "\n=== flatpak ===" && flatpak upgrade
-  [ $("uname") = "Linux" ] && echo -e "\n=== linux ===" &&
-	  (type yay 2>/dev/null && yay -Syu --noconfirm || sudo pacman -Syu --noconfirm)
 }
 
 # Utils
 #
 # ex - archive extractor
-function ex ()
-{
+function ex () {
   if [ -f $1 ] ; then
     case $1 in
       *.tar.bz2)   tar xjf $1   ;;

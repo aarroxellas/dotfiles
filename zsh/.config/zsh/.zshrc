@@ -2,6 +2,11 @@
 HISTFILE=$ZDOTDIR/.zsh_history
 SAVEHIST=50000
 HISTSIZE=50000
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+export VISUAL='nvim'
+export EDITOR=${VISUAL}
+export GIT_EDITOR=${VISUAL}
 setopt appendhistory
 
 # some useful options (man zshoptions)
@@ -35,7 +40,7 @@ source "$ZDOTDIR/zsh-functions"
 [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]] && compinit || compinit -C
 
 # Normal files to source
-# zsh_add_file "zsh-exports"
+zsh_add_file "zsh-exports"
 zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
 zsh_add_file "zsh-prompt"
@@ -74,19 +79,9 @@ bindkey '^e' edit-command-line
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ ! $(ls -fA $ZDOTDIR/completion | wc -l) -eq 0 ] && fpath+="$ZDOTDIR/completion/"
-# May mess with nvim's telescope
-# export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
-
-# ASDF
-export PATH="$HOME/.asdf/shims:${PATH}"
-
-# Remove duplicate entries from PATH:
-PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
 
 # Brew
 [ "$(uname)" = "Darwin" ] && brew analytics off
 
 [ "$(uname)" = "Darwin" ] && [ -f ~/.config/zsh/.zshrc_work ] && source ~/.config/zsh/.zshrc_work
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"

@@ -1,17 +1,9 @@
 #!/bin/sh
-# HISTFILE="$XDG_DATA_HOME"/zsh/history
-HISTSIZE=1000000
-SAVEHIST=1000000
-export PATH="$HOME/.local/bin":$PATH
-export MANPAGER='nvim +Man!'
-export MANWIDTH=999
-export VISUAL='nvim'
-export EDITOR=${VISUAL}
-export GIT_EDITOR=${VISUAL}
-#export PATH=$HOME/.fnm:$PATH
-#eval "$(fnm env)"
-#eval "$(zoxide init zsh)"
-#eval "`pip completion --zsh`"
+append_path "$HOME/.local/bin"
+# append_path $HOME/.fnm
+# eval "$(fnm env)"
+# eval "$(zoxide init zsh)"
+# eval "`pip completion --zsh`"
 
 # GH
 export BROWSER="open -a Google\ Chrome.app"
@@ -22,6 +14,7 @@ export BROWSER="open -a Google\ Chrome.app"
 fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
 [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]] && compinit || compinit -C
+export PATH="$HOME/.asdf/shims:${PATH}"
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -31,28 +24,43 @@ export NVM_DIR="$HOME/.nvm"
 # Global config for permissions on NodeJS (https://stackoverflow.com/a/55274930/234110)
 export PATH=~/.npm-global/bin:$PATH
 
-# Go
-export PATH=$HOME/.local/share/go/bin:$PATH
-#export GOPATH=$HOME/.local/share/go
+# Golang
+# append_path "$(go env GOPATH)/bin"
+# append_path $HOME/.local/share/go/bin
+# append_path $HOME/.local/share/go
+
+# PYENV
+# command -v pyenv >/dev/null || append_path "$PYENV_ROOT/bin" && eval "$(pyenv init -)"
+# export PYENV_ROOT=$HOME/.config/pyenv/
 
 # Python
 # for PYTHON_BIN in $(ls -d -1 /usr/local/opt/python@3*/bin); do export PATH=$PYTHON_BIN:$PATH; done
 # for PYTHON_LIB in $(ls -d -1 /usr/local/opt/python@3*/lib); do export LDFLAGS="-L${PYTHON_LIB} $LDFLAGS"; done
 # for PKG_CONFIG_PATH in $(ls -d -1 /usr/local/opt/python@3*/lib/pkgconfig); do export PKG_CONFIG_PATH=$PYTHON_PKG:$PKG_CONFIG_PATH; done
-PYTHON_PATH=/usr/local/opt/python@3
-export PATH=$PYTHON_PATH/bin:$PATH
 
-# PY_ENV
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# PYTHON_PATH=/usr/local/opt/python@3
+# append_path $PYTHON_PATH/bin
+# export LDFLAGS="-L${PYTHON_PATH}/lib $LDFLAGS"
+# export PKG_CONFIG_PATH=$PYTHON_PATH/lib/pkgconfig:$PKG_CONFIG_PATH
 
 # Ruby
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/ruby/lib $LDFLAGS"
-export CPPFLAGS="-I/usr/local/opt/ruby/include $CPPFLAGS"
+# append_path "/usr/local/opt/ruby/bin"
+# append_path ~/.local/share/gem/ruby/3.0.0/bin
+# export LDFLAGS="-L/usr/local/opt/ruby/lib $LDFLAGS"
+# export CPPFLAGS="-I/usr/local/opt/ruby/include $CPPFLAGS"
 
 # Rust
 append_path $HOME/.cargo/bin
+
+# FZF - May mess with nvim's telescope
+# export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# ASDF
+
+# Remove duplicate entries from PATH:
+PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
 
 export PATH
