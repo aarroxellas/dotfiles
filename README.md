@@ -19,10 +19,15 @@ Dotfiles
 
 **Warning:** *Do not source anything before checking.* Provided 'AS-IS'!
 
-## Features
+## Dynamic link
 
-- [x] Mask Agent Wget && Curl
-- [ ] Nvim with lua
+    stow */
+
+### MacOS
+
+    stow ~/home_dots/.Brewfile
+
+    brew bundle --global
 
 ## Feedback
 
