@@ -1,4 +1,16 @@
 #!/bin/sh
+
+append_path () {
+  case ":$PATH:" in
+    *:"$1":*)
+    ;;
+  *)
+    if [ -d "$1" ]; then
+      PATH="${PATH:+$PATH:}$1"
+    fi
+  esac
+}
+
 append_path "$HOME/.local/bin"
 # append_path $HOME/.fnm
 # eval "$(fnm env)"
@@ -8,21 +20,13 @@ append_path "$HOME/.local/bin"
 # GH
 export BROWSER="open -a Google\ Chrome.app"
 
-# Add ASDF plugin
-[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
-# completions for asdf to fpath
-fpath=(${ASDF_DIR}/completions $fpath)
-# initialise completions with ZSH's compinit
-[[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]] && compinit || compinit -C
-export PATH="$HOME/.asdf/shims:${PATH}"
-
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Global config for permissions on NodeJS (https://stackoverflow.com/a/55274930/234110)
-export PATH=~/.npm-global/bin:$PATH
+append_path ~/.npm-global/bin
 
 # Golang
 # append_path "$(go env GOPATH)/bin"
@@ -56,11 +60,14 @@ append_path $HOME/.cargo/bin
 # export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+append_path $HOME/.rvm/bin
 
 # ASDF
+# completions for asdf to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+append_path $HOME/.asdf/shims
 
 # Remove duplicate entries from PATH:
-PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
+# PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
 
 export PATH

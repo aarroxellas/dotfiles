@@ -39,6 +39,11 @@ source "$ZDOTDIR/zsh-functions"
 # initialise completions with ZSH's compinit
 [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]] && compinit || compinit -C
 
+[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
+
+# Brew
+[ "$(uname)" = "Darwin" ] && brew analytics off
+
 # Normal files to source
 zsh_add_file "zsh-exports"
 zsh_add_file "zsh-vim-mode"
@@ -55,7 +60,7 @@ zsh_add_plugin "gradle/gradle-completion"
 # More completions https://github.com/zsh-users/zsh-completions
 
 # Key-bindings
-#bindkey -s '^o' 'ranger^M'
+# bindkey -s '^o' 'ranger^M'
 # bindkey -s '^f' 'zi^M'
 # bindkey -s '^s' 'ncdu^M'
 # bindkey -s '^n' 'nvim $(fzf)^M'
@@ -79,9 +84,6 @@ bindkey '^e' edit-command-line
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ ! $(ls -fA $ZDOTDIR/completion | wc -l) -eq 0 ] && fpath+="$ZDOTDIR/completion/"
-
-# Brew
-[ "$(uname)" = "Darwin" ] && brew analytics off
 
 [ "$(uname)" = "Darwin" ] && [ -f ~/.config/zsh/.zshrc_work ] && source ~/.config/zsh/.zshrc_work
 

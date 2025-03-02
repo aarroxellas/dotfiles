@@ -99,3 +99,5 @@ alias pip3='python3 -m pip'
 alias pip='pip3'
 alias pip2='python2 -m pip'
 
+# IntelliJ IDEA
+[ "$(uname)" = "Darwin" ] && alias idea='/Applications/IntelliJ\ IDEA.app/Contents/MacOS/idea'
